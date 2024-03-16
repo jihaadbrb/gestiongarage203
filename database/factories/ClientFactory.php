@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,13 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'firstName' => $this->faker->firstName,
+            'lastName' => $this->faker->lastName,
+            'address' => $this->faker->address,
+            'phoneNumber' => $this->faker->phoneNumber,
+            'user_id' => function () {
+                return User::factory()->create()->id;
+            },
         ];
     }
 }

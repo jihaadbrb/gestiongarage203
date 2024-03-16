@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('make');
             $table->string('model');
             $table->string('fuelType')->nullable();
-            $table->string('registration') ;
+            $table->string('registration');
             $table->text('photos');
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

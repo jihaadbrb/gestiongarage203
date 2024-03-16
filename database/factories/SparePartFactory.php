@@ -17,7 +17,10 @@ class SparePartFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'partName' => $this->faker->word,
+            'partReference' => $this->faker->uuid,
+            'supplier' => $this->faker->company,
+            'price' => $this->faker->randomFloat(2, 10, 100),
         ];
     }
 }

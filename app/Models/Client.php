@@ -21,7 +21,7 @@ class Client extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function vehicle()
+    public function vehicles()
     {
         return $this->hasMany(Vehicle::class);
     }
@@ -29,7 +29,7 @@ class Client extends Model
     {
         return $this->hasMany(Repair::class);
     }
-    public function invoice()
+    public function invoices()
     {
         return $this->hasMany(Invoice::class);
     }

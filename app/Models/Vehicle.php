@@ -17,7 +17,7 @@ class Vehicle extends Model
         'client_id'
     ];
 
-    public function repair()
+    public function repairs()
     {
         return $this->hasMany(Repair::class);
     }
@@ -26,4 +26,5 @@ class Vehicle extends Model
     {
         return $this->belongsTo(Client::class);
     }
+   
 }

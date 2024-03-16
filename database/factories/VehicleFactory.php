@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,14 @@ class VehicleFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'make' => $this->faker->name(),
+            'model' => $this->faker->name(),
+            'fuelType' => $this->faker->randomElement(['Petrol', 'Diesel', 'Electric']),
+            'registration' => $this->faker->name(),
+            'photos' => $this->faker->imageUrl(),
+            'client_id' => function () {
+                return Client::factory()->create()->id;
+            },
         ];
     }
 }
