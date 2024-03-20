@@ -12,14 +12,21 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $clients = Client::with('user')->get();
+        // $clients = Client::orderBy('id','desc')->take(5)->get();
+        $clients = Client::all();
 
-return view('users.index', compact('clients'));
+        return view('admin.dashboard', ['clients' => $clients]);
     }
-    public function destroy(User $client)
+
+    public function destroy(Client $client)
     {
         $client->delete();
         return
-            redirect(route('users.index'));
+            redirect()->route('admin.dashboard');
+    }
+
+    public function edit()
+    {
+        return view('admin.edit');
     }
 }
