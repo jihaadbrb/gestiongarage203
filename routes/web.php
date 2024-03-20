@@ -13,6 +13,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'verified'])->name('admin.dashboard');
     Route::delete('/dashboard/{client}/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
     Route::get('/dashboard/{client}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::put('/dashboard/{client}/update', [AdminController::class, 'update'])->name('admin.update');
 });
 
 

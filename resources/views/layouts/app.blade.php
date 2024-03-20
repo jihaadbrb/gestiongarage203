@@ -22,8 +22,9 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
-
+            {{-- @include('layouts.navigation') --}}
+            @include('layouts.navbar')
+            @include('layouts.sidebar')
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white dark:bg-gray-800 shadow">

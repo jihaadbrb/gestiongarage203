@@ -636,3 +636,63 @@ body{
     }
 
 }
+/*
+    edit client
+*/
+/* Edit client section styles */
+.edit-client {
+    background-color: var(--background); /* Use variable for background */
+    border-radius: 10px; /* Rounded corners for a softer look */
+    padding: 20px; /* Padding for spacing around form elements */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-top: 20px; /* Margin for separation from header */
+  }
+  
+  .edit-client .form-group {
+    margin-bottom: 15px; /* Spacing between form groups */
+  }
+  
+  .edit-client .form-group label {
+    display: block; /* Display labels on their own line */
+    font-weight: 500; /* Slightly bold for clarity */
+    margin-bottom: 5px; /* Margin between label and input */
+    color: var(--text-color); /* Use variable for text color */
+  }
+  
+  .edit-client .form-group input,
+  .edit-client .form-group textarea {
+    width: 90%; /* Full-width input fields */
+    padding: 10px; /* Padding for better user experience */
+    border: 1px solid var(--border-color); /* Use variable for border color */
+    border-radius: 4px; /* Rounded corners for consistency */
+    font-size: 16px; /* Consistent font size */
+    color: var(--light); /* Use variable for text color */
+  }
+  
+  .edit-client .form-group textarea {
+    height: 70px; /* Set a minimum height for textarea */
+  }
+  
+  .edit-client button {
+    background-color: var(--primary); /* Use variable for primary color */
+    color: var(--light); /* White text */
+    padding: 10px 20px; /* Padding for comfortable click area */
+    border: none; /* No border for a cleaner look */
+    border-radius: 4px; /* Rounded corners for consistency */
+    font-size: 16px; /* Consistent font size */
+    cursor: pointer; /* Indicate hover/click interaction */
+    transition: all 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .edit-client button:hover {
+    background-color: #1256A2; /* Darken on hover for feedback */
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  
+  @media screen and (max-width: 768px) {
+    .edit-client {
+      padding: 0px; /* Adjust padding for smaller screens */
+    }
+   
+  }
