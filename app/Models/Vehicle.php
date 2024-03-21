@@ -14,17 +14,15 @@ class Vehicle extends Model
         'fuelType',
         'registration',
         'photos',
-        'client_id'
+        'user_id'
     ];
 
     public function repairs()
     {
         return $this->hasMany(Repair::class);
     }
-
-    public function client()
+    public function user()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class);
     }
-   
 }

@@ -14,6 +14,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/dashboard/{client}/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
     Route::get('/dashboard/{client}/edit', [AdminController::class, 'edit'])->name('admin.edit');
     Route::put('/dashboard/{client}/update', [AdminController::class, 'update'])->name('admin.update');
+    Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
+    Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
+    Route::get('/profile/{client}', [AdminController::class, 'showProfile'])->name('admin.show-profile');
 });
 
 

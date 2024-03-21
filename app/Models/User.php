@@ -20,7 +20,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'address',
+        'phoneNumber'
     ];
 
     /**
@@ -46,12 +48,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function vehicles()
+
+
+
+
+    public function repairs()
     {
-        return $this->hasMany(Vehicle::class, 'user_id');
+        return $this->hasMany(Repair::class);
     }
-    public function client()
+
+
+    public function vehicle()
     {
-        return $this->hasOne(Client::class);
+        return $this->hasOne(Vehicle::class);
     }
 }

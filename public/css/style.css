@@ -22,6 +22,16 @@
     font-family: 'Poppins', sans-serif;
 }
 
+
+::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar thumb */
+    border-radius: 3px; /* Rounded corners of the thumb */
+}
+
 .bx{
     font-size: 1.7rem;
 }
@@ -333,19 +343,21 @@ body{
     display: flex;
     align-items: center;
     grid-gap: 16px;
+    
 }
 
-.content main .header .left .breadcrumb li{
-    color: var(--dark);
+.content main .header .left .breadcrumb li:hover{
+    color: white;
+    text-decoration: underline;
+    
 }
 
 .content main .header .left .breadcrumb li a{
-    color: var(--dark-grey);
-    pointer-events: none;
+    color: var(--dark);
 }
 
 .content main .header .left .breadcrumb li a.active{
-    color: var(--primary);
+    color: var(--dark);
     pointer-events: none;
 }
 
@@ -523,7 +535,7 @@ body{
     background: var(--success);
 }
 
-.content main .bottom-data .orders table tr td .status.process{
+.content main .bottom-data .orders table tr td .status.progress{
     background: var(--primary);
 }
 
@@ -659,6 +671,13 @@ body{
     color: var(--text-color); /* Use variable for text color */
   }
   
+
+  #trash { 
+    background-color: transparent;
+    border: none;
+    color: blue;
+    cursor: pointer;
+  }
   .edit-client .form-group input,
   .edit-client .form-group textarea {
     width: 90%; /* Full-width input fields */
@@ -696,3 +715,5 @@ body{
     }
    
   }
+
+  /* profile style */

@@ -18,8 +18,5 @@ class Invoice extends Model
     {
         return $this->belongsTo(Repair::class);
     }
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
-    }
+ 
 }

@@ -25,12 +25,9 @@ class RepairFactory extends Factory
             'endDate' => $this->faker->dateTimeBetween('now', '+1 year'),
             'mechanicNotes' => $this->faker->paragraph,
             'clientNotes' => $this->faker->paragraph,
-            'mechanic_id' => function () {
-                return User::factory()->create(['role' => 'mechanic'])->id;
-            },
-            'vehicle_id' => function () {
-                return Vehicle::factory()->create()->id;
-            },
+            'user_id' => function () {
+                return User::factory()->create(['role' => 'client'])->id;
+            }
         ];
     }
 }

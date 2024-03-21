@@ -25,11 +25,11 @@
                     <div class="left">
                         <h1>Dashboard</h1>
                         <ul class="breadcrumb">
-                            <li><a href="#">admin</a></li>
+                            <a href="#">admin</a>
                             /
-                            <li><a href="#">Dashboard</a></li>
+                            <a href="/dashboard">Dashboard</a>
                             /
-                            <li><a href="#" class="active">Edit</a></li>
+                            <a href="#" class="active">Edit</a>
                         </ul>
                     </div>
                 
@@ -56,12 +56,12 @@
                                 @csrf
                                 @method('put')
                                 <div class="form-group">
-                                    <label for="firstName">First Name:</label>
-                                    <input type="text" id="firstName" value="{{$client->firstName}}"  name="firstName" required>
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="firstName" value="{{$client->name}}"  name="name" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="lastName">Last Name:</label>
-                                    <input type="text" id="lastName" value="{{$client->lastName}}" name="lastName" required>
+                                    <label for="email">Email:</label>
+                                    <input type="text" id="lastName" value="{{$client->email}}" name="email" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Address:</label>
