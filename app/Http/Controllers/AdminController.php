@@ -11,12 +11,22 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function showUsers()
     {
-        // $clients = Client::orderBy('id','desc')->take(5)->get();
         $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->get();
         $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
-        return view('admin.dashboard', ['clients' => $clients, 'mechanics' => $mechanics]);
+        return view('admin.users.users-data', ['clients' => $clients, 'mechanics' => $mechanics]);
+    }
+
+    public function showMechanics()
+    {
+        $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
+        return view('admin.users.mechanic-data', ['mechanics' => $mechanics]);
+    }
+    public function showAdmins()
+    {
+        $admins = User::orderBy('id', 'desc')->where('role', 'admin')->get();
+        return view('admin.users.admin-data', ['admins' => $admins]);
     }
 
     public function destroy(User $client)
@@ -28,7 +38,7 @@ class AdminController extends Controller
 
     public function edit(User $client)
     {
-        return view('admin.edit', compact('client'));
+        return view('admin.users.edit-data', compact('client'));
     }
     public function update(Request $request, User $client)
     {
@@ -79,4 +89,7 @@ class AdminController extends Controller
         
         return view('admin.profile', ['client' => $client]);
     }
+
+
+
 }
