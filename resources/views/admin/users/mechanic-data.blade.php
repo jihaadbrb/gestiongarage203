@@ -23,7 +23,7 @@
                                     <th>Address</th>
                                     <th>Phone Number</th>
                                     <th>Start date</th>
-                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
 
@@ -37,25 +37,22 @@
                                             <td>{{$client->phoneNumber}}</td>
                                             <td>{{$client->created_at}}</td>
                                             <td>
-                                                @foreach ($client->repairs as $repair)
-                                                    <span class="status {{$repair->status}}"> {{$repair->status}}</span>
-                                                @endforeach
-                                            
+                                                <button type="button" class="btn btn-primary edit-client" 
+                                                data-client-id="{{$client->id}}"
+                                                data-client-name="{{$client->name}}"
+                                                data-client-email="{{$client->email}}"
+                                                data-client-address="{{$client->address}}"
+                                                data-client-phone="{{$client->phoneNumber}}"
+                                            >
+                                                Edit
+                                            </button>
                                             </td>
-                                           
-                                            {{-- <td>
-                                                <a href="{{route('admin.edit',['client'=>$client])}}"><i class="bx bx-edit"></i></a>  
-                                            </td>
-                                            <td>
-                                                <form action="{{ route('admin.destroy', ['client' => $client]) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" id="trash">
-                                                        <i class="bx bx-trash"></i> </button>
-                                                </form>
-                                                
-                                            </td> --}}
                                         </tr>
+
+
+
+                                        @include('admin.layouts.components.edit-modal')
+
                                     @endforeach
                                 </tbody>
                             </table>
@@ -83,4 +80,74 @@
     </footer>
     
 </div>
+
+<!-- Modal for editing mechanic -->
+<div class="modal fade" id="editMechanicModal" tabindex="-1" aria-labelledby="editMechanicModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editMechanicModalLabel">Edit User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       
+                  <form id="editMechanicForm">
+                    <!-- Form fields -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea class="form-control" id="address" name="address"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
+                    </div>
+                  </form>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="submitEditMechanicForm">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
+
+@push('scripts')
+{{-- <script>
+    $(document).ready(function() {
+        // Handle click event for edit mechanic button
+        $('.edit-mechanic').click(function() {
+            // Get the mechanic ID from data attribute
+            var mechanicId = $(this).data('mechanic-id');
+
+            // Perform AJAX request to fetch mechanic details
+            $.ajax({
+                url: '/mechanics/' + mechanicId + '/edit',
+                type: 'GET',
+                success: function(response) {
+                    // Populate the modal body with the fetched data
+                    $('#editMechanicModal .modal-body').html(response);
+
+                    // Show the modal
+                    $('#editMechanicModal').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script> --}}
+@endpush

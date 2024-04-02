@@ -60,8 +60,154 @@
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
 
+<!-- Button trigger modal -->
+
+  
+  <!-- Edit Mechanic Modal -->
+ 
+  <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+$(document).ready(function() {
+    console.log("Document ready");
+    // Show modal and populate fields when the edit button is clicked
+    $('.edit-client').click(function() {
+        var clientId = $(this).data('client-id');
+        var clientName = $(this).data('client-name');
+        var clientEmail = $(this).data('client-email');
+        var clientAddress = $(this).data('client-address');
+        var clientPhone = $(this).data('client-phone');
+        console.log("Edit button clicked");
+        // Populate modal fields with client data
+        $('#editClientId').val(clientId);
+        $('#name').val(clientName);
+        $('#email').val(clientEmail);
+        $('#address').val(clientAddress);
+        $('#phoneNumber').val(clientPhone);
+
+        // Show the modal
+        $('#editClientModal').modal('show');
+    });
+
+    // Handle form submission via AJAX using Axios
+    $('#submitEditClientForm').click(function() {
+    console.log("Submit button clicked");
+    var clientId = $('#editClientId').val();
+    var formData = $('#editClientForm').serialize();
+
+    // Axios request
+    axios({
+        method: 'put',
+        url: '/users/' + clientId,
+        data: formData
+    })
+    .then(function(response) {
+        alert("Update successful");
+        alert(response)
+        // You can perform additional actions here after successful update
+    })
+    .catch(function(error) {
+        // Log the error to the console
+          console.error(error);
+
+          // Display an error message to the user
+          // alert("Error updating user. Please try again later.");
+    });
+});
+});
+    </script>
+    
+    <script>
+      $(document).ready(function() {
+          console.log("Document ready");
+          // Show modal and populate fields when the edit button is clicked
+          $('.add-client').click(function() {
+              
+              // Show the modal
+              $('#addClientModal').modal('show');
+          });
+      
+          // Handle form submission via AJAX using Axios
+          $('#submitEditClientForm').click(function() {
+          console.log("Submit button clicked");
+          var clientId = $('#editClientId').val();
+          var formData = $('#editClientForm').serialize();
+      
+          // Axios request
+          axios({
+              method: 'put',
+              url: '/users/' + clientId,
+              data: formData
+          })
+          .then(function(response) {
+              alert("Update successful");
+              alert(response)
+              // You can perform additional actions here after successful update
+          })
+          .catch(function(error) {
+              // Log the error to the console
+                console.error(error);
+      
+                // Display an error message to the user
+                // alert("Error updating user. Please try again later.");
+          });
+      });
+      });
+      
+      
+</script>
+<script>
+  $(document).ready(function() {
+      console.log("Document ready");
+
+      // Handle deletion of client
+      $('.delete-client').click(function() {
+          var clientId = $(this).data('client-id');
+          // alert(clientId)
+          // Show confirmation modal
+          $('#confirmDeleteModal').modal('show');
+
+          // Handle confirmation of deletion
+          $('#confirmDeleteBtn').click(function() {
+              // Axios DELETE request
+              axios({
+              method: 'delete',
+              url: '/users/destroy/' + clientId,
+              data: {
+                          "_token": "{{ csrf_token() }}"
+                        },
+          })
+          .then(function(response) {
+              alert("Update successful");
+              alert(response)
+              // You can perform additional actions here after successful update
+          })
+          .catch(function(error) {
+              // Log the error to the console
+                console.error(error);
+      
+                // Display an error message to the user
+                // alert("Error updating user. Please try again later.");
+          });
+          });
+
+          // Detach event handler for delete button after confirmation modal is closed
+          $('#confirmDeleteModal').on('hidden.bs.modal', function () {
+              $('#confirmDeleteBtn').off('click');
+          });
+      });
+  });
+</script>
+
+
+          
+
         <!-- JAVASCRIPT -->
      
+
+
        
       
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
@@ -127,6 +273,11 @@
 
         <!-- App js -->
 
-    </body>
+   
+   
+   
+
+   
+      </body>
 
 </html>

@@ -8,7 +8,7 @@ use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Database\QueryException;
 class AdminController extends Controller
 {
     public function showUsers()
@@ -29,29 +29,45 @@ class AdminController extends Controller
         return view('admin.users.admin-data', ['admins' => $admins]);
     }
 
-    public function destroy(User $client)
+    public function destroy($id)
     {
+        dd($id);
+        $client = User::findOrFail($id);
         $client->delete();
-        return
-            redirect()->route('admin.dashboard');
+    
+    return redirect()->back();    
     }
 
     public function edit(User $client)
     {
         return view('admin.users.edit-data', compact('client'));
     }
-    public function update(Request $request, User $client)
+    public function update(Request $request, $id)
     {
-
-        $validationData = $request->validate([
-            'name' => "required",
-            'email' => 'required',
-            'address' => 'required',
-            'phoneNumber' => 'required'
-        ]);
-        $client->update($validationData);
-        return redirect()->route('admin.dashboard');
+        try {
+            // Fetch the client using the provided ID
+            $client = User::findOrFail($id);
+    
+            // Validate the incoming request data
+            $validationData = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,' . $client->id,
+                'address' => 'required',
+                'phoneNumber' => 'required|string'
+            ]);
+    
+            // Update the client's information with the validated data
+            $client->update($validationData);
+    
+            // Redirect back to the previous page or any desired route
+            return redirect()->back();
+        } catch (QueryException $e) {
+            // Handle the unique constraint violation exception
+            return back()->withError('Email already exists.')->withInput();
+        }
     }
+
+
 
     public function create()
     {
@@ -78,7 +94,7 @@ class AdminController extends Controller
         ]);
 
         return
-            redirect()->route('admin.dashboard');
+            redirect()->back();
     }
 
     public function showProfile(User $client)
@@ -86,10 +102,7 @@ class AdminController extends Controller
 
 
         // $client = User::with('vehicle')->find($client);
-        
+
         return view('admin.profile', ['client' => $client]);
     }
-
-
-
 }
