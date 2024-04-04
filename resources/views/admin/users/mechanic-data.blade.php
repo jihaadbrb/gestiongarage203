@@ -46,14 +46,19 @@
                                             >
                                                 Edit
                                             </button>
+                                            <button type="button" class="btn btn-danger delete-client" 
+                                            data-client-id="{{$client->id}}">
+                                            <i class="r ri-delete-bin-3-line"></i>
+                                        </button>
                                             </td>
                                         </tr>
 
 
-
-                                        @include('admin.layouts.components.edit-modal')
-
+                                       
                                     @endforeach
+                                    @include('admin.layouts.components.confirm-modal')
+                                    @include('admin.layouts.components.edit-modal')
+
                                 </tbody>
                             </table>
                         </div>

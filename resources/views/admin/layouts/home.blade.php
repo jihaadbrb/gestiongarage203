@@ -158,47 +158,43 @@ $(document).ready(function() {
       
       
 </script>
+
+
+
+
+
 <script>
-  $(document).ready(function() {
-      console.log("Document ready");
+$(document).ready(function() {
+    // Handle deletion of client
+    $('.delete-client').click(function() {
+        var clientId = $(this).data('client-id'); // Retrieve the client ID
+        $('#deleteId').val(clientId); // Populate the deleteId input field with the client ID
+        $('#clientIdPlaceholder').text(clientId); // Populate the client ID placeholder in the modal body
+        $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
+    });
 
-      // Handle deletion of client
-      $('.delete-client').click(function() {
-          var clientId = $(this).data('client-id');
-          // alert(clientId)
-          // Show confirmation modal
-          $('#confirmDeleteModal').modal('show');
+    // Handle confirmation of deletion
+    $('#confirmDeleteBtn').click(function() {
+        var formData = $('#deleteForm').serialize(); // Serialize form data
+        // Axios DELETE request
+        axios.post('{{ route("admin.destroy") }}', formData)
+            .then(function (response) {
+                if (response.data == "ok") {
+                    $("#row").remove(); // Remove the deleted client row from the table
+                    $('#confirmDeleteModal').modal('hide')
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+                console.error("Response data:", error.response.data);
+            });
+    });
 
-          // Handle confirmation of deletion
-          $('#confirmDeleteBtn').click(function() {
-              // Axios DELETE request
-              axios({
-              method: 'delete',
-              url: '/users/destroy/' + clientId,
-              data: {
-                          "_token": "{{ csrf_token() }}"
-                        },
-          })
-          .then(function(response) {
-              alert("Update successful");
-              alert(response)
-              // You can perform additional actions here after successful update
-          })
-          .catch(function(error) {
-              // Log the error to the console
-                console.error(error);
-      
-                // Display an error message to the user
-                // alert("Error updating user. Please try again later.");
-          });
-          });
-
-          // Detach event handler for delete button after confirmation modal is closed
-          $('#confirmDeleteModal').on('hidden.bs.modal', function () {
-              $('#confirmDeleteBtn').off('click');
-          });
-      });
-  });
+    // Detach event handler for delete button after confirmation modal is closed
+    $('#confirmDeleteModal').on('hidden.bs.modal', function () {
+        // $('#confirmDeleteBtn').off('click');
+    });
+});
 </script>
 
 
@@ -266,6 +262,7 @@ $(document).ready(function() {
         <script src="assets/js/pages/datatables.init.js"></script>
 
         <script src="assets/js/app.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
 
 
 

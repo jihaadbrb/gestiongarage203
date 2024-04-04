@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
+
 class AdminController extends Controller
 {
     public function showUsers()
@@ -29,14 +30,19 @@ class AdminController extends Controller
         return view('admin.users.admin-data', ['admins' => $admins]);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        dd($id);
-        $client = User::findOrFail($id);
-        $client->delete();
-    
-    return redirect()->back();    
+        $client = User::find($request->deleteId);
+        // Check if $client exists before attempting to delete
+        if ($client) {
+            $client->delete();
+            return "ok";
+        } else {
+            // Handle the case where $client is null
+            return response()->json(['message' => 'User not found'], 404);
+        }
     }
+    
 
     public function edit(User $client)
     {
@@ -47,7 +53,7 @@ class AdminController extends Controller
         try {
             // Fetch the client using the provided ID
             $client = User::findOrFail($id);
-    
+
             // Validate the incoming request data
             $validationData = $request->validate([
                 'name' => 'required',
@@ -55,10 +61,10 @@ class AdminController extends Controller
                 'address' => 'required',
                 'phoneNumber' => 'required|string'
             ]);
-    
+
             // Update the client's information with the validated data
             $client->update($validationData);
-    
+
             // Redirect back to the previous page or any desired route
             return redirect()->back();
         } catch (QueryException $e) {

@@ -46,7 +46,7 @@
 
                                 <tbody>
                                     @foreach ($clients as $client)
-                                        <tr data-client-id="{{$client->id}}">
+                                        <tr data-client-id="{{$client->deleteId}}" id="row">
                                             <td>{{ $client->name }}</td> 
                                             <td>{{$client->email}}</td>
                                             <td>{{$client->address}}</td>
@@ -64,17 +64,18 @@
                                             </button>
                                             <button type="button" class="btn btn-danger delete-client" 
                                             data-client-id="{{$client->id}}">
-                                        <i class="r ri-delete-bin-3-line"></i>
-                                      
+                                            <i class="r ri-delete-bin-3-line"></i>
+                                        </button>
+                                        
                                             </td>
                                         </tr>
 
+                                       @endforeach
 
                                     @include('admin.layouts.components.edit-modal')
                                     @include('admin.layouts.components.add-modal')
                                     @include('admin.layouts.components.confirm-modal')
                         
-                                       @endforeach
                                 </tbody>
                             </table>
                         </div>
