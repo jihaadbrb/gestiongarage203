@@ -9,7 +9,6 @@ class Invoice extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'repair_id',
         'additionalCharges',
         'totalAmount',
     ];

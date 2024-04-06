@@ -42,7 +42,7 @@ class AdminController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
     }
-    
+
 
     public function edit(User $client)
     {
@@ -102,13 +102,22 @@ class AdminController extends Controller
         return
             redirect()->back();
     }
-
-    public function showProfile(User $client)
+    public function showModal(Request $request)
     {
-
-
-        // $client = User::with('vehicle')->find($client);
-
-        return view('admin.profile', ['client' => $client]);
+        // Retrieve the user ID from the request data
+        $userId = $request->input('id');
+    
+        // Fetch the user information from the database along with their vehicles, repairs, and invoices
+        $user = User::with(['vehicles', 'repairs', 'repairs.invoice'])->find($userId);
+    
+        // Check if user exists
+        if ($user) {
+            // Return the user information as JSON response
+            return response()->json($user);
+        } else {
+            // If user is not found, return error response
+            return response()->json(['error' => 'User not found.'], 404);
+        }
     }
+    
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('mechanicNotes')->nullable();
             $table->text('clientNotes')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('invoice_id')->constrained('invoices')->onDelete('cascade');
             // $table->foreignId('vehicle_id')->constrained('vehicles')->onDelete('cascade');
             $table->timestamps();
         });

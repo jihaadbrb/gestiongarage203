@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','lang'])->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
     });
@@ -16,6 +16,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mechanics',[AdminController::class , 'showMechanics'])->name('admin.mechanics');
     Route::get('/admins',[AdminController::class , 'showAdmins'])->name('admin.admins');
     Route::put('/users/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::post('/users/showModal',[AdminController::class,'showModal'])->name('users.showModal');
 
 
     Route::post('/users/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
@@ -24,7 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     // Route::get('/profile/{client}', [AdminController::class, 'showProfile'])->name('admin.show-profile');
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
-
+    Route::get('/changeLocale/{locale}',function($locale){
+        session()->put('locale',$locale);
+        return redirect()->back();
+    })->name('products.changeLocale');
 
 
 });

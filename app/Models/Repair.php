@@ -18,40 +18,21 @@ class Repair extends Model
         'clientNotes',
         'user_id',
         'vehicle_id',   
+        'invoice_id'
     ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class, 'vehicle_id');
+    }
 
-    // public function vehicle()
-    // {
-    //     return $this->belongsTo(Vehicle::class, 'vehicle_id');
-    // }
-
-    // public function spareParts()
-    // {
-    //     return $this->belongsToMany(SparePart::class);
-    // }
-
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Invoice;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,6 +28,9 @@ class RepairFactory extends Factory
             'clientNotes' => $this->faker->paragraph,
             'user_id' => function () {
                 return User::factory()->create(['role' => 'client'])->id;
+            },
+            'invoice_id' => function () {
+                return Invoice::factory()->create()->id;
             }
         ];
     }

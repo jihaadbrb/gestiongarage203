@@ -20,7 +20,6 @@ class InvoiceFactory extends Factory
         return [
             'additionalCharges' => $this->faker->randomFloat(2, 0, 50),
             'totalAmount' => $this->faker->randomFloat(2, 100, 1000),
-            'repair_id' => Repair::factory()->create()->id
         ];
     }
 }
