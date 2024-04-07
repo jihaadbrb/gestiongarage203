@@ -11,11 +11,13 @@ class Invoice extends Model
     protected $fillable = [
         'additionalCharges',
         'totalAmount',
+        'repair_id'
     ];
 
     public function repair()
     {
         return $this->belongsTo(Repair::class);
     }
+    
  
 }

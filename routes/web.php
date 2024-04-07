@@ -10,20 +10,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth','lang'])->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
-    });
+    })->name('admin.dashboard');
     
     Route::get('/users', [AdminController::class, 'showUsers'])->middleware(['auth', 'verified'])->name('admin.users');
     Route::get('/mechanics',[AdminController::class , 'showMechanics'])->name('admin.mechanics');
     Route::get('/admins',[AdminController::class , 'showAdmins'])->name('admin.admins');
     Route::put('/users/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::post('/users/showModal',[AdminController::class,'showModal'])->name('users.showModal');
+    Route::post('/mechanics/showModalMechanic',[AdminController::class,'showModalMechanic'])->name('admin.showModalMechanic');
 
 
     Route::post('/users/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
-    // Route::get('/dashboard/{client}/edit', [AdminController::class, 'edit'])->name('admin.edit');
-    // Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
-    // Route::get('/profile/{client}', [AdminController::class, 'showProfile'])->name('admin.show-profile');
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/changeLocale/{locale}',function($locale){
         session()->put('locale',$locale);

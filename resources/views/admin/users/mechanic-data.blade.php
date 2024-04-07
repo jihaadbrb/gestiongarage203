@@ -37,18 +37,24 @@
                                             <td>{{$client->phoneNumber}}</td>
                                             <td>{{$client->created_at}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-primary edit-client" 
+                                                <button type="button" class="btn edit-client" 
                                                 data-client-id="{{$client->id}}"
                                                 data-client-name="{{$client->name}}"
                                                 data-client-email="{{$client->email}}"
                                                 data-client-address="{{$client->address}}"
                                                 data-client-phone="{{$client->phoneNumber}}"
                                             >
-                                                {{ __('Edit') }}
+                                            <i class=" ri-edit-2-line "></i>
+
                                             </button>
-                                            <button type="button" class="btn btn-danger delete-client" 
+                                            <button type="button" class="btn  delete-client" 
                                             data-client-id="{{$client->id}}">
                                             <i class="r ri-delete-bin-3-line"></i>
+                                        </button>
+                                        <button type="button" class="btn  show-mechanic"
+                                        data-client-id="{{ $client->id }}">
+                                        <i class=" ri-file-info-line
+                                        "></i>
                                         </button>
                                             </td>
                                         </tr>
@@ -58,6 +64,7 @@
                                     @endforeach
                                     @include('admin.layouts.components.confirm-modal')
                                     @include('admin.layouts.components.edit-modal')
+                                    @include('admin.layouts.components.show-modal')
 
                                 </tbody>
                             </table>
@@ -73,11 +80,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © Upcube.
+                    <script>document.write(new Date().getFullYear())</script> © elklie.
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">
-                        {{ __('Crafted with') }} <i class="mdi mdi-heart text-danger"></i> {{ __('by Themesdesign') }}
+                        {{ __('Crafted with') }} <i class="mdi mdi-heart text-danger"></i> {{ __('by reda-elklie') }}
                     </div>
                 </div>
             </div>

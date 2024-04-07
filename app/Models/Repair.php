@@ -17,8 +17,7 @@ class Repair extends Model
         'mechanicNotes',
         'clientNotes',
         'user_id',
-        'vehicle_id',   
-        'invoice_id'
+        'vehicle_id',
     ];
 
     public function user()
@@ -31,8 +30,12 @@ class Repair extends Model
         return $this->belongsTo(Vehicle::class, 'vehicle_id');
     }
 
-    public function invoice()
+    public function invoices()
     {
-        return $this->hasOne(Invoice::class);
+        return $this->hasMany(Invoice::class);
+    }
+    public function spareParts()
+    {
+        return $this->belongsToMany(SparePart::class)->withTimestamps();
     }
 }

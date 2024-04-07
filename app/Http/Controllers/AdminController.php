@@ -108,8 +108,8 @@ class AdminController extends Controller
         $userId = $request->input('id');
     
         // Fetch the user information from the database along with their vehicles, repairs, and invoices
-        $user = User::with(['vehicles', 'repairs', 'repairs.invoice'])->find($userId);
-    
+        $user = User::with(['vehicles', 'repairs', 'repairs.invoices'])->find($userId);
+        // dd($user);
         // Check if user exists
         if ($user) {
             // Return the user information as JSON response
@@ -119,5 +119,32 @@ class AdminController extends Controller
             return response()->json(['error' => 'User not found.'], 404);
         }
     }
+
+    public function showModalMechanic(Request $request)
+    {
+        $mechanicId = $request->input('id');
+        $user = User::findOrFail($mechanicId);
+        $data = [];
+    
+        // Include relationships based on the user's role
+        if ($user->role === 'mechanic') {
+            $mechanic = $user->load(['repairs.client', 'tasks', 'spareParts']);
+            // Calculate performance metrics for the mechanic
+            // Add other relevant data specific to mechanics
+            $data['mechanic'] = $mechanic;
+        } elseif ($user->role === 'user') {
+            $userRepairs = $user->repairs()->with('mechanic')->get();
+            // Add other relevant data specific to users
+            $data['user_repairs'] = $userRepairs;
+        } elseif ($user->role === 'admin') {
+            // Handle admin specific data retrieval
+        }
+    
+        return response()->json($data);
+    }
+    
+    
+    
+
     
 }

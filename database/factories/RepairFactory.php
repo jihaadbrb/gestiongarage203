@@ -29,8 +29,8 @@ class RepairFactory extends Factory
             'user_id' => function () {
                 return User::factory()->create(['role' => 'client'])->id;
             },
-            'invoice_id' => function () {
-                return Invoice::factory()->create()->id;
+            'vehicle_id' => function () {
+                return Vehicle::factory()->create()->id;
             }
         ];
     }

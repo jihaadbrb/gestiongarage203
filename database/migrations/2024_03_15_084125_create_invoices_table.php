@@ -16,8 +16,12 @@ return new class extends Migration
             $table->decimal('additionalCharges', 10, 2);
             $table->decimal('totalAmount', 10, 2);
             $table->timestamps();
+            $table->foreignId('repair_id')->constrained('repairs')->onDelete('cascade');
+    
+            // Define foreign key constraint
         });
     }
+    
 
     /**
      * Reverse the migrations.

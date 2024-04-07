@@ -57,21 +57,22 @@
                                         <td>{{ $client->phoneNumber }}</td>
                                         <td>{{ $client->created_at }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary edit-client"
+                                            <button type="button" class="btn  edit-client"
                                                 data-client-id="{{ $client->id }}"
                                                 data-client-name="{{ $client->name }}"
                                                 data-client-email="{{ $client->email }}"
                                                 data-client-address="{{ $client->address }}"
                                                 data-client-phone="{{ $client->phoneNumber }}">
-                                                <i class="ri-edit-2-fill"></i>
+                                                <i class=" ri-edit-2-line "></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger delete-client"
+                                            <button type="button" class="btn  delete-client"
                                                 data-client-id="{{ $client->id }}">
                                                 <i class="r ri-delete-bin-3-line"></i>
                                             </button>
-                                            <button type="button" class="btn btn-success show-client"
+                                            <button type="button" class="btn  show-client"
                                             data-client-id="{{ $client->id }}">
-                                            <i class="r ri-show-bin-3-line"></i>
+                                            <i class=" ri-file-info-line
+                                            "></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -100,7 +101,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © Upcube.
+                    <script>document.write(new Date().getFullYear())</script> © elklie.
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">

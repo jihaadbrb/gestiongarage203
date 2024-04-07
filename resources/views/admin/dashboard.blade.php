@@ -13,8 +13,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Upcube</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">reda</a></li>
+                                <li class="breadcrumb-item active">admin</li>
                             </ol>
                         </div>
 
@@ -407,11 +407,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © Upcube.
+                    <script>document.write(new Date().getFullYear())</script> © elklie.
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">
-                        Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign
+                        Crafted with <i class="mdi mdi-heart text-danger"></i> by reda-elklie
                     </div>
                 </div>
             </div>

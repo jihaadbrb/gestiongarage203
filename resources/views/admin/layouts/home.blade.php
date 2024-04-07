@@ -221,72 +221,136 @@ $(document).ready(function() {
       
 
     <script>
-  
-  $(".show-client").on("click", function() {
-    var myId = $(this).attr("data-client-id");
-    var data = { 'id': myId };
-    axios.post('/users/showModal', data)
-        .then(response => {
-            console.log(response.data);
-            // Populate modal fields with user information
-            $('#userInfoName').val(response.data.name);
-            $('#userInfoEmail').val(response.data.email);
-            $('#userInfoAddress').val(response.data.address);
-            $('#userInfoPhoneNumber').val(response.data.phoneNumber);
-            
-            // Populate vehicle information
-            if (response.data.vehicles && response.data.vehicles.length > 0) {
-                var vehicle = response.data.vehicles[0];
-                $('#vehicleMake').val(vehicle.make);
-                $('#vehicleModel').val(vehicle.model);
-                // Populate other vehicle fields as needed
-            } else {
-                $('#vehicleMake').val('N/A');
-                $('#vehicleModel').val('N/A');
-                // Populate other vehicle fields as needed
-            }
-            console.log(response.data.invoice)
+        
+        $(".show-client").on("click", function() {
+            var myId = $(this).attr("data-client-id");
+            var data = { 'id': myId };
+            axios.post('/users/showModal', data)
+                .then(response => {
+                    console.log(response.data.vehicles);
+                    // Populate modal fields with user information
+                    $('#userInfoName').val(response.data.name);
+                    $('#userInfoEmail').val(response.data.email);
+                    $('#userInfoAddress').val(response.data.address);
+                    $('#userInfoPhoneNumber').val(response.data.phoneNumber);
+                    
+                    // Populate vehicle information
+                    if (response.data.vehicles && response.data.vehicles.length > 0) {
+                        var vehicle = response.data.vehicles[0];
+                        $('#vehicleMake').val(vehicle.make);
+                        $('#vehicleModel').val(vehicle.model);
+                        // Populate other vehicle fields as needed
+                    } else {
+                        $('#vehicleMake').val('N/A');
+                        $('#vehicleModel').val('N/A');
+                        // Populate other vehicle fields as needed
+                    }
 
-            // Populate repairs information
-            if (response.data.repairs && response.data.repairs.length > 0) {
-                var repairsHtml = '';
-                response.data.repairs.forEach(function(repair) {
-                    repairsHtml += '<div><strong>Description:</strong> ' + repair.description + '</div>';
-                    repairsHtml += '<div><strong>Status:</strong> ' + repair.status + '</div>';
-                    repairsHtml += '<div><strong>Start Date:</strong> ' + repair.startDate + '</div>';
-                    repairsHtml += '<div><strong>End Date:</strong> ' + repair.endDate + '</div>';
-                    // Add more fields as needed
-                    repairsHtml += '<hr>'; // Add horizontal line for separation between repairs
-                });
-                $('#repairsInfo').html(repairsHtml);
-            } else {
-                $('#repairsInfo').html('<div>No repairs found</div>');
-            }
-            // Populate invoices information
-            if (response.data.invoices && response.data.invoices.length > 0) {
-                var invoicesHtml = '';
-                response.data.invoices.forEach(function(invoice) {
-                    // invoicesHtml += '<div><strong>Repair ID:</strong> ' + invoice.repair_id + '</div>';
+                    // Populate repairs information
+                    if (response.data.repairs && response.data.repairs.length > 0) {
+                        var repairsHtml = '';
+                        response.data.repairs.forEach(function(repair) {
+                            repairsHtml += '<div><strong>Description:</strong> ' + repair.description + '</div>';
+                            repairsHtml += '<div><strong>Mechanic Notes:</strong> ' + repair.mechanicNotes + '</div>';
+                            repairsHtml += '<div><strong>Client Notes:</strong> ' + repair.clientNotes + '</div>';
+                            repairsHtml += '<div><strong>Status:</strong> ' + repair.status + '</div>';
+                            repairsHtml += '<div><strong>Start Date:</strong> ' + repair.startDate + '</div>';
+                            repairsHtml += '<div><strong>End Date:</strong> ' + repair.endDate + '</div>';
+                            // Add more fields as needed
+                            repairsHtml += '<hr>'; // Add horizontal line for separation between repairs
+                        });
+                        $('#repairsInfo').html(repairsHtml);
+                    } else {
+                        $('#repairsInfo').html('<div>No repairs found</div>');
+                    }
+                    // Populate invoices information
+                if (response.data.repairs && response.data.repairs.length > 0) {
+            var invoicesHtml = '';
+            response.data.repairs.forEach(function(repair) {
+                repair.invoices.forEach(function(invoice) {
                     invoicesHtml += '<div><strong>Additional Charges:</strong> ' + invoice.additionalCharges + '</div>';
-                    invoicesHtml += '<div><strong>Total Amount:</strong> ' + invoice.totalAmount + '</div>';
+                    invoicesHtml += '<div><strong>Total Amount:</strong> ' + invoice.totalAmount +' $' +'</div>';
                     // Add more fields as needed
                     invoicesHtml += '<hr>'; // Add horizontal line for separation between invoices
                 });
-                $('#invoicesInfo').html(invoicesHtml);
-            } else {
-                $('#invoicesInfo').html('<div>No invoices found</div>');
-            }
+            });
+            $('#invoicesInfo').html(invoicesHtml);
+        } else {
+            $('#invoicesInfo').html('<div>No invoices found</div>');
+        }
 
-            // Show the modal
-            $("#userInfoModal").modal('show');
-        })
-        .catch(error => {
-            console.error(error);
+                    // Show the modal
+                    $("#userInfoModal").modal('show');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         });
-});
 
     </script>
 
+    
+  
+ 
+  <script>
+        $(".show-mechanic").on("click", function() {
+            var mechanicId = $(this).attr("data-client-id");
+            var data = { 'id': mechanicId };
+            console.log(data);
+            axios.post('/mechanics/showModalMechanic', data)
+                .then(response => {
+                    // Populate mechanic information
+                    $('#mechanicInfoName').val(response.data.mechanic.name);
+                    $('#mechanicInfoRole').val(response.data.mechanic.role);
+
+                    // Populate assigned repairs
+                    var assignedRepairsHtml = '';
+                    response.data.repairs.forEach(function(repair) {
+                        assignedRepairsHtml += '<div><strong>Description:</strong> ' + repair.description + '</div>';
+                        assignedRepairsHtml += '<div><strong>Mechanic Notes:</strong> ' + repair.mechanicNotes + '</div>';
+                        assignedRepairsHtml += '<div><strong>Client Notes:</strong> ' + repair.clientNotes + '</div>';
+                        assignedRepairsHtml += '<div><strong>Status:</strong> ' + repair.status + '</div>';
+                        assignedRepairsHtml += '<div><strong>Start Date:</strong> ' + repair.startDate + '</div>';
+                        assignedRepairsHtml += '<div><strong>End Date:</strong> ' + repair.endDate + '</div>';
+                        assignedRepairsHtml += '<hr>'; // Add horizontal line for separation between repairs
+                    });
+                    $('#assignedRepairs').html(assignedRepairsHtml);
+
+                    // Populate tasks and responsibilities (if available)
+                    var tasksHtml = '';
+                    response.data.tasks.forEach(function(task) {
+                        tasksHtml += '<div><strong>Task:</strong> ' + task.name + '</div>';
+                        tasksHtml += '<div><strong>Status:</strong> ' + task.status + '</div>';
+                        // Add more fields as needed
+                        tasksHtml += '<hr>'; // Add horizontal line for separation between tasks
+                    });
+                    $('#tasksResponsibilities').html(tasksHtml);
+
+                    // Populate spare parts usage (if available)
+                    var sparePartsHtml = '';
+                    response.data.spareParts.forEach(function(part) {
+                        sparePartsHtml += '<div><strong>Part Name:</strong> ' + part.name + '</div>';
+                        sparePartsHtml += '<div><strong>Part Reference:</strong> ' + part.reference + '</div>';
+                        sparePartsHtml += '<div><strong>Supplier:</strong> ' + part.supplier + '</div>';
+                        sparePartsHtml += '<div><strong>Price:</strong> ' + part.price + '</div>';
+                        // Add more fields as needed
+                        sparePartsHtml += '<hr>'; // Add horizontal line for separation between parts
+                    });
+                    $('#sparePartsUsage').html(sparePartsHtml);
+
+                    // Populate performance metrics
+                    $('#averageRepairTime').text('Average Repair Time: ' + response.data.averageRepairTime + ' days');
+                    $('#repairSuccessRate').text('Repair Success Rate: ' + response.data.repairSuccessRate + '%');
+
+                    // Show the modal
+                    $("#mechanicInfoModal").modal('show');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+
+      </script>
 
 
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
