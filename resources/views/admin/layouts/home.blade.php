@@ -1,8 +1,8 @@
 <!doctype html>
-<html @if(app()->getLocale() == 'ar') dir="rtl" @endif 
+<html @if(app()->getLocale() == 'ar') dir="rtl" @endif
     lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-        
+
         <meta charset="utf-8" />
         <title>Reda's Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,7 @@
         <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Responsive datatable examples -->
-        <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+        <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Bootstrap Css -->
         <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -30,20 +30,20 @@
     </head>
 
     <body data-topbar="dark">
-    
+
     <!-- <body data-layout="horizontal" data-topbar="dark"> -->
 
         <!-- Begin page -->
         <div id="layout-wrapper">
 
             @include('admin.layouts.components.header')
-          
+
 
             <!-- ========== Left Sidebar Start ========== -->
           @include('admin.layouts.components.leftside')
             <!-- Left Sidebar End -->
 
-            
+
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -62,9 +62,9 @@
 
 <!-- Button trigger modal -->
 
-  
+
   <!-- Edit Mechanic Modal -->
- 
+
   <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -118,23 +118,23 @@ $(document).ready(function() {
 });
 });
     </script>
-    
+
     <script>
       $(document).ready(function() {
           console.log("Document ready");
           // Show modal and populate fields when the edit button is clicked
           $('.add-client').click(function() {
-              
+
               // Show the modal
               $('#addClientModal').modal('show');
           });
-      
+
           // Handle form submission via AJAX using Axios
           $('#submitEditClientForm').click(function() {
           console.log("Submit button clicked");
           var clientId = $('#editClientId').val();
           var formData = $('#editClientForm').serialize();
-      
+
           // Axios request
           axios({
               method: 'put',
@@ -149,14 +149,14 @@ $(document).ready(function() {
           .catch(function(error) {
               // Log the error to the console
                 console.error(error);
-      
+
                 // Display an error message to the user
                 // alert("Error updating user. Please try again later.");
           });
       });
       });
-      
-      
+
+
 </script>
 
 
@@ -202,26 +202,26 @@ $(document).ready(function() {
 
     $(".selectLocale").on('change',function(){
         var locale = $(this).val();
-      
+
         window.location.href = "/changeLocale/"+locale;
     })
 </script>
 
         <!-- JAVASCRIPT -->
-     
+
 
 
         <script>
             $(".btnCloseShow").on('click',function(){
                $("#myModalShowProduct").hide();
            })
-           
-          
-           </script>  
-      
+
+
+           </script>
+
 
     <script>
-        
+
         $(".show-client").on("click", function() {
             var myId = $(this).attr("data-client-id");
             var data = { 'id': myId };
@@ -233,7 +233,7 @@ $(document).ready(function() {
                     $('#userInfoEmail').val(response.data.email);
                     $('#userInfoAddress').val(response.data.address);
                     $('#userInfoPhoneNumber').val(response.data.phoneNumber);
-                    
+
                     // Populate vehicle information
                     if (response.data.vehicles && response.data.vehicles.length > 0) {
                         var vehicle = response.data.vehicles[0];
@@ -289,9 +289,9 @@ $(document).ready(function() {
 
     </script>
 
-    
-  
- 
+
+
+
   <script>
         $(".show-mechanic").on("click", function() {
             var mechanicId = $(this).attr("data-client-id");
@@ -353,10 +353,52 @@ $(document).ready(function() {
       </script>
 
 
+<script>
+    $(document).ready(function() {
+        console.log("Document ready");
+        // Show modal and populate fields when the edit button is clicked
+        $('.add-vehicle').click(function() {
+            // Show the modal
+            $('#addVehicleModal').modal('show');
+            console.log("good")
+        });
+
+        // Handle form submission via AJAX using Axios
+        $('#addVehicleForm').click(function() {
+        console.log("Submit button clicked");
+        var formData = $('#addVehicleForm').serialize();
+            alert(formData)
+        // Axios request
+        axios({
+            method: 'post',
+            url: '/vehicles/store',
+            data: formData
+        })
+        .then(function(response) {
+            alert("Update successful");
+            alert(response)
+            // You can perform additional actions here after successful update
+        })
+        .catch(function(error) {
+            // Log the error to the console
+              console.error(error);
+
+              // Display an error message to the user
+              // alert("Error updating user. Please try again later.");
+        });
+    });
+    });
+
+
+</script>
+
+
+
+
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
         <script src="assets/libs/node-waves/waves.min.js"></script>
 
-        
+
         <!-- apexcharts -->
         <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
 
@@ -367,7 +409,7 @@ $(document).ready(function() {
         <!-- Required datatable js -->
         <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-        
+
         <!-- Responsive examples -->
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
@@ -400,7 +442,7 @@ $(document).ready(function() {
 
         <script src="assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
         <script src="assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
-        
+
         <!-- Responsive examples -->
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
@@ -417,11 +459,11 @@ $(document).ready(function() {
 
         <!-- App js -->
 
-   
-   
-   
 
-   
+
+
+
+
       </body>
 
 </html>

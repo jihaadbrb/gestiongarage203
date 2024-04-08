@@ -11,14 +11,15 @@ Route::middleware(['auth','lang'])->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
-    
+
     Route::get('/users', [AdminController::class, 'showUsers'])->middleware(['auth', 'verified'])->name('admin.users');
     Route::get('/mechanics',[AdminController::class , 'showMechanics'])->name('admin.mechanics');
     Route::get('/admins',[AdminController::class , 'showAdmins'])->name('admin.admins');
     Route::put('/users/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::post('/users/showModal',[AdminController::class,'showModal'])->name('users.showModal');
     Route::post('/mechanics/showModalMechanic',[AdminController::class,'showModalMechanic'])->name('admin.showModalMechanic');
-
+    Route::get('/vehicles', [AdminController::class, 'showVehicles'])->name('admin.vehicles');
+    Route::post('/vehicles/store', [AdminController::class, 'storeVehicle'])->name('admin.storeVehicle');
 
     Route::post('/users/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');

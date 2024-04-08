@@ -106,7 +106,7 @@ class AdminController extends Controller
     {
         // Retrieve the user ID from the request data
         $userId = $request->input('id');
-    
+
         // Fetch the user information from the database along with their vehicles, repairs, and invoices
         $user = User::with(['vehicles', 'repairs', 'repairs.invoices'])->find($userId);
         // dd($user);
@@ -125,7 +125,7 @@ class AdminController extends Controller
         $mechanicId = $request->input('id');
         $user = User::findOrFail($mechanicId);
         $data = [];
-    
+
         // Include relationships based on the user's role
         if ($user->role === 'mechanic') {
             $mechanic = $user->load(['repairs.client', 'tasks', 'spareParts']);
@@ -139,12 +139,39 @@ class AdminController extends Controller
         } elseif ($user->role === 'admin') {
             // Handle admin specific data retrieval
         }
-    
+
         return response()->json($data);
     }
-    
-    
-    
 
-    
+    public function showVehicles(){
+        return view('admin.users.vehicle-data');
+    }
+
+    public function storeVehicle(Request $request)
+    {
+        $validationData = $request->validate([
+            'make' => ['required'],
+            'modal' => ['required'],
+            'fuelType' => ['required'],
+            'registration' => ['required'],
+            // 'photos' => ['nullable'],
+            'user_id' => 'required'
+        ]);
+
+        // Create a new instance of the Vehicle model
+        $vehicle = new Vehicle;
+
+        // Assign the validated data to the model attributes
+        $vehicle->make = $validationData['make'];
+        $vehicle->modal = $validationData['modal'];
+        $vehicle->fuelType = $validationData['fuelType'];
+        $vehicle->registration = $validationData['registration'];
+        $vehicle->user_id = $validationData['user_id'];
+
+        // Save the vehicle to the database
+        $vehicle->save();
+        // dd($vehicle);
+        // Optionally, you can return a response or redirect to a success page
+        return response()->json(['message' => 'Vehicle stored successfully']);
+    }
 }

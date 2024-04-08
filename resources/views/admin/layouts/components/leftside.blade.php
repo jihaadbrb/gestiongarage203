@@ -34,17 +34,19 @@
                         <li><a href="{{route('admin.users')}}">users</a></li>
                         <li><a href="{{route('admin.mechanics')}}">Mechanics</a></li>
                         <li><a href="{{route('admin.admins')}}">Admins</a></li>
+                        <li><a href="{{route('admin.vehicles')}}" class=" waves-effect">
+                            <span>Vehicle</span>
+                        </a></li>
 
-                      
                     </ul>
                 </li>
-                {{-- <li>
+                <li>
                     <a href="calendar.html" class=" waves-effect">
                         <i class="ri-calendar-2-line"></i>
-                        <span>Calendar</span>
+                        <span>Vehicle</span>
                     </a>
-                </li> --}}
-    
+                </li>
+
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-mail-send-line"></i>
@@ -140,7 +142,7 @@
                         <li><a href="ui-typography.html">Typography</a></li>
                         <li><a href="ui-video.html">Video</a></li>
                         <li><a href="ui-general.html">General</a></li>
-            
+
                     </ul>
                 </li>
 
@@ -177,7 +179,7 @@
                     </ul>
                 </li>
 
-         
+
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
