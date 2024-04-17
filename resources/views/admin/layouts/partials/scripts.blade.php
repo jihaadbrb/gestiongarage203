@@ -348,7 +348,7 @@
                 pictures.forEach(function(pictureString, index) {
                     var pictureUrl = pictureString.replace(/^["']|["']$/g, ''); // Remove quotes
                     // (Optional) Remove leading/trailing backslashes if needed
-
+                    alert(pictureUrl)
                     var activeClass = index === 0 ? "active" : "";
                     carouselHtml += '<div class="carousel-item ' + activeClass + '">';
                     carouselHtml += '<img src="' + pictureUrl + '" class="d-block w-100" alt="Vehicle Image ' + (index + 1) + '">';
