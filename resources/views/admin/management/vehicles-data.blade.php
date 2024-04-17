@@ -8,7 +8,7 @@
             justify-content: space-between;
         }
 
-        .add-client {
+        .add-vehicle {
             border: 0;
             border-radius: 5px;
             padding: 8px 19px;
@@ -24,8 +24,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="add-new">
-                                <h4 class="card-title">{{ __('client_list') }}</h4>
-                                <button class="btn-primary add-client">{{ __('add_new_client') }}</button>
+                                <h4 class="card-title">{{ __('Vehicles') }}</h4>
+                                <button class="btn-primary add-vehicle">{{ __('add new vehicle') }}</button>
                                 <p class="card-title-desc">
 
                                 </p>
@@ -38,29 +38,36 @@
 
                                 <thead>
                                     <tr>
-                                        <th>{{ __('start') }}</th>
-                                        <th>{{ __('Email') }}</th>
-                                        <th>{{ __('address') }}</th>
-                                        <th>{{ __('phone_number') }}</th>
-                                        <th>{{ __('start_date') }}</th>
-                                        <th>{{ __('action') }}</th>
+                                        <th>{{ __('Make') }}</th>
+                                        <th>{{ __('Model') }}</th>
+                                        <th>{{ __('Fuel Type') }}</th>
+                                        <th>{{ __('Registration') }}</th>
+                                        <th>{{ __('User') }}</th>
+                                        <th>{{ __('Photos') }}</th>
+                                        <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
 
 
                                 <tbody>
-                                    @foreach ($clients as $client)
-                                    <tr data-client-id="{{ $client->deleteId }}" id="row">
-                                        <td>{{ $client->name }}</td>
-                                        <td>{{ $client->email }}</td>
-                                        <td>{{ $client->address }}</td>
-                                        <td>{{ $client->phoneNumber }}</td>
-                                        <td>{{ $client->created_at }}</td>
+                                    @foreach ($vehicles as $vehicle)
+                                    <tr data-client-id="{{ $vehicle->vehicleId }}" id="row">
+                                        <td>{{ $vehicle->make }}</td>
+                                        <td>{{ $vehicle->model }}</td>
+                                        <td>{{ $vehicle->fuelType }}</td>
+                                        <td>{{ $vehicle->registration }}</td>
+                                        {{-- <td>{{ $vehicle->photos }}</td> --}}
+                                        <td>{{ $vehicle->user_id }}</td>
+                                        <td> <button type="button" class="btn  show-pics"
+                                            data-client-id="{{ $vehicle->id }}">
+                                            <i class=" ri-eye-line 
+                                            "></i> Show Pictures 
+                                            </button></td>
                                         <td>
-                                            <button type="button" class="btn  edit-client"
-                                                data-client-id="{{ $client->id }}"
-                                                data-client-name="{{ $client->name }}"
-                                                data-client-email="{{ $client->email }}"
+                                            {{-- <button type="button" class="btn  edit-client"
+                                                data-client-id="{{ $vehicle->id }}"
+                                                data-client-name="{{ $vehicle->name }}"
+                                                data-client-email="{{ $vehicle->email }}"
                                                 data-client-address="{{ $client->address }}"
                                                 data-client-phone="{{ $client->phoneNumber }}">
                                                 <i class=" ri-edit-2-line "></i>
@@ -73,18 +80,17 @@
                                             data-client-id="{{ $client->id }}">
                                             <i class=" ri-file-info-line
                                             "></i>
-                                            </button>
+                                            </button> --}}
                                         </td>
                                     </tr>
 
                                     @endforeach
-
-                                    @include('admin.layouts.components.edit-modal')
-                                    @include('admin.layouts.components.add-modal')
-                                    @include('admin.layouts.components.confirm-modal')
-                                    @include('admin.layouts.components.show-modal')
-
                                 </tbody>
+                                    @include('admin.layouts.components.users.edit-modal')
+                                    @include('admin.layouts.components.vehicles.add-modal')
+                                    @include('admin.layouts.components.users.confirm-modal')
+                                    @include('admin.layouts.components.users.show-modal')
+                                    @include('admin.layouts.components.vehicles.show-pics')
                             </table>
                         </div>
                     </div>

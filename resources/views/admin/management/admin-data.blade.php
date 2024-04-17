@@ -51,7 +51,7 @@
 
 
 
-                                        @include('admin.layouts.components.edit-modal')
+                                        @include('admin.layouts.components.users.edit-modal')
 
                                     @endforeach
                                 </tbody>

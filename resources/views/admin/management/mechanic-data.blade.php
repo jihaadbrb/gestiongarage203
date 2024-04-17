@@ -62,9 +62,9 @@
 
                                        
                                     @endforeach
-                                    @include('admin.layouts.components.confirm-modal')
-                                    @include('admin.layouts.components.edit-modal')
-                                    @include('admin.layouts.components.show-modal')
+                                    @include('admin.layouts.components.users.confirm-modal')
+                                    @include('admin.layouts.components.users.edit-modal')
+                                    @include('admin.layouts.components.users.show-modal')
 
                                 </tbody>
                             </table>

@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Vehicle;
+use Doctrine\Inflector\Rules\English\Rules;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
+use Illuminate\Validation\Rules\Exists;
 
 class AdminController extends Controller
 {
@@ -16,18 +19,18 @@ class AdminController extends Controller
     {
         $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->get();
         $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
-        return view('admin.users.users-data', ['clients' => $clients, 'mechanics' => $mechanics]);
+        return view('admin.management.users-data', ['clients' => $clients, 'mechanics' => $mechanics]);
     }
 
     public function showMechanics()
     {
         $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
-        return view('admin.users.mechanic-data', ['mechanics' => $mechanics]);
+        return view('admin.management.mechanic-data', ['mechanics' => $mechanics]);
     }
     public function showAdmins()
     {
         $admins = User::orderBy('id', 'desc')->where('role', 'admin')->get();
-        return view('admin.users.admin-data', ['admins' => $admins]);
+        return view('admin.management.admin-data', ['admins' => $admins]);
     }
 
     public function destroy(Request $request)
@@ -106,7 +109,7 @@ class AdminController extends Controller
     {
         // Retrieve the user ID from the request data
         $userId = $request->input('id');
-    
+
         // Fetch the user information from the database along with their vehicles, repairs, and invoices
         $user = User::with(['vehicles', 'repairs', 'repairs.invoices'])->find($userId);
         // dd($user);
@@ -120,31 +123,84 @@ class AdminController extends Controller
         }
     }
 
-    public function showModalMechanic(Request $request)
-    {
-        $mechanicId = $request->input('id');
-        $user = User::findOrFail($mechanicId);
-        $data = [];
-    
-        // Include relationships based on the user's role
-        if ($user->role === 'mechanic') {
-            $mechanic = $user->load(['repairs.client', 'tasks', 'spareParts']);
-            // Calculate performance metrics for the mechanic
-            // Add other relevant data specific to mechanics
-            $data['mechanic'] = $mechanic;
-        } elseif ($user->role === 'user') {
-            $userRepairs = $user->repairs()->with('mechanic')->get();
-            // Add other relevant data specific to users
-            $data['user_repairs'] = $userRepairs;
-        } elseif ($user->role === 'admin') {
-            // Handle admin specific data retrieval
-        }
-    
-        return response()->json($data);
-    }
-    
-    
-    
 
-    
+    public function showVehicles()
+    {
+        $vehicles = Vehicle::get();
+        // dd($vehicles); 
+        return
+            view('admin.management.vehicles-data', ['vehicles' => $vehicles]);
+    }
+
+    public function storeVehicle(Request $request)
+    {
+        $request->validate([
+            'make' => ['required', 'string', 'max:255'],
+            'model' => ['required', 'string', 'max:255'],
+            'fuelType' => ['required', 'string', 'max:255'],
+            'registration' => ['required', 'string', 'max:255', 'unique:vehicles'],
+            'user_id' => ['required', 'integer', 'exists:users,id'], // Check if user exists
+            'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow multiple image uploads
+        ]);
+
+        $vehicleData = [
+            'make' => $request->make,
+            'model' => $request->model,
+            'fuelType' => $request->fuelType,
+            'registration' => $request->registration,
+            'user_id' => $request->user_id,
+        ];
+        // Check if user exists (alternative approach)
+        $user = User::find($request->user_id);
+        if (!$user) {
+            return back()->withErrors(['user_id' => 'Invalid user ID.']);
+        }
+        // Handle image uploads and add paths to vehicleData
+        if ($request->hasFile('photos')) {
+            $imagePaths = [];
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('vehicle_photos'); // Assuming 'vehicle_photos' is your disk configuration for storing images
+                $imagePaths[] = $path;
+            }
+            $vehicleData['photos'] = json_encode($imagePaths); // Encode paths as JSON
+        }
+
+        // Create vehicle instance with all data
+        $vehicle = Vehicle::create($vehicleData);
+
+        return redirect()->back(); // Or your desired redirection logic
+    }
+
+
+
+    public function showVehiclePics(Request $request)
+{
+    $userId = $request->get('id');
+
+    // Retrieve vehicle information for the user
+    $vehicle = User::find($userId)->vehicles()->first(); // Assuming a 'vehicles' relationship
+
+    if (!$vehicle) {
+        return response()->json([], 404); // Not Found response if no vehicle found
+    }
+
+    // Extract image URLs from the vehicle data (modify based on your storage approach)
+    $imageUrls = [];
+    if (isset($vehicle->photos)) { // Assuming 'photos' field stores comma-separated paths
+        $imageUrls = explode(',', $vehicle->photos);
+    } else if (isset($vehicle->photo_paths)) { // Assuming 'photo_paths' field stores JSON-encoded paths
+        $imageUrls = json_decode($vehicle->photo_paths, true);
+    }
+
+    // Handle scenarios where no image URLs are found
+    if (empty($imageUrls)) {
+        return response()->json([], 204); // No Content response for empty image urls
+    }
+
+    // dd($imageUrls);
+
+
+    return response()->json(['pictures' => $imageUrls]);
+}
+
 }
