@@ -64,15 +64,17 @@
                                             "></i> Show Pictures 
                                             </button></td>
                                         <td>
-                                            {{-- <button type="button" class="btn  edit-client"
-                                                data-client-id="{{ $vehicle->id }}"
-                                                data-client-name="{{ $vehicle->name }}"
-                                                data-client-email="{{ $vehicle->email }}"
-                                                data-client-address="{{ $client->address }}"
-                                                data-client-phone="{{ $client->phoneNumber }}">
+                                             <button type="button" class="btn  edit-vehicle"
+                                                data-vehicle-id="{{ $vehicle->id }}"
+                                                data-vehicle-make="{{ $vehicle->make }}"
+                                                data-vehicle-model="{{ $vehicle->model }}"
+                                                data-vehicle-fuelType="{{ $vehicle->fuelType }}"
+                                                data-vehicle-registration="{{ $vehicle->registration }}"
+                                                data-vehicle-photos="{{ $vehicle->photos }}"
+                                                data-vehicle-userId="{{ $vehicle->user_id }}">
                                                 <i class=" ri-edit-2-line "></i>
                                             </button>
-                                            <button type="button" class="btn  delete-client"
+                                            {{--<button type="button" class="btn  delete-client"
                                                 data-client-id="{{ $client->id }}">
                                                 <i class="r ri-delete-bin-3-line"></i>
                                             </button>
@@ -86,7 +88,7 @@
 
                                     @endforeach
                                 </tbody>
-                                    @include('admin.layouts.components.users.edit-modal')
+                                    @include('admin.layouts.components.vehicles.edit-modal')
                                     @include('admin.layouts.components.vehicles.add-modal')
                                     @include('admin.layouts.components.users.confirm-modal')
                                     @include('admin.layouts.components.users.show-modal')

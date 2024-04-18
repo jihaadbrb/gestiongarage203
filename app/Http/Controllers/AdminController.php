@@ -174,33 +174,77 @@ class AdminController extends Controller
 
 
     public function showVehiclePics(Request $request)
-{
-    $userId = $request->get('id');
+    {
+        $userId = $request->get('id');
 
-    // Retrieve vehicle information for the user
-    $vehicle = User::find($userId)->vehicles()->first(); // Assuming a 'vehicles' relationship
+        // Retrieve vehicle information for the user
+        $vehicle = User::find($userId)->vehicles()->first(); // Assuming a 'vehicles' relationship
 
-    if (!$vehicle) {
-        return response()->json([], 404); // Not Found response if no vehicle found
+        if (!$vehicle) {
+            return response()->json([], 404); // Not Found response if no vehicle found
+        }
+
+        // Extract image URLs from the vehicle data (modify based on your storage approach)
+        $imageUrls = [];
+        if (isset($vehicle->photos)) { // Assuming 'photos' field stores comma-separated paths
+            $imageUrls = explode(',', $vehicle->photos);
+        } else if (isset($vehicle->photo_paths)) { // Assuming 'photo_paths' field stores JSON-encoded paths
+            $imageUrls = json_decode($vehicle->photo_paths, true);
+        }
+
+        // Handle scenarios where no image URLs are found
+        if (empty($imageUrls)) {
+            return response()->json([], 204); // No Content response for empty image urls
+        }
+
+        // dd($imageUrls);
+
+
+        return response()->json(['pictures' => $imageUrls]);
     }
 
-    // Extract image URLs from the vehicle data (modify based on your storage approach)
-    $imageUrls = [];
-    if (isset($vehicle->photos)) { // Assuming 'photos' field stores comma-separated paths
-        $imageUrls = explode(',', $vehicle->photos);
-    } else if (isset($vehicle->photo_paths)) { // Assuming 'photo_paths' field stores JSON-encoded paths
-        $imageUrls = json_decode($vehicle->photo_paths, true);
+
+    public function updateVehicle(Request $request,$id){
+        {
+                // Fetch the client using the provided ID
+                $vehicle = Vehicle::findOrFail($id);
+    
+                $request->validate([
+                    'make' => ['required', 'string', 'max:255'],
+                    'model' => ['required', 'string', 'max:255'],
+                    'fuelType' => ['required', 'string', 'max:255'],
+                    'registration' => ['required', 'string', 'max:255', 'unique:vehicles'],
+                    'user_id' => ['required', 'integer', 'exists:users,id'], // Check if user exists
+                    'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow multiple image uploads
+                ]);
+        
+                $vehicleData = [
+                    'make' => $request->make,
+                    'model' => $request->model,
+                    'fuelType' => $request->fuelType,
+                    'registration' => $request->registration,
+                    'user_id' => $request->user_id,
+                ];
+                // Check if user exists (alternative approach)
+                $user = User::find($request->user_id);
+                if (!$user) {
+                    return back()->withErrors(['user_id' => 'Invalid user ID.']);
+                }
+                // Handle image uploads and add paths to vehicleData
+                if ($request->hasFile('photos')) {
+                    $imagePaths = [];
+                    foreach ($request->file('photos') as $photo) {
+                        $path = $photo->store('vehicle_photos'); // Assuming 'vehicle_photos' is your disk configuration for storing images
+                        $imagePaths[] = $path;
+                    }
+                    $vehicleData['photos'] = json_encode($imagePaths); // Encode paths as JSON
+                }
+            
+        $vehicle->update($vehicleData);
+
+        }
     }
 
-    // Handle scenarios where no image URLs are found
-    if (empty($imageUrls)) {
-        return response()->json([], 204); // No Content response for empty image urls
-    }
 
-    // dd($imageUrls);
-
-
-    return response()->json(['pictures' => $imageUrls]);
-}
 
 }

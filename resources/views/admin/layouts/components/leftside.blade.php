@@ -34,13 +34,7 @@
                         <li><a href="{{route('admin.users')}}">users</a></li>
                         <li><a href="{{route('admin.mechanics')}}">Mechanics</a></li>
                         <li><a href="{{route('admin.admins')}}">Admins</a></li>
-<<<<<<< HEAD
                         <li><a href="{{route('admin.vehicles')}}">Vehicles</a></li>
-=======
-                        <li><a href="{{route('admin.vehicles')}}" class=" waves-effect">
-                            <span>Vehicle</span>
-                        </a></li>
->>>>>>> a63bff53d02d02b02a2f38cebe847790765bc0eb
 
                     </ul>
                 </li>

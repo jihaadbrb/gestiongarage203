@@ -29,6 +29,7 @@ Route::middleware(['auth','lang'])->group(function () {
     Route::get('/vehicles',[AdminController::class,'showVehicles'])->name('admin.vehicles');
     Route::post('/vehicle/store',[AdminController::class,'storeVehicle'])->name('admin.storeVehicle');
     Route::post('/vehicles/showVehiclePics', [AdminController::class, 'showVehiclePics']);
+    Route::put('/vehicles/{id}', [AdminController::class, 'updateVehicle'])->name('admin.updateVehicle');
 
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');

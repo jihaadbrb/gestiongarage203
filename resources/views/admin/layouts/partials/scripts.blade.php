@@ -1,7 +1,7 @@
 
     <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+{{-- edit client --}}
     <script>
         $(document).ready(function() {
         console.log("Document ready");
@@ -335,46 +335,99 @@
 
     <script>
       
-                $(".show-pics").on("click", function() {
-            var myId = $(this).attr("data-client-id");
-            var data = { 'id': myId };
-            axios.post('/vehicles/showVehiclePics', data)
-                .then(response => {
-                console.log(response.data);
+                        $(".show-pics").on("click", function() {
+                    var myId = $(this).attr("data-client-id");
+                    var data = { 'id': myId };
+                    axios.post('/vehicles/showVehiclePics', data)
+                        .then(response => {
+                        console.log(response.data);
 
-                // Extract image URLs and populate carousel
-                var carouselHtml = "";
-                var pictures = response.data.pictures;
-                pictures.forEach(function(pictureString, index) {
-                    var pictureUrl = pictureString.replace(/^["']|["']$/g, ''); // Remove quotes
-                    // (Optional) Remove leading/trailing backslashes if needed
-                    alert(pictureUrl)
-                    var activeClass = index === 0 ? "active" : "";
-                    carouselHtml += '<div class="carousel-item ' + activeClass + '">';
-                    carouselHtml += '<img src="' + pictureUrl + '" class="d-block w-100" alt="Vehicle Image ' + (index + 1) + '">';
-                    carouselHtml += '</div>';
-               
-                });
-                $("#vehiclePicsCarousel .carousel-inner").html(carouselHtml);
-                $("#showPicsModal").modal('show');
+                        // Extract image URLs and populate carousel
+                        var carouselHtml = "";
+                        var pictures = response.data.pictures;
+                        pictures.forEach(function(pictureString, index) {
+        // Clean approach using regular expressions:
+                    var pictureUrl = pictureString.replace(/^["'\\]|["'\\]$/g, '');
+                            // (Optional) Remove leading/trailing backslashes if needed
+                            // alert(pictureUrl)
+                            var activeClass = index === 0 ? "active" : "";
+                            carouselHtml += '<div class="carousel-item ' + activeClass + '">';
+                            carouselHtml += '<img src="'+ pictureUrl + '" class="d-block w-100" alt="Vehicle Image ' + (index + 1) + '">';
+                            carouselHtml += '</div>';
+                    
+                        });
+                        $("#vehiclePicsCarousel .carousel-inner").html(carouselHtml);
+                        $("#showPicsModal").modal('show');
 
-                // (Optional) Show the modal only if pictures are found (consider user experience)
-                if (pictures.length > 0) {
-                    $("#showPicsModal").modal('show');
-                } else {
-                    console.log("No pictures found for this vehicle");
-                }
-                })
-                .catch(error => {
-                console.error(error);
-                });
-            });
+                        // (Optional) Show the modal only if pictures are found (consider user experience)
+                        if (pictures.length > 0) {
+                            $("#showPicsModal").modal('show');
+                        } else {
+                            console.log("No pictures found for this vehicle");
+                        }
+                        })
+                        .catch(error => {
+                        console.error(error);
+                        });
+                    });
 
 
     </script>
 
+{{-- edit vehicle  --}}
+<script>
+    $(document).ready(function() {
+    console.log("Document ready");
+    // Show modal and populate fields when the edit button is clicked
+    $('.edit-vehicle').click(function() {
+        var vehicleId = $(this).data('vehicle-id');
+        var vehicleMake = $(this).data('vehicle-make');
+        var vehicleModel = $(this).data('vehicle-model');
+        var vehicleFuelType = $(this).data('vehicle-fuelType');
+        var vehicleRegistration = $(this).data('vehicle-registration');
+        var vehiclePhotos = $(this).data('vehicle-photos');
+        var vehicleUserId = $(this).data('vehicle-userId');
+        console.log("Edit button clicked");
+        // Populate modal fields with client data
+        $('#vehicleId').val(vehicleId);
+        $('#vehicleMake').val(vehicleMake);
+        $('#vehicleModel').val(vehicleModel);
+        $('#vehicleFuelType').val(vehicleFuelType);
+        $('#vehicleRegistration').val(vehicleRegistration);
+        $('#vehiclePhotos').val(vehiclePhotos);
+        $('#vehicleUserId').val(vehicleUserId);
 
+        // Show the modal
+        $('#editVehicleModal').modal('show');
+    });
 
+    // Handle form submission via AJAX using Axios
+    $('#submitEditClientForm').click(function() {
+    console.log("Submit button clicked");
+    var vehicleId = $('#vehicleId').val();
+    console.log(vehicleId)
+    var formData = $('#editVehicleForm').serialize();
+    // Axios request
+    axios({
+        method: 'put',
+        url: '/vehicles/' + vehicleId,
+        data: formData
+    })
+    .then(function(response) {
+        alert("Update successful");
+        alert(response)
+        // You can perform additional actions here after successful update
+    })
+    .catch(function(error) {
+        // Log the error to the console
+            console.error(error);
+
+            // Display an error message to the user
+            // alert("Error updating user. Please try again later.");
+    });
+    });
+    });
+</script>
 
 
 
