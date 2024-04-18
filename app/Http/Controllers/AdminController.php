@@ -127,7 +127,7 @@ class AdminController extends Controller
     public function showVehicles()
     {
         $vehicles = Vehicle::get();
-        // dd($vehicles); 
+        // dd($vehicles);
         return
             view('admin.management.vehicles-data', ['vehicles' => $vehicles]);
     }
@@ -204,44 +204,61 @@ class AdminController extends Controller
     }
 
 
-    public function updateVehicle(Request $request,$id){
-        {
-                // Fetch the client using the provided ID
-                $vehicle = Vehicle::findOrFail($id);
-    
-                $request->validate([
-                    'make' => ['required', 'string', 'max:255'],
-                    'model' => ['required', 'string', 'max:255'],
-                    'fuelType' => ['required', 'string', 'max:255'],
-                    'registration' => ['required', 'string', 'max:255', 'unique:vehicles'],
-                    'user_id' => ['required', 'integer', 'exists:users,id'], // Check if user exists
-                    'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow multiple image uploads
-                ]);
-        
-                $vehicleData = [
-                    'make' => $request->make,
-                    'model' => $request->model,
-                    'fuelType' => $request->fuelType,
-                    'registration' => $request->registration,
-                    'user_id' => $request->user_id,
-                ];
-                // Check if user exists (alternative approach)
-                $user = User::find($request->user_id);
-                if (!$user) {
-                    return back()->withErrors(['user_id' => 'Invalid user ID.']);
-                }
-                // Handle image uploads and add paths to vehicleData
-                if ($request->hasFile('photos')) {
-                    $imagePaths = [];
-                    foreach ($request->file('photos') as $photo) {
-                        $path = $photo->store('vehicle_photos'); // Assuming 'vehicle_photos' is your disk configuration for storing images
-                        $imagePaths[] = $path;
-                    }
-                    $vehicleData['photos'] = json_encode($imagePaths); // Encode paths as JSON
-                }
-            
-        $vehicle->update($vehicleData);
+    public function updateVehicle(Request $request, $id)
+    {
+        $vehicle = Vehicle::findOrFail($id);
+        if (!$vehicle) {
+            // If the vehicle doesn't exist, display an error message
+            echo "The vehicle does not exist.";
+            // You can also redirect the user back to the form with an error message if needed
+            // return redirect()->back()->with('error', 'The vehicle does not exist.');
+        } else {
+            $request->validate([
+                'make' => ['required', 'string', 'max:255'],
+                'model' => ['required', 'string', 'max:255'],
+                'fuelType' => ['required', 'string', 'max:255'],
+                'registration' => ['required', 'string', 'max:255', 'unique:vehicles'],
+                'user_id' => ['required', 'integer', 'exists:users,id'], // Check if user exists
+                'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow multiple image uploads
+            ]);
 
+            $vehicleData = [
+                'make' => $request->make,
+                'model' => $request->model,
+                'fuelType' => $request->fuelType,
+                'registration' => $request->registration,
+                'user_id' => $request->user_id,
+            ];
+
+            // Check if user exists
+            $user = User::find($request->user_id);
+
+
+            if ($request->hasFile('photos')) {
+                $imagePaths = [];
+                foreach ($request->file('photos') as $photo) {
+                    $path = $photo->store('vehicle_photos');
+                    $imagePaths[] = $path;
+                }
+                $vehicleData['photos'] = json_encode($imagePaths);
+            }
+
+            $vehicle->update($vehicleData);
+        }
+
+    }
+
+
+    public function destroyVehicle(Request $request)
+    {
+        $vehicle = Vehicle::find($request->deleteId);
+        // Check if $client exists before attempting to delete
+        if ($vehicle) {
+            $vehicle->delete();
+            return "ok";
+        } else {
+            // Handle the case where $client is null
+            return response()->json(['message' => 'User not found'], 404);
         }
     }
 

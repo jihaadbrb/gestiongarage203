@@ -12,7 +12,7 @@
                 </form>
                 Are you sure you want to delete client with ID: <span id="clientIdPlaceholder"></span> ?
             </div>
-            
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>

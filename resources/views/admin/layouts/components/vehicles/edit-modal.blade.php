@@ -8,28 +8,30 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="editVehicleForm" enctype="multipart/form-data" method="post" action="{{ route('admin.updateVehicle',$vehicle->id) }}">
+          <form id="editVehicleForm"  method="post"action="{{ route('admin.update', $vehicle->id) }}" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="form-group">
               <label for="vehicleId">ID</label>
-              <input type="text" class="form-control" id="vehicleId" name="vehicleId" readonly>
+              {{-- <input type="text" class="form-control" id="vehicleId" name="id" > --}}
+              <input type="hidden" id="vehicleId" name="vehicle_id" value="{{ $vehicle->id }}">
+
             </div>
             <div class="form-group">
               <label for="vehicleMake">Make</label>
-              <input type="text" class="form-control" id="vehicleMake" name="vehicleMake" required>
+              <input type="text" class="form-control" id="vehicleMake" name="make" required>
             </div>
             <div class="form-group">
               <label for="vehicleModel">Model</label>
-              <input type="text" class="form-control" id="vehicleModel" name="vehicleModel" required>
+              <input type="text" class="form-control" id="vehicleModel" name="model" required>
             </div>
             <div class="form-group">
               <label for="vehicleFuelType">Fuel Type</label>
-              <input type="text" class="form-control" id="vehicleFuelType" name="vehicleFuelType" required>
+              <input type="text" class="form-control" id="vehicleFuelType" name="fuelType" required>
             </div>
             <div class="form-group">
               <label for="vehicleRegistration">Registration</label>
-              <input type="text" class="form-control" id="vehicleRegistration" name="vehicleRegistration" required>
+              <input type="text" class="form-control" id="vehicleRegistration" name="registration" >
             </div>
             <div class="form-group">
                 <label for="photos" class="form-label" >photos</label>
@@ -38,12 +40,11 @@
             </div>
             <div class="form-group">
               <label for="vehicleUserId">User ID</label>
-              <input type="text" class="form-control" id="vehicleUserId" name="vehicleUserId" readonly>
+              <input type="text" class="form-control" id="vehicleUserId" name="user_id" >
             </div>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="submit" class="btn btn-primary submitVehicle">Save Changes</button>
           </form>
         </div>
       </div>
     </div>
   </div>
-  

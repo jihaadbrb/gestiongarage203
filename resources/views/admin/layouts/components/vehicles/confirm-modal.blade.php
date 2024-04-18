@@ -10,9 +10,9 @@
                     @csrf
                     <input type="hidden" id="deleteId" name="deleteId" value="" />
                 </form>
-                Are you sure you want to delete client with ID: <span id="clientIdPlaceholder"></span> ?
+                Are you sure you want to delete vehicle with ID: <span id="clientIdPlaceholder"></span> ?
             </div>
-            
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>

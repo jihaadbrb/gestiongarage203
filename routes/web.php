@@ -12,7 +12,7 @@ Route::middleware(['auth','lang'])->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
     Route::get('/admins',[AdminController::class , 'showAdmins'])->name('admin.admins');
-    
+
 
     // Users
     Route::get('/users', [AdminController::class, 'showUsers'])->middleware(['auth', 'verified'])->name('admin.users');
@@ -25,11 +25,12 @@ Route::middleware(['auth','lang'])->group(function () {
     Route::get('/mechanics',[AdminController::class , 'showMechanics'])->name('admin.mechanics');
     Route::post('/mechanics/showModalMechanic',[AdminController::class,'showModalMechanic'])->name('admin.showModalMechanic');
 
-    // Vehicles 
+    // Vehicles
     Route::get('/vehicles',[AdminController::class,'showVehicles'])->name('admin.vehicles');
     Route::post('/vehicle/store',[AdminController::class,'storeVehicle'])->name('admin.storeVehicle');
     Route::post('/vehicles/showVehiclePics', [AdminController::class, 'showVehiclePics']);
     Route::put('/vehicles/{id}', [AdminController::class, 'updateVehicle'])->name('admin.updateVehicle');
+    Route::post('/vehicles/destroy', [AdminController::class, 'destroyVehicle'])->name('admin.destroyVehicle');
 
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');

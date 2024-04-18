@@ -12,7 +12,7 @@
             var clientEmail = $(this).data('client-email');
             var clientAddress = $(this).data('client-address');
             var clientPhone = $(this).data('client-phone');
-            console.log("Edit button clicked");
+            console.log(clientId);
             // Populate modal fields with client data
             $('#editClientId').val(clientId);
             $('#name').val(clientName);
@@ -26,10 +26,10 @@
 
         // Handle form submission via AJAX using Axios
         $('#submitEditClientForm').click(function() {
-        console.log("Submit button clicked");
+       alert("Submit button clicked");
         var clientId = $('#editClientId').val();
         var formData = $('#editClientForm').serialize();
-
+        //    alert(formData)
         // Axios request
         axios({
             method: 'put',
@@ -51,7 +51,7 @@
         });
         });
     </script>
-  
+
 
   {{-- add Client  --}}
     <script>
@@ -59,17 +59,17 @@
                 console.log("Document ready");
                 // Show modal and populate fields when the edit button is clicked
                 $('.add-client').click(function() {
-                    
+
                     // Show the modal
                     $('#addClientModal').modal('show');
                 });
-            
+
                 // Handle form submission via AJAX using Axios
                 $('#submitEditClientForm').click(function() {
                 console.log("Submit button clicked");
                 var clientId = $('#editClientId').val();
                 var formData = $('#editClientForm').serialize();
-            
+
                 // Axios request
                 axios({
                     method: 'put',
@@ -84,17 +84,17 @@
                 .catch(function(error) {
                     // Log the error to the console
                     console.error(error);
-            
+
                     // Display an error message to the user
                     // alert("Error updating user. Please try again later.");
                 });
             });
             });
-    
-    
+
+
     </script>
 
-
+{{-- delete client  --}}
     <script>
         $(document).ready(function() {
         // Handle deletion of client
@@ -134,22 +134,22 @@
 
     $(".selectLocale").on('change',function(){
         var locale = $(this).val();
-        
+
         window.location.href = "/changeLocale/"+locale;
     })
     </script>
-   
+
     <script>
         $(".btnCloseShow").on('click',function(){
             $("#myModalShowProduct").hide();
         })
-        
-    
-    </script>  
-    
+
+
+    </script>
+
 {{-- show client --}}
     <script>
-      
+
       $(".show-client").on("click", function() {
           var myId = $(this).attr("data-client-id");
           var data = { 'id': myId };
@@ -161,7 +161,7 @@
                   $('#userInfoEmail').val(response.data.email);
                   $('#userInfoAddress').val(response.data.address);
                   $('#userInfoPhoneNumber').val(response.data.phoneNumber);
-                  
+
                   // Populate vehicle information
                   if (response.data.vehicles && response.data.vehicles.length > 0) {
                       var vehicle = response.data.vehicles[0];
@@ -217,7 +217,7 @@
 
     </script>
 
-  
+
 
 
     <script>
@@ -233,7 +233,7 @@
                   $('#userInfoEmail').val(response.data.email);
                   $('#userInfoAddress').val(response.data.address);
                   $('#userInfoPhoneNumber').val(response.data.phoneNumber);
-                  
+
                   // Populate vehicle information
                   if (response.data.vehicles && response.data.vehicles.length > 0) {
                       var vehicle = response.data.vehicles[0];
@@ -299,12 +299,12 @@
         $('.add-vehicle').click(function() {
             $('#addClientModal').modal('show');
         });
-    
+
         // Handle form submission via AJAX using Axios
         $('#addVehicleForm').click(function() {
         console.log("Submit button clicked");
         var formData = $('#addVehicleForm').serialize();
-    
+
         // Axios request
         axios({
             method: 'post',
@@ -319,7 +319,7 @@
         .catch(function(error) {
             // Log the error to the console
             console.error(error);
-    
+
             // Display an error message to the user
             // alert("Error updating user. Please try again later.");
         });
@@ -334,7 +334,7 @@
 
 
     <script>
-      
+
                         $(".show-pics").on("click", function() {
                     var myId = $(this).attr("data-client-id");
                     var data = { 'id': myId };
@@ -354,7 +354,7 @@
                             carouselHtml += '<div class="carousel-item ' + activeClass + '">';
                             carouselHtml += '<img src="'+ pictureUrl + '" class="d-block w-100" alt="Vehicle Image ' + (index + 1) + '">';
                             carouselHtml += '</div>';
-                    
+
                         });
                         $("#vehiclePicsCarousel .carousel-inner").html(carouselHtml);
                         $("#showPicsModal").modal('show');
@@ -375,64 +375,101 @@
     </script>
 
 {{-- edit vehicle  --}}
+
+    <script>
+        $(document).ready(function() {
+            console.log("Document ready");
+
+            // Show modal and populate fields when the edit button is clicked
+            $(document).on('click', '.edit-vehicle', function() {
+                var vehicleMake = $(this).data('vehicle-make');
+                var vehicleModel = $(this).data('vehicle-model');
+                var vehicleFuelType = $(this).data('vehicle-fueltype');
+                var vehicleRegistration = $(this).data('vehicle-registration');
+                var vehiclePhotos = $(this).data('vehicle-photos');
+                var vehicleUserId = $(this).data('vehicle-userid');
+
+                // alert(vehiclePhotos)
+
+                // Populate modal fields with client data
+                $('#vehicleMake').val(vehicleMake);
+                $('#vehicleModel').val(vehicleModel);
+                $('#vehicleFuelType').val(vehicleFuelType);
+                $('#vehicleRegistration').val(vehicleRegistration);
+                $('#vehiclePhotos').val(vehiclePhotos);
+                $('#vehicleUserId').val(vehicleUserId);
+
+                // Show the modal
+                $('#editVehicleModal').modal('show');
+            });
+
+            // Handle form submission via AJAX using Axios
+                    $(document).on('click', '.submitVehicle', function() {
+            console.log("Submit button clicked");
+            var vehicleId = $('#vehicleId').val();
+            var formData = new FormData($('#editVehicleForm')[0]);
+
+            // Append the photos to the form data
+            var vehiclePhotos = $('#vehiclePhotos')[0].files;
+            for (var i = 0; i < vehiclePhotos.length; i++) {
+                formData.append('photos', vehiclePhotos[i]);
+            }
+
+            axios.put('/vehicles/' + vehicleId, formData)
+                .then(function(response) {
+                    alert("Update successful");
+                    console.log(response);
+                    // You can perform additional actions here after successful update
+                })
+                .catch(function(error) {
+                    // Log the error to the console
+                    console.error(error);
+
+                    // Display an error message to the user
+                    // alert("Error updating user. Please try again later.");
+                });
+        });
+
+                });
+    </script>
+
+
+
+
+{{-- delete vehicle  --}}
 <script>
     $(document).ready(function() {
-    console.log("Document ready");
-    // Show modal and populate fields when the edit button is clicked
-    $('.edit-vehicle').click(function() {
-        var vehicleId = $(this).data('vehicle-id');
-        var vehicleMake = $(this).data('vehicle-make');
-        var vehicleModel = $(this).data('vehicle-model');
-        var vehicleFuelType = $(this).data('vehicle-fuelType');
-        var vehicleRegistration = $(this).data('vehicle-registration');
-        var vehiclePhotos = $(this).data('vehicle-photos');
-        var vehicleUserId = $(this).data('vehicle-userId');
-        console.log("Edit button clicked");
-        // Populate modal fields with client data
-        $('#vehicleId').val(vehicleId);
-        $('#vehicleMake').val(vehicleMake);
-        $('#vehicleModel').val(vehicleModel);
-        $('#vehicleFuelType').val(vehicleFuelType);
-        $('#vehicleRegistration').val(vehicleRegistration);
-        $('#vehiclePhotos').val(vehiclePhotos);
-        $('#vehicleUserId').val(vehicleUserId);
-
-        // Show the modal
-        $('#editVehicleModal').modal('show');
+    // Handle deletion of client
+    $('.delete-vehicle').click(function() {
+        var vehicleId = $(this).data('vehicle-id'); // Retrieve the client ID
+        $('#deleteId').val(vehicleId); // Populate the deleteId input field with the client ID
+        $('#clientIdPlaceholder').text(vehicleId); // Populate the client ID placeholder in the modal body
+        $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
     });
 
-    // Handle form submission via AJAX using Axios
-    $('#submitEditClientForm').click(function() {
-    console.log("Submit button clicked");
-    var vehicleId = $('#vehicleId').val();
-    console.log(vehicleId)
-    var formData = $('#editVehicleForm').serialize();
-    // Axios request
-    axios({
-        method: 'put',
-        url: '/vehicles/' + vehicleId,
-        data: formData
-    })
-    .then(function(response) {
-        alert("Update successful");
-        alert(response)
-        // You can perform additional actions here after successful update
-    })
-    .catch(function(error) {
-        // Log the error to the console
-            console.error(error);
-
-            // Display an error message to the user
-            // alert("Error updating user. Please try again later.");
+    // Handle confirmation of deletion
+    $('#confirmDeleteBtn').click(function() {
+        var formData = $('#deleteForm').serialize(); // Serialize form data
+        // Axios DELETE request
+        axios.post('{{ route("admin.destroyVehicle") }}', formData)
+            .then(function (response) {
+                if (response.data == "ok") {
+                    $("#row").remove(); // Remove the deleted client row from the table
+                    $('#confirmDeleteModal').modal('hide')
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+                console.error("Response data:", error.response.data);
+            });
     });
+
+    // Detach event handler for delete button after confirmation modal is closed
+    $('#confirmDeleteModal').on('hidden.bs.modal', function () {
+        // $('#confirmDeleteBtn').off('click');
     });
     });
 </script>
-
-
-
-
-
 
 
 
@@ -481,7 +518,7 @@
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
 
-    
+
     <!-- apexcharts -->
     <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
 
@@ -492,7 +529,7 @@
     <!-- Required datatable js -->
     <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    
+
     <!-- Responsive examples -->
     <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
@@ -525,7 +562,7 @@
 
     <script src="assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
-    
+
     <!-- Responsive examples -->
     <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
