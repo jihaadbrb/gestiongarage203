@@ -32,6 +32,15 @@ Route::middleware(['auth','lang'])->group(function () {
     Route::put('/vehicles/{id}', [AdminController::class, 'updateVehicle'])->name('admin.updateVehicle');
     Route::post('/vehicles/destroy', [AdminController::class, 'destroyVehicle'])->name('admin.destroyVehicle');
 
+
+    //Repairs
+    Route::get('/repairs',[AdminController::class,'showRepairs'])->name('admin.repairs');
+    Route::post('/repairs/store',[AdminController::class,'storeRepair'])->name('admin.storeRepair');
+    Route::get('/getMechanics',[AdminController::class,'fetchMechanics'])->name('admin.fetchMechanics');
+
+
+
+
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/changeLocale/{locale}',function($locale){

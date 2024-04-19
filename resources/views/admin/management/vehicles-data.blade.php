@@ -57,7 +57,7 @@
                                             <td>{{ $vehicle->fuelType }}</td>
                                             <td>{{ $vehicle->registration }}</td>
                                             {{-- <td>{{ $vehicle->photos }}</td> --}}
-                                            <td>{{ $vehicle->user_id }}</td>
+                                            <td>{{ $vehicle->user->name }}</td>
                                             <td> <button type="button" class="btn  show-pics"
                                                 data-client-id="{{ $vehicle->id }}">
                                                 <i class=" ri-eye-line
@@ -74,15 +74,15 @@
                                                     data-vehicle-userid="{{ $vehicle->user_id }}">
                                                     <i class=" ri-edit-2-line "></i>
                                                 </button>
+                                                {{$vehicle->user_id}}
                                                 <button type="button" class="btn  delete-vehicle"
                                                     data-vehicle-id="{{ $vehicle->id }}">
                                                     <i class="r ri-delete-bin-3-line"></i>
                                                 </button>
-                                            {{-- <button type="button" class="btn  show-client"
-                                                data-client-id="{{ $client->id }}">
-                                                <i class=" ri-file-info-line
-                                                "></i>
-                                                </button> --}}
+                                                <button type="button" class="btn add-repair" data-vehicle-id="{{ $vehicle->id }}" data-vehicle-iduser="{{ $vehicle->user_id }}">
+                                                    <i class="ri-send-plane-line"></i>
+                                                </button>
+                                                
                                             </td>
                                         </tr>
 
@@ -90,6 +90,7 @@
                                     </tbody>
                                         @include('admin.layouts.components.vehicles.edit-modal')
                                         @include('admin.layouts.components.vehicles.add-modal')
+                                        @include('admin.layouts.components.repairs.add-modal')
                                         @include('admin.layouts.components.vehicles.confirm-modal')
                                         @include('admin.layouts.components.users.show-modal')
                                         @include('admin.layouts.components.vehicles.show-pics')

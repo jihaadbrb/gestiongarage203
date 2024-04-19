@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             // $table->foreignId('invoice_id')->constrained('invoices')->onDelete('cascade');
             $table->foreignId('vehicle_id')->constrained('vehicles')->onDelete('cascade');
+            $table->foreignId('mechanic_id')->constrained('users')->onDelete('cascade'); // Add mechanic_id with nullable constraint
             $table->timestamps();
         });
     }
