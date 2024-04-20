@@ -36,6 +36,7 @@
                         <li><a href="{{route('admin.admins')}}">Admins</a></li>
                         <li><a href="{{route('admin.vehicles')}}">Vehicles</a></li>
                         <li><a href="{{route('admin.repairs')}}">Repairs</a></li>
+                        <li><a href="{{route('admin.Invoices')}}">Invoices</a></li>
 
                     </ul>
                 </li>

@@ -38,70 +38,59 @@
                               
                                 <thead>
                                     <tr role="row">
-                                        <th>{{ __('Description') }}</th>
-                                        <th>{{ __('Status') }}</th>
+                                        <th>{{ __('Name') }}</th>
+                                        <th>{{ __('Mechanic Name') }}</th>
+                                        <th>{{ __('Make') }}</th>
+                                        <th>{{ __('Registration') }}</th>
                                         <th>{{ __('Start Date') }}</th>
                                         <th>{{ __('End Date') }}</th>
-                                        <th>{{ __('user name') }}</th>
-                                        <th>{{ __('vehicle regestration') }}</th>
-                                        <th>{{ __('action') }}</th>
+                                        <th>{{ __('Additional Charges') }}</th>
+                                        <th>{{ __('TotalAmount') }}</th>
+                                        <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
 
-
                                 <tbody>
-                                    @foreach ($repairs as $repair)
-                                    <tr data-client-id="{{ $repair->deleteId }}" id="row">
-                                        <td>{{ $repair->description }}</td>
+                                    @foreach ($invoices as $invoice)
+                                    <tr data-invoice-id="{{ $invoice->deleteId }}" id="row">
+                                        <td>{{ $invoice->repair->user->name }}</td>
+                                        <td>{{ $invoice->repair->mechanic->name }}</td>
+                                        <td>{{ $invoice->repair->vehicle->make }}</td>
+                                        <td>{{ $invoice->repair->vehicle->registration }}</td>
+                                        <td>{{ $invoice->repair->startDate }}</td>
+                                        <td>{{ $invoice->repair->endDate }}</td>
+                                        <td>{{ $invoice->additionalCharges }}</td>
+                                        <td>{{ $invoice->totalAmount }}</td>
                                         <td>
-                                            {{ $repair->status }}
-                                            <select class="form-select repair-status" data-repair-id="{{ $repair->id }}">
-                                                <option value="pending" {{ $repair->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                                <option value="in_progress" {{ $repair->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                                <option value="completed" {{ $repair->status === 'completed' ? 'selected' : '' }}>Completed</option>
-                                            </select>
-                                        </td>
-                                        <td>{{ $repair->startDate }}</td>
-                                        <td>{{ $repair->endDate }}</td>
-                                        <td>{{ $repair->user->name }}</td>
-                                        <td>{{ $repair->vehicle->registration }}</td>
-                                        
-                                        <td>
-                                            {{-- <button type="button" class="btn  edit-repair"
-                                                data-repair-id="{{ $repair->id }}"
-                                                data-repair-name="{{ $repair->name }}"
-                                                data-repair-email="{{ $repair->email }}"
-                                                data-repair-address="{{ $repair->address }}"
-                                                data-repair-phone="{{ $repair->phoneNumber }}">
+                                            {{-- <button type="button" class="btn  edit-client"
+                                                data-client-id="{{ $client->id }}"
+                                                data-client-name="{{ $client->name }}"
+                                                data-client-email="{{ $client->email }}"
+                                                data-client-address="{{ $client->address }}"
+                                                data-client-phone="{{ $client->phoneNumber }}">
                                                 <i class=" ri-edit-2-line "></i>
                                             </button>--}}
-                                            <button type="button" class="btn  delete-repair"
-                                                data-repair-id="{{ $repair->id }}">
+                                            <button type="button" class="btn  delete-invoice"
+                                                data-invoice-id="{{ $invoice->id }}">
                                                 <i class="r ri-delete-bin-3-line"></i>
                                             </button>
-                                            @if($repair->status === 'completed')
-                                                <button type="button" class="btn add-invoice" data-repairinvoice-id="{{ $repair->id }}">
-                                                    <i class="ri-printer-line"></i>
-                                                </button>
-                                            @endif
-                                            {{-- <button type="button" class="btn  show-repair"
-                                            data-repair-id="{{ $repair->id }}">
-                                            <i class=" ri-send-plane-line
-
+                                            <button type="button" class="btn  show-invoice"
+                                            data-invoice-id="{{ $invoice->id }}">
+                                            <i class=" ri-file-info-line
                                             "></i>
-                                            </button>   --}}
+                                            </button> 
                                         </td>
                                     </tr>
 
                                     @endforeach
 
                                     {{-- @include('admin.layouts.components.users.edit-modal')
-                                    @include('admin.layouts.components.users.add-modal') --}}
-                                    @include('admin.layouts.components.repairs.confirm-modal')
-                                    {{-- @include('admin.layouts.components.users.show-modal') --}}
-                                    @include('admin.layouts.components.invoices.add-modal')
+                                    @include('admin.layouts.components.users.add-modal')--}}
+                                    @include('admin.layouts.components.invoices.confirm-modal') 
+                                    @include('admin.layouts.components.invoices.show-modal')
 
                                 </tbody>
+                               
 
                                
                             </table>

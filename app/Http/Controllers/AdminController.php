@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Invoice;
 use App\Models\Repair;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -13,7 +14,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\Rules\Exists;
+use PDO;
 use Symfony\Component\CssSelector\Node\FunctionNode;
+
+use function PHPUnit\Framework\returnSelf;
 
 class AdminController extends Controller
 {
@@ -308,4 +312,77 @@ class AdminController extends Controller
             'mechanics' => $mechanics->toArray()
         ]);
     }
+
+    public function destroyRepair(Request $request)
+    {
+        $repair = Repair::find($request->deleteId);
+        // Check if $client exists before attempting to delete
+        if ($repair) {
+            $repair->delete();
+            return "ok";
+        } else {
+            // Handle the case where $client is null
+            return response()->json(['message' => 'repair not found'], 404);
+        }
+    }
+
+    public function updateRepairStatus(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'repair_id' => 'required|exists:repairs,id',
+            'status' => 'required|in:pending,in_progress,completed',
+        ]);
+
+        // Update the status of the repair
+        $repair = Repair::findOrFail($request->repair_id);
+        $repair->status = $request->status;
+        $repair->save();
+
+        // Return a response indicating success
+        return response()->json(['message' => 'Status updated successfully']);
+    }
+
+
+    public function generateInvoice(Request $request){
+        // dd($request);
+        $validateData = $request->validate([
+            'additionalCharges' => 'required',
+            'totalAmount' => 'required',
+            'repair_id'=>'required'
+        ]);
+            Invoice::create($validateData);
+            
+        return redirect()->back();
+    }
+
+
+    public function showInvoices(){
+        $invoices = Invoice::with('repair','repair.user' , 'repair.vehicle')->get();
+        return
+        view('admin.management.invoices-data',['invoices'=>$invoices]);
+    }
+
+    public function showInvoiceModal(Request $request)
+    {
+        $invoiceId = $request->input('id');
+
+        $invoice = Invoice::with('repair','repair.user' , 'repair.vehicle')->find($invoiceId);       
+        if ($invoice) {
+            return response()->json($invoice);
+        } else {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+    }
+
+    public function destroyInvoice(Request $request){
+        $invoice =Invoice::find($request->deleteId);
+        if($invoice){
+            $invoice->delete();
+            return "ok";
+        }else{
+            return response()->json(['message'=>"inoice not found"],404);
+        }
+    }
+
 }

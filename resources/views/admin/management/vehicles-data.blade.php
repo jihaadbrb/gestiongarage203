@@ -80,7 +80,7 @@
                                                     <i class="r ri-delete-bin-3-line"></i>
                                                 </button>
                                                 <button type="button" class="btn add-repair" data-vehicle-id="{{ $vehicle->id }}" data-vehicle-iduser="{{ $vehicle->user_id }}">
-                                                    <i class="ri-send-plane-line"></i>
+                                                    <i class=" ri-tools-fill"></i>
                                                 </button>
 
                                             </td>

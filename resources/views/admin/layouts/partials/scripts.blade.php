@@ -503,7 +503,8 @@ $(document).ready(function() {
     });
 
     // Handle form submission via AJAX using Axios
-    $('.submitRepair').click(function() {
+    $('.submitRepair').submit(function(event) {
+        event.preventDefault()
         console.log("Submit button clicked");
 
         // Retrieve the userId from the form data attribute
@@ -521,16 +522,16 @@ $(document).ready(function() {
         }
 
         // // Check if userId exists and append it to formData, even if it's null
-        // if (typeof userId !== 'undefined' && !formData.includes('user_id')) {
-        //     formData += '&user_id=' + userId;
-        // }
-
-        // alert(formData); // Check formData with userId appended
+        if (typeof userId !== 'undefined' && !formData.includes('user_id')) {
+            formData += '&user_id=' + userId;
+        }
+        console.log(formData)
+        alert(formData); // Check formData with userId appended
 
         // Append the mechanic ID and user ID to the serialized form data
         axios.post('/repairs/store', formData)
             .then(function(response) {
-                alert("Added successfully");
+                // alert("Added successfully");
                 console.log(response);
             })
             .catch(function(error) {
@@ -599,42 +600,190 @@ $(document).ready(function() {
 
 {{-- // fetch mechanic --}}
 
-<script>
-    $(document).ready(function() {
-        $('#addRepairModal').on('shown.bs.modal', function () {
-            // Fetch mechanics on modal show
-            $.ajax({
-                url: "{{ route('admin.fetchMechanics') }}", // Route to fetch mechanics
-                dataType: 'json',
-                success: function(data) {
-                    var mechanicSelect = $('#mechanic_id');
-                    mechanicSelect.empty(); // Clear existing options
-                    mechanicSelect.append($('<option>', { value: '' }).text('-- Select Mechanic --'));
-                    $.each(data.mechanics, function(index, mechanic) {
-                        mechanicSelect.append($('<option>', { value: mechanic.id }).text(mechanic.name));
-                    });
-                }
+    <script>
+        $(document).ready(function() {
+            $('#addRepairModal').on('shown.bs.modal', function () {
+                // Fetch mechanics on modal show
+                $.ajax({
+                    url: "{{ route('admin.fetchMechanics') }}", // Route to fetch mechanics
+                    dataType: 'json',
+                    success: function(data) {
+                        var mechanicSelect = $('#mechanic_id');
+                        mechanicSelect.empty(); // Clear existing options
+                        mechanicSelect.append($('<option>', { value: '' }).text('-- Select Mechanic --'));
+                        $.each(data.mechanics, function(index, mechanic) {
+                            mechanicSelect.append($('<option>', { value: mechanic.id }).text(mechanic.name));
+                        });
+                    }
+                });
             });
         });
-    });
     </script>
 
 
+{{-- delete repair  --}}
+<script>
+    $(document).ready(function() {
+    // Handle deletion of client
+    $('.delete-repair').click(function() {
+        var repairId = $(this).data('repair-id'); // Retrieve the client ID
+        $('#deleteId').val(repairId); // Populate the deleteId input field with the client ID
+        $('#clientIdPlaceholder').text(repairId); // Populate the client ID placeholder in the modal body
+        $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
+    });
+
+    // Handle confirmation of deletion
+    $('#confirmDeleteBtn').click(function() {
+        var formData = $('#deleteForm').serialize(); // Serialize form data
+        // Axios DELETE request
+        axios.post('{{ route("admin.destroyRepair") }}', formData)
+            .then(function (response) {
+                if (response.data == "ok") {
+                    $("#row").remove(); // Remove the deleted client row from the table
+                    $('#confirmDeleteModal').modal('hide')
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+                console.error("Response data:", error.response.data);
+            });
+    });
+
+    // Detach event handler for delete button after confirmation modal is closed
+    $('#confirmDeleteModal').on('hidden.bs.modal', function () {
+        // $('#confirmDeleteBtn').off('click');
+    });
+    });
+</script>
+
+{{-- // update status  --}}
+<script>
+    // Add event listener for change event on select element
+    document.querySelectorAll('.repair-status').forEach(function(select) {
+        select.addEventListener('change', function() {
+            // Get the repair ID and new status from the select element
+            var repairId = this.dataset.repairId;
+            var newStatus = this.value;
+
+            // Send an AJAX request to update the status
+            axios.post('/repairs/update-status', {
+                repair_id: repairId,
+                status: newStatus
+            })
+            .then(function(response) {
+                window.location.reload();
+            })
+            .catch(function(error) {
+                // Handle error response
+                console.error(error);
+            });
+        });
+    });
+</script>
 
 
 
 
+{{-- add Invoice  --}}
+
+<script>
+    $(document).ready(function() {
+        console.log("Document ready");
+        var repairInvoiceId;
+        $('.add-invoice').click(function() {
+            $('#addInvoiceModal').modal('show');
+            var repairInvoiceId = $(this).data('repairinvoice-id');
+
+            $('#invoicerepair_id').val(repairInvoiceId);
+
+        });
+        $('.submitInvoice').click(function() {
+        console.log("Submit button clicked");
+        var formData = $('#addInvoiceForm').serialize();
+            console.log(formData)
+        if (repairInvoiceId && !formData.includes('repair_id=')) {
+            formData += '&repair_id=' + repairInvoiceId;
+        }
+        axios({
+            method: 'post',
+            url: '/invoices/generate',
+            data: formData
+        })
+        .then(function(response) {
+            $('#addInvoiceModal').modal('hide');
+
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+    });
+    });
+
+
+</script>
 
 
 
+{{-- show Invoice --}}
+<script>
+    $(".show-invoice").on("click", function() {
+        var myId = $(this).attr("data-invoice-id");
+        var data = { 'id': myId };
+        axios.post('/invoices/showModal', data)
+            .then(response => {
+                $("#invoiceInfoModal").modal('show');
+                var invoice = response.data;
+                // console.log(invoice.repair.mechanic.name)
+                $("#additionalCharges").val(invoice.additionalCharges);
+                $("#totalAmount").val(invoice.totalAmount);
+                $("#description").val(invoice.repair.description);
+                $("#user").val(invoice.repair.user.name);
+                // $("#mechanic").val(invoice.repair.mechanic.name);
+                $("#vehicleMake").val(invoice.repair.vehicle.make);
+                $("#vehicleRegistration").val(invoice.repair.vehicle.registration);
+                $("#startDate").val(invoice.repair.startDate);
+                $("#endDate").val(invoice.repair.endDate);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
 
+{{-- delete invoice  --}}
+<script>
+    $(document).ready(function() {
+    // Handle deletion of client
+    $('.delete-invoice').click(function() {
+        var invoiceId = $(this).data('invoice-id'); // Retrieve the client ID
+        $('#deleteId').val(invoiceId); // Populate the deleteId input field with the client ID
+        $('#clientIdPlaceholder').text(invoiceId); // Populate the client ID placeholder in the modal body
+        $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
+    });
 
+    // Handle confirmation of deletion
+    $('#confirmDeleteBtn').click(function() {
+        var formData = $('#deleteForm').serialize(); // Serialize form data
+        // Axios DELETE request
+        axios.post('{{ route("admin.destroyInvoice") }}', formData)
+            .then(function (response) {
+                if (response.data == "ok") {
+                    $("#row").remove(); // Remove the deleted client row from the table
+                    $('#confirmDeleteModal').modal('hide')
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+                console.error("Response data:", error.response.data);
+            });
+    });
 
-
-
-
-
-
+    // Detach event handler for delete button after confirmation modal is closed
+    $('#confirmDeleteModal').on('hidden.bs.modal', function () {
+        // $('#confirmDeleteBtn').off('click');
+    });
+    });
+</script>
 
 
 

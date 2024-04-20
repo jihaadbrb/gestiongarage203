@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('repairs', function (Blueprint $table) {
             $table->id();
             $table->text('description');
-            $table->enum('status', ['pending', 'in progress', 'completed'])->default('pending');
+            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
             $table->date('startDate')->nullable();
             $table->date('endDate')->nullable();
             $table->text('mechanicNotes')->nullable();
             $table->text('clientNotes')->nullable();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users') ;//->onDelete('cascade');
             // $table->foreignId('invoice_id')->constrained('invoices')->onDelete('cascade');
-            $table->foreignId('vehicle_id')->constrained('vehicles')->onDelete('cascade');
-            $table->foreignId('mechanic_id')->constrained('users')->onDelete('cascade'); // Add mechanic_id with nullable constraint
+            $table->foreignId('vehicle_id')->constrained('vehicles') ;//->onDelete('cascade');
+            $table->foreignId('mechanic_id')->constrained('users') ;//->onDelete('cascade'); // Add mechanic_id with nullable constraint
             $table->timestamps();
         });
     }

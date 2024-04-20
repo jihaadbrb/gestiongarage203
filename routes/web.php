@@ -37,6 +37,16 @@ Route::middleware(['auth','lang'])->group(function () {
     Route::get('/repairs',[AdminController::class,'showRepairs'])->name('admin.repairs');
     Route::post('/repairs/store',[AdminController::class,'storeRepair'])->name('admin.storeRepair');
     Route::get('/getMechanics',[AdminController::class,'fetchMechanics'])->name('admin.fetchMechanics');
+    Route::post('/repairs/destroy', [AdminController::class, 'destroyRepair'])->name('admin.destroyRepair');
+    Route::post('/repairs/update-status',[AdminController::class , 'updateRepairStatus'])->name('admin.updateRepairStatus');
+
+
+    //invoice
+
+    Route::post('/invoices/generate',[AdminController::class ,'generateInvoice'])->name('admin.generateInvoice');
+    Route::get('/invoices',[AdminController::class,'showInvoices'])->name('admin.Invoices');
+    Route::post('/invoices/showModal',[AdminController::class,'showInvoiceModal'])->name('admin.showInvoiceModal');
+    Route::post('/invoice/destroy', [AdminController::class, 'destroyInvoice'])->name('admin.destroyInvoice');
 
 
 
