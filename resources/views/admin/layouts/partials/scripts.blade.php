@@ -173,7 +173,7 @@
                       $('#vehicleModel').val('N/A');
                       // Populate other vehicle fields as needed
                   }
-
+                  console.log(response.data)
                   // Populate repairs information
                   if (response.data.repairs && response.data.repairs.length > 0) {
                       var repairsHtml = '';
@@ -473,11 +473,151 @@
 
 
 
+{{-- add repairs --}}
+<script>
+$(document).ready(function() {
+    console.log("Document ready");
+
+    // Show modal and populate fields when the add repair button is clicked
+    $('.add-repair').click(function() {
+        $('#addRepairModal').modal('show');
+
+        // Get the user_id from the data attribute of the clicked button
+        var userId = $(this).data('vehicle-iduser');
+        console.log(userId);
+        $('#test_id').val(userId);
+
+        // Get the vehicle_id from the data attribute of the clicked button
+        var vehicleId = $(this).data('vehicle-id');
+        $('#vehicle_id').val(vehicleId);
+
+        // var vehicleId = $(this).data('vehicle-id');
+        // $('#vehicle_id').val(vehicleId);
 
 
+        // Store the userId as a data attribute on the form
+        // $('#addRepairForm').data('user-id', userId);
 
+        // Check if userId is correctly assigned
+        // console.log($('#addRepairForm').data('user-id', userId());
+    });
 
+    // Handle form submission via AJAX using Axios
+    $('.submitRepair').click(function() {
+        console.log("Submit button clicked");
 
+        // Retrieve the userId from the form data attribute
+        var userId = $('#addRepairForm').data('test_id');
+        // alert(userId); // Check if userId is correctly retrieved
+
+        // Serialize the form data
+        var formData = $('#addRepairForm').serialize();
+
+        var mechanicId = $('#mechanic_id').val();
+
+        // Check if mechanicId is not empty and it's not already in formData
+        if (mechanicId && !formData.includes('mechanic_id=')) {
+            formData += '&mechanic_id=' + mechanicId;
+        }
+
+        // // Check if userId exists and append it to formData, even if it's null
+        // if (typeof userId !== 'undefined' && !formData.includes('user_id')) {
+        //     formData += '&user_id=' + userId;
+        // }
+
+        // alert(formData); // Check formData with userId appended
+
+        // Append the mechanic ID and user ID to the serialized form data
+        axios.post('/repairs/store', formData)
+            .then(function(response) {
+                alert("Added successfully");
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+    });
+});
+
+</script>
+{{-- <script>
+  $(document).ready(function() {
+    var vehicleId; // Declare vehicleId outside of the event handlers
+
+    console.log("Document ready");
+
+    // Show modal and populate fields when the edit button is clicked
+    $('.add-repair').click(function() {
+        vehicleId = $(this).data('vehicle-id'); // Assign value to vehicleId
+        $('#addRepairModal').modal('show');
+
+        // No need to update URL since vehicle ID will be in form data
+
+        // Add a hidden form field to store vehicle ID (if not already present)
+        if (!$('#vehicle_id').length) { // Check if field exists
+            $('#addRepairForm').append($('<input type="hidden" name="vehicle_id" id="vehicle_id" value="' + vehicleId + '">'));
+        }
+    });
+
+    // Handle form submission via AJAX using Axios
+    $('.submitRepair').click(function() {
+        console.log("Submit button clicked");
+        var formData = new FormData($('#addRepairForm')[0]); // Use FormData for potential file uploads
+            alert(formData)
+        // Get selected mechanic ID (assuming hidden form field)
+        var mechanicId = $('#mechanic_id').val(); // Modify selector as needed
+        formData.append('mechanic_id', mechanicId); // Add mechanic ID to FormData
+
+        // Axios request (no need to specify URL since form action is likely defined)
+        axios({
+            method: 'post',
+            url: '/repairs/store',
+            data: formData
+        })
+        .then(function(response) {
+            alert("Repair added successfully!");
+            $('#addRepairModal').modal('hide'); // Hide modal on success
+            // ... other actions after successful update
+        })
+        .catch(function(error) {
+            console.error(error);
+            if (error.response && error.response.data) {
+                var errors = error.response.data.errors; // Assuming error format
+                var errorMessage = "";
+                for (var key in errors) {
+                    errorMessage += errors[key][0] + "\n"; // Build error message
+                }
+                alert(errorMessage);
+            } else {
+                alert("Error adding repair. Please try again later.");
+            }
+        });
+    });
+});
+
+</script> --}}
+
+{{-- // fetch mechanic --}}
+
+<script>
+    $(document).ready(function() {
+        $('#addRepairModal').on('shown.bs.modal', function () {
+            // Fetch mechanics on modal show
+            $.ajax({
+                url: "{{ route('admin.fetchMechanics') }}", // Route to fetch mechanics
+                dataType: 'json',
+                success: function(data) {
+                    var mechanicSelect = $('#mechanic_id');
+                    mechanicSelect.empty(); // Clear existing options
+                    mechanicSelect.append($('<option>', { value: '' }).text('-- Select Mechanic --'));
+                    $.each(data.mechanics, function(index, mechanic) {
+                        mechanicSelect.append($('<option>', { value: mechanic.id }).text(mechanic.name));
+                    });
+                }
+            });
+        });
+    });
+    </script>
 
 
 

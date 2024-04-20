@@ -31,10 +31,11 @@
                         <span>{{ __('Managment') }}</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('admin.users')}}">{{ __('users') }}</a></li>
-                        <li><a href="{{route('admin.mechanics')}}">{{ __('Mechanics') }}</a></li>
-                        <li><a href="{{route('admin.admins')}}">{{ __('Admins') }}</a></li>
-                        <li><a href="{{route('admin.vehicles')}}">{{ __('Vehicles') }}</a></li>
+                        <li><a href="{{route('admin.users')}}">users</a></li>
+                        <li><a href="{{route('admin.mechanics')}}">Mechanics</a></li>
+                        <li><a href="{{route('admin.admins')}}">Admins</a></li>
+                        <li><a href="{{route('admin.vehicles')}}">Vehicles</a></li>
+                        <li><a href="{{route('admin.repairs')}}">Repairs</a></li>
 
                     </ul>
                 </li>
