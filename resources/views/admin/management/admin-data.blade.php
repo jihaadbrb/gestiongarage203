@@ -5,7 +5,7 @@
     <div class="page-content">
         <div class="container-fluid">
 
-        
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -17,34 +17,34 @@
 
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Address</th>
-                                    <th>Phone Number</th>
-                                    <th>Start date</th>
-                                    <th>Action</th>
-                                </tr>
+                                    <tr>
+                                        <th>{{ __('Name') }}</th>
+                                        <th>{{ __('Email') }}</th>
+                                        <th>{{ __('Address') }}</th>
+                                        <th>{{ __('Phone Number') }}</th>
+                                        <th>{{ __('Start Date') }}</th>
+                                        <th>{{ __('Action') }}</th>
+                                    </tr>
                                 </thead>
 
 
                                 <tbody>
                                     @foreach ($admins as $client)
                                         <tr data-client-id="{{$client->id}}">
-                                            <td>{{ $client->name }}</td> 
+                                            <td>{{ $client->name }}</td>
                                             <td>{{$client->email}}</td>
                                             <td>{{$client->address}}</td>
                                             <td>{{$client->phoneNumber}}</td>
                                             <td>{{$client->created_at}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-primary edit-client" 
+                                                <button type="button" class="btn btn-primary edit-client"
                                                 data-client-id="{{$client->id}}"
                                                 data-client-name="{{$client->name}}"
                                                 data-client-email="{{$client->email}}"
                                                 data-client-address="{{$client->address}}"
                                                 data-client-phone="{{$client->phoneNumber}}"
                                             >
-                                                Edit
+                                            {{ __('Edit') }}
                                             </button>
                                             </td>
                                         </tr>
@@ -59,11 +59,11 @@
                         </div>
                     </div>
                 </div> <!-- end col -->
-            </div> <!-- end row --> 
+            </div> <!-- end row -->
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
-    
+
     <footer class="footer">
         <div class="container-fluid">
             <div class="row">
@@ -78,7 +78,7 @@
             </div>
         </div>
     </footer>
-    
+
 </div>
 
 <!-- Modal for editing mechanic -->
@@ -90,7 +90,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       
+
                   <form id="editMechanicForm">
                     <!-- Form fields -->
                     <div class="mb-3">

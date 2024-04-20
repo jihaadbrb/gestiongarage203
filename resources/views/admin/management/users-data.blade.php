@@ -24,8 +24,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="add-new">
-                                <h4 class="card-title">{{ __('client_list') }}</h4>
-                                <button class="btn-primary add-client">{{ __('add_new_client') }}</button>
+                                <h4 class="card-title">{{ __('Client List') }}</h4>
+                                <button class="btn-primary add-client">{{ __('Add New Client') }}</button>
                                 <p class="card-title-desc">
 
                                 </p>
@@ -38,12 +38,12 @@
 
                                 <thead>
                                     <tr>
-                                        <th>{{ __('start') }}</th>
+                                        <th>{{ __('Name') }}</th>
                                         <th>{{ __('Email') }}</th>
-                                        <th>{{ __('address') }}</th>
-                                        <th>{{ __('phone_number') }}</th>
-                                        <th>{{ __('start_date') }}</th>
-                                        <th>{{ __('action') }}</th>
+                                        <th>{{ __('Address') }}</th>
+                                        <th>{{ __('Phone Number') }}</th>
+                                        <th>{{ __('Start Date') }}</th>
+                                        <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
 

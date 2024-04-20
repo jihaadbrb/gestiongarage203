@@ -17,38 +17,38 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title">Menu</li>
+                <li class="menu-title">{{ __('Menu') }}</li>
 
                 <li>
                     <a href="/" class="waves-effect">
                         <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
-                        <span>Dashboard</span>
+                        <span>{{ __('Dashboard') }}</span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-table-2"></i>
-                        <span>Managment</span>
+                        <span>{{ __('Managment') }}</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('admin.users')}}">users</a></li>
-                        <li><a href="{{route('admin.mechanics')}}">Mechanics</a></li>
-                        <li><a href="{{route('admin.admins')}}">Admins</a></li>
-                        <li><a href="{{route('admin.vehicles')}}">Vehicles</a></li>
+                        <li><a href="{{route('admin.users')}}">{{ __('users') }}</a></li>
+                        <li><a href="{{route('admin.mechanics')}}">{{ __('Mechanics') }}</a></li>
+                        <li><a href="{{route('admin.admins')}}">{{ __('Admins') }}</a></li>
+                        <li><a href="{{route('admin.vehicles')}}">{{ __('Vehicles') }}</a></li>
 
                     </ul>
                 </li>
                 <li>
                     <a href="calendar.html" class=" waves-effect">
                         <i class="ri-calendar-2-line"></i>
-                        <span>Vehicle</span>
+                        <span>{{ __('Vehicle') }}</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-mail-send-line"></i>
-                        <span>Email</span>
+                        <span>{{ __('Email') }}</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="email-inbox.html">Inbox</a></li>

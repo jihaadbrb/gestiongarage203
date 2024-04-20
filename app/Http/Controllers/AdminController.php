@@ -126,7 +126,7 @@ class AdminController extends Controller
 
     public function showVehicles()
     {
-        $vehicles = Vehicle::get();
+        $vehicles = Vehicle::with('user')->get();
         // dd($vehicles);
         return
             view('admin.management.vehicles-data', ['vehicles' => $vehicles]);

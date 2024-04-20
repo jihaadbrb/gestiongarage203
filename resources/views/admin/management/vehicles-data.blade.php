@@ -57,7 +57,7 @@
                                             <td>{{ $vehicle->fuelType }}</td>
                                             <td>{{ $vehicle->registration }}</td>
                                             {{-- <td>{{ $vehicle->photos }}</td> --}}
-                                            <td>{{ $vehicle->user_id }}</td>
+                                            <td>{{ $vehicle->user->name }}</td>
                                             <td> <button type="button" class="btn  show-pics"
                                                 data-client-id="{{ $vehicle->id }}">
                                                 <i class=" ri-eye-line
