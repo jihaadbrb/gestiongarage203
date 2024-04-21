@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,7 @@ Route::middleware(['auth','lang'])->group(function () {
     Route::post('/invoices/showModal',[AdminController::class,'showInvoiceModal'])->name('admin.showInvoiceModal');
     Route::post('/invoice/destroy', [AdminController::class, 'destroyInvoice'])->name('admin.destroyInvoice');
 
+    Route::get('generate-pdf', [PDFController::class, 'generatePDF'])->name('invoice.generatePdf');
 
 
 

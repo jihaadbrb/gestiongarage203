@@ -49,8 +49,15 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Print</button>
+                <button type="button" class="btn btn-primary"  id="printButton" data-bs-dismiss="modal">Print</button>
+                <a href="{{route('invoice.generatePdf')}}" id="printLink" style="display: none;">print</a>
             </div>
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('printButton').addEventListener('click', function() {
+        // Simulate click on the hidden print link
+        document.getElementById('printLink').click();
+    });
+</script>
