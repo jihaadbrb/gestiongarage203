@@ -44,12 +44,12 @@ Route::middleware(['auth','lang'])->group(function () {
 
     //invoice
 
-    Route::post('/invoices/generate',[AdminController::class ,'generateInvoice'])->name('admin.generateInvoice');
+    // Route::post('/invoices/generate',[AdminController::class ,'generateInvoice'])->name('admin.generateInvoice');
     Route::get('/invoices',[AdminController::class,'showInvoices'])->name('admin.Invoices');
     Route::post('/invoices/showModal',[AdminController::class,'showInvoiceModal'])->name('admin.showInvoiceModal');
     Route::post('/invoice/destroy', [AdminController::class, 'destroyInvoice'])->name('admin.destroyInvoice');
 
-    Route::get('generate-pdf', [PDFController::class, 'generatePDF'])->name('invoice.generatePdf');
+    Route::post('/generate-pdf', [PDFController::class, 'generatePDF'])->name('invoice.generatePdf');
 
 
 

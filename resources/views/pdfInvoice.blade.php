@@ -77,52 +77,74 @@
     </style>
 </head>
 <body>
-    <div class="invoice-header">
-        <div class="company-info">
-            <h1>Garage Reda</h1>
-            <p>Tetouan</p>
-            <p>05440404</p>
-            <p>garagist@contact.ma</p>
+    @foreach ($invoices as $invoice)
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <div class="company-info">
+                <h1>Garage Reda</h1>
+                <p>Tetouan</p>
+                <p>05440404</p>
+                <p>garagist@contact.ma</p>
+            </div>
+            <div class="customer-info">
+                <h2>Invoice</h2>
+                <p>Client Name: {{ $invoice->repair->user->name }}</p>
+                <p>Mechanic Name: {{ $invoice->repair->mechanic->name }}</p>
+                <p>Date : {{ date('Y-m-d H:i') }}</p>
+            </div>
         </div>
-        <div class="customer-info">
-            <h2>Invoice</h2>
-            <p>Client Name: {{ $invoices[0]['name'] }}</p>
-            <p>Mechanic Name: {{ $invoices[0]['mechanicname'] }}</p>
-            <p>Date : {{ date('Y-m-d H:i') }}</p>
+        
+        <div class="invoice-details">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Make</th>
+                        <th>Registration</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ $invoice['name'] }}</td>
+                        <td>{{ $invoice->repair->vehicle->registration }}</td>
+                        <td>{{ $invoice->repair->startDate }}</td>
+                        <td>{{ $invoice->repair->endDate }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Spare parts table -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Part Name</th>
+                        <th>Part Reference</th>
+                        <th>Supplier</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($invoice->repair->spareParts as $sparePart)
+                    <tr>
+                        <td>{{ $sparePart->partName }}</td>
+                        <td>{{ $sparePart->partReference }}</td>
+                        <td>{{ $sparePart->supplier }}</td>
+                        <td>{{ $sparePart->price }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="invoice-summary">
+            <div class="summary-item">
+                <span>Additional Charges:</span> {{ $invoice->additionalCharges }}
+            </div>
+            <div class="summary-item">
+                <span>Total Amount:</span> {{ $invoice->totalAmount }}
+            </div>
         </div>
     </div>
-
-    <div class="invoice-details">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Make</th>
-                    <th>Registration</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ $invoices[0]['make'] }}</td>
-                    <td>{{ $invoices[0]['registration'] }}</td>
-                    <td>{{ $invoices[0]['startDate'] }}</td>
-                    <td>{{ $invoices[0]['endDate'] }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="invoice-summary">
-        {{-- <div class="summary-item">
-            <span>Subtotal:</span> {{ $invoices[0]['Subtotal'] }}
-        </div> --}}
-        <div class="summary-item">
-            <span>Additional Charges:</span> {{ $invoices[0]['additionalCharges'] }}
-        </div>
-        <div class="summary-item">
-            <span>Total:</span> {{ $invoices[0]['totalAmount'] }}
-        </div>
-    </div>
+    @endforeach
 </body>
 </html>

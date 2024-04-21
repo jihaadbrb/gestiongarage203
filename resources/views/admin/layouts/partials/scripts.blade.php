@@ -726,6 +726,9 @@ $(document).ready(function() {
 
 {{-- show Invoice --}}
 <script>
+
+
+
     $(".show-invoice").on("click", function() {
         var myId = $(this).attr("data-invoice-id");
         var data = { 'id': myId };
@@ -785,12 +788,31 @@ $(document).ready(function() {
     });
 </script>
 
+{{-- print / --}}
+
+<script>
+
+
+
+    $(".show-invoice").on("click", function() {
+        var myId = $(this).attr("data-invoice-id");
+        $('#inputInvoiceId').val(myId)
+        var data = { 'id': myId };
+        axios.post('/generate-pdf', data)
+            .then(response => {
+            //    alert(response);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
 
 
 
 
 
-
+{{-- pirnt invoice --}}
 
 
 

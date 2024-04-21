@@ -9,30 +9,21 @@ use Illuminate\Http\Request;
 
 class PDFController extends Controller
 {
-    public function generatePDF()
+    public function generatePDF(Request $request)
     {
-        $invoices = Invoice::with('repair', 'repair.user', 'repair.vehicle')->get();
-        
-        $data = [];
-
-        foreach ($invoices as $invoice) {
-            $data[] = [
-                'Title' => 'Welcome to ItSolutionStuff.com',
-                'name' => $invoice->repair->user->name,
-                'mechanicname' => $invoice->repair->mechanic->name,
-                'make' => $invoice->repair->vehicle->make,
-                'registration' => $invoice->repair->vehicle->registration,
-                'startDate' => Carbon::parse($invoice->repair->startDate)->format('m/d/Y'),
-                'endDate' => Carbon::parse($invoice->repair->endDate)->format('m/d/Y'),
-                'additionalCharges' => '$' . $invoice->additionalCharges,
-                'totalAmount' => '$' . $invoice->totalAmount,
-            ];
+        $invoice = Invoice::with('repair', 'repair.user', 'repair.vehicle')->find($request->id);
+    
+        if (!$invoice) {
+            return response()->json(['error' => 'Invoice not found.'], 404);
         }
-
-        $pdf = Pdf::loadView('pdfInvoice', ['invoices' => $data]);
-
+    
+        
+    
+        $pdf = Pdf::loadView('pdfInvoice', ['invoices' => $invoice]);
+    
         return $pdf->download('garagistInvoice.pdf');
     }
+    
 }
 // <?php
   
