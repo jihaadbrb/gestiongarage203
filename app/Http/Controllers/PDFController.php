@@ -11,15 +11,14 @@ class PDFController extends Controller
 {
     public function generatePDF(Request $request)
     {
-        $invoice = Invoice::with('repair', 'repair.user', 'repair.vehicle')->find($request->id);
-    
+        $invoice = Invoice::with('repair', 'repair.user', 'repair.vehicle','repair.spareParts')->find($request->id);
+        dd($invoice);
         if (!$invoice) {
             return response()->json(['error' => 'Invoice not found.'], 404);
         }
     
-        
     
-        $pdf = Pdf::loadView('pdfInvoice', ['invoices' => $invoice]);
+        $pdf = Pdf::loadView('pdfInvoice', ['invoice' => $invoice]);
     
         return $pdf->download('garagistInvoice.pdf');
     }

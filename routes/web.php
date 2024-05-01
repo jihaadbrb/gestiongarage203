@@ -44,14 +44,17 @@ Route::middleware(['auth','lang'])->group(function () {
 
     //invoice
 
-    // Route::post('/invoices/generate',[AdminController::class ,'generateInvoice'])->name('admin.generateInvoice');
+    Route::post('/invoices/generate',[AdminController::class ,'generateInvoice'])->name('admin.generateInvoice');
     Route::get('/invoices',[AdminController::class,'showInvoices'])->name('admin.Invoices');
     Route::post('/invoices/showModal',[AdminController::class,'showInvoiceModal'])->name('admin.showInvoiceModal');
     Route::post('/invoice/destroy', [AdminController::class, 'destroyInvoice'])->name('admin.destroyInvoice');
 
     Route::post('/generate-pdf', [PDFController::class, 'generatePDF'])->name('invoice.generatePdf');
 
-
+    //spare parts
+    Route::get('/spare-parts',[AdminController::class,'showSpareParts'])->name('admin.showSpares');
+    Route::post('/spare-parts/add', [AdminController::class, 'addSparePart'])->name('admin.storeSparePart');
+    Route::post('/spare-parts/delete', [AdminController::class, 'destroySparePart'])->name('admin.destroySparePart');
 
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');

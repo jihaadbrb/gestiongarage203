@@ -38,7 +38,7 @@
                               
                                 <thead>
                                     <tr role="row">
-                                        <th>{{ __('Descreption') }}</th>
+                                        {{-- <th>{{ __('Descreption') }}</th> --}}
                                         <th>{{ __('Part Name') }}</th>
                                         <th>{{ __('Part Refrence') }}</th>
                                         <th>{{ __('Supplier') }}</th>
@@ -47,45 +47,34 @@
                                     </tr>
                                 </thead>
 
+                               
                                 <tbody>
                                     @foreach ($spares as $spare)
                                     <tr data-spare-id="{{ $spare->deleteId }}" id="row">
-                                        <td>{{ $spare->repair->description }}</td>
+                                        {{-- <td>
+                                            @foreach ($spare->repairs as $repair)
+                                                {{ $repair->description }} <!-- Assuming description is a field in the Repair model -->
+                                            @endforeach
+                                        </td> --}}
                                         <td>{{ $spare->partName}}</td>
                                         <td>{{ $spare->partReference}}</td>
                                         <td>{{ $spare->supplier }}</td>
                                         <td>{{ $spare->price }}</td>
                                         <td>
-                                            {{-- <button type="button" class="btn  edit-client"
-                                                data-client-id="{{ $client->id }}"
-                                                data-client-name="{{ $client->name }}"
-                                                data-client-email="{{ $client->email }}"
-                                                data-client-address="{{ $client->address }}"
-                                                data-client-phone="{{ $client->phoneNumber }}">
-                                                <i class=" ri-edit-2-line "></i>
-                                            </button>
-                                            <button type="button" class="btn  show-invoice"
-                                            data-invoice-id="{{ $invoice->id }}">
-                                            <i class=" ri-file-info-line
-                                            "></i>
-                                            </button> --}}
-                                            <button type="button" class="btn  delete-spare"
-                                                data-spare-id="{{ $spare->id }}">
+                                            <button type="button" class="btn delete-spare" data-spare-id="{{ $spare->id }}">
                                                 <i class="r ri-delete-bin-3-line"></i>
                                             </button>
                                             
                                         </td>
                                     </tr>
-
                                     @endforeach
-
-                                    {{-- @include('admin.layouts.components.users.edit-modal')
+                                
+                                     {{-- @include('admin.layouts.components.users.edit-modal')
                                     @include('admin.layouts.components.users.add-modal')--}}
                                     @include('admin.layouts.components.spareParts.confirm-modal') 
                                     {{-- @include('admin.layouts.components.invoices.show-modal') --}}
-
                                 </tbody>
-                               
+                                
 
                                
                             </table>

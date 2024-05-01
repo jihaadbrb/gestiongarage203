@@ -41,6 +41,12 @@ class Repair extends Model
     }
     public function spareParts()
     {
-        return $this->belongsToMany(SparePart::class)->withTimestamps();
+        return $this->belongsToMany(SparePart::class);
     }
+//     public function spareParts()
+// {
+//     return $this->hasMany(SparePart::class);
+// }
+
+    
 }

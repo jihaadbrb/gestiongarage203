@@ -77,7 +77,6 @@
     </style>
 </head>
 <body>
-    @foreach ($invoices as $invoice)
     <div class="invoice-container">
         <div class="invoice-header">
             <div class="company-info">
@@ -106,7 +105,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ $invoice['name'] }}</td>
+                        <td>{{ $invoice->repair->vehicle->make }}</td>
                         <td>{{ $invoice->repair->vehicle->registration }}</td>
                         <td>{{ $invoice->repair->startDate }}</td>
                         <td>{{ $invoice->repair->endDate }}</td>
@@ -114,26 +113,28 @@
                 </tbody>
             </table>
             <!-- Spare parts table -->
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Part Name</th>
-                        <th>Part Reference</th>
-                        <th>Supplier</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($invoice->repair->spareParts as $sparePart)
-                    <tr>
-                        <td>{{ $sparePart->partName }}</td>
-                        <td>{{ $sparePart->partReference }}</td>
-                        <td>{{ $sparePart->supplier }}</td>
-                        <td>{{ $sparePart->price }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+           <!-- Spare parts table -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Part Name</th>
+            <th>Part Reference</th>
+            <th>Supplier</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($invoice->repair->spareParts as $sparePart)
+        <tr>
+            <td>{{ $sparePart->partName }}</td>
+            <td>{{ $sparePart->partReference }}</td>
+            <td>{{ $sparePart->supplier }}</td>
+            <td>{{ $sparePart->price }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
         </div>
         
         <div class="invoice-summary">
@@ -145,6 +146,5 @@
             </div>
         </div>
     </div>
-    @endforeach
 </body>
 </html>

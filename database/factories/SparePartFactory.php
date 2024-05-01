@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Repair;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,9 @@ class SparePartFactory extends Factory
             'partReference' => $this->faker->uuid,
             'supplier' => $this->faker->company,
             'price' => $this->faker->randomFloat(2, 10, 100),
+            'repair_id'=>function(){
+                return Repair::factory()->create()->id;
+            }
         ];
     }
 }

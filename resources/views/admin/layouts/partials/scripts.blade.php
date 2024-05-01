@@ -690,6 +690,7 @@ $(document).ready(function() {
     $(document).ready(function() {
         console.log("Document ready");
         var repairInvoiceId;
+        // alert("good")
         $('.add-invoice').click(function() {
             $('#addInvoiceModal').modal('show');
             var repairInvoiceId = $(this).data('repairinvoice-id');
@@ -791,15 +792,14 @@ $(document).ready(function() {
 {{-- print / --}}
 
 <script>
-
-
-
     $(".show-invoice").on("click", function() {
         var myId = $(this).attr("data-invoice-id");
+        // alert("my id is "+myId)
         $('#inputInvoiceId').val(myId)
         var data = { 'id': myId };
         axios.post('/generate-pdf', data)
             .then(response => {
+                // console.log(response)
             //    alert(response);
             })
             .catch(error => {
@@ -817,8 +817,63 @@ $(document).ready(function() {
 
 
 
+{{-- add spare parts --}}
+<script>
+   $(document).ready(function() {
+    $('.add-spare-part').click(function() {
+        $('#addSparePartModal').modal('show');
+        var repairId = $(this).data('repair-id');
+        $('#sparePartRepairId').val(repairId);
+    });
 
+    $('.submitSparePart').click(function() {
+        var formData = $('#addSparePartForm').serialize();
+        alert(formData)
+        axios.post('/spare-parts/add', formData)
+            .then(function(response) {
+                $('#addSparePartModal').modal('hide');
+                // Refresh or update spare parts list if needed
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+    });
+});
+</script>   
+{{-- delete the spare parts  --}}
 
+<script>
+    $(document).ready(function() {
+        // Handle deletion of spare part
+        $('.delete-spare').click(function() {
+            var spareId = $(this).data('spare-id'); // Retrieve the spare part ID
+            $('#deleteId').val(spareId); // Populate the deleteId input field with the spare part ID
+            $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
+        });
+
+        // Handle confirmation of deletion
+        $('#confirmDeleteBtn').click(function() {
+            var formData = $('#deleteForm').serialize(); // Serialize form data
+            // Axios DELETE request
+            axios.post('{{ route("admin.destroySparePart") }}', formData)
+                .then(function (response) {
+                    if (response.data == "ok") {
+                        $("#row").remove(); // Remove the deleted spare part row from the table
+                        $('#confirmDeleteModal').modal('hide');
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error occurred:", error);
+                    console.error("Response data:", error.response.data);
+                });
+        });
+
+        // Detach event handler for delete button after confirmation modal is closed
+        $('#confirmDeleteModal').on('hidden.bs.modal', function () {
+            // $('#confirmDeleteBtn').off('click');
+        });
+    });
+</script>
 
 
 

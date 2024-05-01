@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('spare_part_repairs', function (Blueprint $table) {
+        Schema::create('spare_parts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('spare_part_id')->constrained('spare_parts');
+            $table->string('partName');
+            $table->string('partReference')->nullable();
+            $table->string('supplier')->nullable();
+            $table->decimal('price', 10, 2);
             $table->foreignId('repair_id')->constrained('repairs');
             $table->timestamps();
         });
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('spare_part_repairs');
+        Schema::dropIfExists('spare_parts');
     }
 };

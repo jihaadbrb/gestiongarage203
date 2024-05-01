@@ -84,12 +84,12 @@
                                                     <i class="ri-printer-line"></i>
                                                 </button>
                                             @endif
-                                            {{-- <button type="button" class="btn  show-repair"
+                                            <button type="button" class="btn  add-spare-part"
                                             data-repair-id="{{ $repair->id }}">
                                             <i class=" ri-send-plane-line
 
                                             "></i>
-                                            </button>   --}}
+                                            </button>  
                                         </td>
                                     </tr>
 
@@ -100,6 +100,8 @@
                                     @include('admin.layouts.components.repairs.confirm-modal')
                                     {{-- @include('admin.layouts.components.users.show-modal') --}}
                                     @include('admin.layouts.components.invoices.add-modal')
+                                    @include('admin.layouts.components.spareParts.add-modal')
+
 
                                 </tbody>
 

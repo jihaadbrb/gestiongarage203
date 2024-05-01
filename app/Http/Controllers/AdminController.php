@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Repair;
+use App\Models\SparePart;
 use App\Models\User;
 use App\Models\Vehicle;
 use Doctrine\Inflector\Rules\English\Rules;
@@ -284,6 +285,7 @@ class AdminController extends Controller
             'clientNotes' => 'required|string',
             'user_id'=>'required',
             'mechanic_id'=>'required'
+            // 'spare_parts_id'=>'required'
         ]);
 
         // Set default status if not provided in the request
@@ -296,6 +298,7 @@ class AdminController extends Controller
         $repairData['user_id'] = $request->get('user_id'); // Use route parameter if available, then form data
         $repairData['vehicle_id'] = $request->get('vehicle_id'); // Use route parameter if available, then form data
         $repairData['mechanic_id'] = $request->get('mechanic_id'); // Get mechanic ID from form
+        // $repairData['spare_parts_id'] = $request->get('spare_parts_id'); // Get mechanic ID from form
 
 
         $repair = Repair::create($repairData);
@@ -383,6 +386,59 @@ class AdminController extends Controller
         }else{
             return response()->json(['message'=>"inoice not found"],404);
         }
+    }
+
+
+
+    public function addSparePart(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'partName' => 'required|string',
+            'partReference' => 'required|string',
+            'supplier' => 'required|string',
+            'price' => 'required|numeric',
+            'repair_id' => 'required|exists:repairs,id', // Assuming repair_id is the ID of the repair related to the spare part
+        ]);
+
+        // Create a new SparePart instance
+        $sparePart = new SparePart();
+        $sparePart->partName = $validatedData['partName'];
+        $sparePart->partReference = $validatedData['partReference'];
+        $sparePart->supplier = $validatedData['supplier'];
+        $sparePart->price = $validatedData['price'];
+        $sparePart->repair_id = $validatedData['repair_id'];
+        $sparePart->save();
+
+        // Optionally, you can return a response indicating success
+        return response()->json(['message' => 'Spare part added successfully'], 200);
+    }
+
+    public function showSpareParts()
+    {
+        // Fetch spare parts along with their related repairs
+        $spareParts = SparePart::with('repairs')->get();
+
+    
+        return view('admin.management.spareParts-data', ['spares' => $spareParts]);
+    }
+    
+       public function destroySparePart(Request $request)
+    {
+        // Get the spare part ID from the request
+        $sparePartId = $request->input('spare_part_id');
+
+        // Find the spare part by ID
+        $sparePart = SparePart::find($sparePartId);
+
+        if (!$sparePart) {
+            return response()->json(['message' => 'Spare part not found'], 404);
+        }
+
+        // Delete the spare part
+        $sparePart->delete();
+
+        return response()->json(['message' => 'Spare part deleted successfully'], 200);
     }
 
 }
