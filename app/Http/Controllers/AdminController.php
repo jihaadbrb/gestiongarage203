@@ -347,18 +347,33 @@ class AdminController extends Controller
     }
 
 
-    public function generateInvoice(Request $request){
-        // dd($request);
-        $validateData = $request->validate([
+    public function generateInvoice(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
             'additionalCharges' => 'required',
-            'totalAmount' => 'required',
-            'repair_id'=>'required'
+            'repair_id' => 'required'
         ]);
-            Invoice::create($validateData);
-            
-        return redirect()->back();
+    
+        // Calculate the total amount from the price of the spare parts and additional charges
+        $additionalCharges = $validatedData['additionalCharges'];
+        $repairId = $validatedData['repair_id'];
+    
+        $sparePartsTotal = SparePart::whereHas('repairs', function ($query) use ($repairId) {
+            $query->where('id', $repairId);
+        })->sum('price');
+    
+        $totalAmount = $sparePartsTotal + $additionalCharges;
+    
+        // Create the invoice with the calculated total amount
+        Invoice::create([
+            'additionalCharges' => $additionalCharges,
+            'totalAmount' => $totalAmount,
+            'repair_id' => $repairId
+        ]);
+    
+        return redirect()->back()->with('success', 'Invoice generated successfully.');
     }
-
 
     public function showInvoices(){
         $invoices = Invoice::with('repair','repair.user' , 'repair.vehicle')->get();
@@ -398,7 +413,7 @@ class AdminController extends Controller
             'partReference' => 'required|string',
             'supplier' => 'required|string',
             'price' => 'required|numeric',
-            'repair_id' => 'required|exists:repairs,id', // Assuming repair_id is the ID of the repair related to the spare part
+            // 'repair_id' => 'required|exists:repairs,id', // Assuming repair_id is the ID of the repair related to the spare part
         ]);
 
         // Create a new SparePart instance
@@ -407,7 +422,7 @@ class AdminController extends Controller
         $sparePart->partReference = $validatedData['partReference'];
         $sparePart->supplier = $validatedData['supplier'];
         $sparePart->price = $validatedData['price'];
-        $sparePart->repair_id = $validatedData['repair_id'];
+        // $sparePart->repair_id = $validatedData['repair_id'];
         $sparePart->save();
 
         // Optionally, you can return a response indicating success
@@ -417,8 +432,9 @@ class AdminController extends Controller
     public function showSpareParts()
     {
         // Fetch spare parts along with their related repairs
+        // $spareParts = Repair::with('spareParts')->get();
         $spareParts = SparePart::with('repairs')->get();
-
+        dd($spareParts);
     
         return view('admin.management.spareParts-data', ['spares' => $spareParts]);
     }

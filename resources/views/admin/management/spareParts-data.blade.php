@@ -38,7 +38,7 @@
                               
                                 <thead>
                                     <tr role="row">
-                                        {{-- <th>{{ __('Descreption') }}</th> --}}
+                                        <th>{{ __('Descreption') }}</th>
                                         <th>{{ __('Part Name') }}</th>
                                         <th>{{ __('Part Refrence') }}</th>
                                         <th>{{ __('Supplier') }}</th>
@@ -51,11 +51,11 @@
                                 <tbody>
                                     @foreach ($spares as $spare)
                                     <tr data-spare-id="{{ $spare->deleteId }}" id="row">
-                                        {{-- <td>
+                                        <td>
                                             @foreach ($spare->repairs as $repair)
                                                 {{ $repair->description }} <!-- Assuming description is a field in the Repair model -->
                                             @endforeach
-                                        </td> --}}
+                                        </td>
                                         <td>{{ $spare->partName}}</td>
                                         <td>{{ $spare->partReference}}</td>
                                         <td>{{ $spare->supplier }}</td>

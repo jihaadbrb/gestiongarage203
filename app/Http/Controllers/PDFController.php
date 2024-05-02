@@ -12,7 +12,7 @@ class PDFController extends Controller
     public function generatePDF(Request $request)
     {
         $invoice = Invoice::with('repair', 'repair.user', 'repair.vehicle','repair.spareParts')->find($request->id);
-        dd($invoice);
+        // dd($invoice);
         if (!$invoice) {
             return response()->json(['error' => 'Invoice not found.'], 404);
         }

@@ -1,9 +1,7 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,10 +11,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(1)->create();
-        \App\Models\Vehicle::factory(1)->create();
-        \App\Models\Repair::factory(1)->create();
-        \App\Models\SparePart::factory(1)->create();
-        \App\Models\Invoice::factory(1)->create();
+        // Create users
+        User::factory(5)->create()->each(function ($user) {
+            // For each user, create related data
+            $vehicle = $user->vehicles()->save(\App\Models\Vehicle::factory()->make());
+            $repair = $user->repairs()->save(\App\Models\Repair::factory()->make());
+
+            // Create spare part associated with the repair
+            $sparePart = \App\Models\SparePart::factory()->make();
+            $repair->spareParts()->save($sparePart);
+
+            // Create invoice associated with the repair
+            $invoice = \App\Models\Invoice::factory()->make();
+            $repair->invoices()->save($invoice);
+        });
     }
 }

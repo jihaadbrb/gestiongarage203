@@ -828,7 +828,6 @@ $(document).ready(function() {
 
     $('.submitSparePart').click(function() {
         var formData = $('#addSparePartForm').serialize();
-        alert(formData)
         axios.post('/spare-parts/add', formData)
             .then(function(response) {
                 $('#addSparePartModal').modal('hide');

@@ -1,7 +1,9 @@
 <?php
-
 namespace Database\Factories;
 
+use App\Models\SparePart;
+use App\Models\Repair;
+use App\Models\SparePartRepair;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,13 @@ class SparePartRepairFactory extends Factory
      */
     public function definition(): array
     {
+        // Retrieve random repair and spare part IDs
+        $repairId = Repair::inRandomOrder()->first()->id;
+        $sparePartId = SparePart::inRandomOrder()->first()->id;
+
         return [
-            //
+            'repair_id' => $repairId,
+            'spare_part_id' => $sparePartId,
         ];
     }
 }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('partReference')->nullable();
             $table->string('supplier')->nullable();
             $table->decimal('price', 10, 2);
-            $table->foreignId('repair_id')->constrained('repairs');
             $table->timestamps();
         });
     }
