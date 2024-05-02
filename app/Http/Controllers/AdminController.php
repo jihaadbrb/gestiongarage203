@@ -283,8 +283,8 @@ class AdminController extends Controller
             'endDate' => 'nullable|date|after:startDate',  // Optional, validate after startDate
             'mechanicNotes' => 'nullable|string',
             'clientNotes' => 'required|string',
-            'user_id'=>'required',
-            'mechanic_id'=>'required'
+            'user_id' => 'required',
+            'mechanic_id' => 'required'
             // 'spare_parts_id'=>'required'
         ]);
 
@@ -354,38 +354,39 @@ class AdminController extends Controller
             'additionalCharges' => 'required',
             'repair_id' => 'required'
         ]);
-    
+
         // Calculate the total amount from the price of the spare parts and additional charges
         $additionalCharges = $validatedData['additionalCharges'];
         $repairId = $validatedData['repair_id'];
-    
+
         $sparePartsTotal = SparePart::whereHas('repairs', function ($query) use ($repairId) {
             $query->where('id', $repairId);
         })->sum('price');
-    
+
         $totalAmount = $sparePartsTotal + $additionalCharges;
-    
+
         // Create the invoice with the calculated total amount
         Invoice::create([
             'additionalCharges' => $additionalCharges,
             'totalAmount' => $totalAmount,
             'repair_id' => $repairId
         ]);
-    
+
         return redirect()->back()->with('success', 'Invoice generated successfully.');
     }
 
-    public function showInvoices(){
-        $invoices = Invoice::with('repair','repair.user' , 'repair.vehicle')->get();
+    public function showInvoices()
+    {
+        $invoices = Invoice::with('repair', 'repair.user', 'repair.vehicle')->get();
         return
-        view('admin.management.invoices-data',['invoices'=>$invoices]);
+            view('admin.management.invoices-data', ['invoices' => $invoices]);
     }
 
     public function showInvoiceModal(Request $request)
     {
         $invoiceId = $request->input('id');
 
-        $invoice = Invoice::with('repair','repair.user' , 'repair.vehicle')->find($invoiceId);       
+        $invoice = Invoice::with('repair', 'repair.user', 'repair.vehicle')->find($invoiceId);
         if ($invoice) {
             return response()->json($invoice);
         } else {
@@ -393,13 +394,14 @@ class AdminController extends Controller
         }
     }
 
-    public function destroyInvoice(Request $request){
-        $invoice =Invoice::find($request->deleteId);
-        if($invoice){
+    public function destroyInvoice(Request $request)
+    {
+        $invoice = Invoice::find($request->deleteId);
+        if ($invoice) {
             $invoice->delete();
             return "ok";
-        }else{
-            return response()->json(['message'=>"inoice not found"],404);
+        } else {
+            return response()->json(['message' => "inoice not found"], 404);
         }
     }
 
@@ -413,7 +415,7 @@ class AdminController extends Controller
             'partReference' => 'required|string',
             'supplier' => 'required|string',
             'price' => 'required|numeric',
-            // 'repair_id' => 'required|exists:repairs,id', // Assuming repair_id is the ID of the repair related to the spare part
+            'repair_id' => 'required|exists:repairs,id', // Assuming repair_id is the ID of the repair related to the spare part
         ]);
 
         // Create a new SparePart instance
@@ -422,24 +424,29 @@ class AdminController extends Controller
         $sparePart->partReference = $validatedData['partReference'];
         $sparePart->supplier = $validatedData['supplier'];
         $sparePart->price = $validatedData['price'];
-        // $sparePart->repair_id = $validatedData['repair_id'];
         $sparePart->save();
+
+        // Attach the spare part to the repair using the pivot table
+        $repair = Repair::find($validatedData['repair_id']);
+        $repair->spareParts()->attach($sparePart->id);
 
         // Optionally, you can return a response indicating success
         return response()->json(['message' => 'Spare part added successfully'], 200);
     }
+
+
+
 
     public function showSpareParts()
     {
         // Fetch spare parts along with their related repairs
         // $spareParts = Repair::with('spareParts')->get();
         $spareParts = SparePart::with('repairs')->get();
-        dd($spareParts);
-    
+        // dd($spareParts);
         return view('admin.management.spareParts-data', ['spares' => $spareParts]);
     }
-    
-       public function destroySparePart(Request $request)
+
+    public function destroySparePart(Request $request)
     {
         // Get the spare part ID from the request
         $sparePartId = $request->input('spare_part_id');
@@ -456,5 +463,4 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Spare part deleted successfully'], 200);
     }
-
 }

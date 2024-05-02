@@ -13,7 +13,7 @@ class SparePart extends Model
         'partReference',
         'supplier',
         'price',
-        'repair_id'
+        // 'repair_id'
     ];
     public function repairs()
     {
