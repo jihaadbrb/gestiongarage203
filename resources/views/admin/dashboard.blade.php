@@ -151,6 +151,9 @@
                         </div>
                         <div class="card-body py-0 px-2">
                             <div id="area_chart" class="apex-charts" dir="ltr"></div>
+
+                            
+
                         </div>
                     </div><!-- end card -->
                 </div>

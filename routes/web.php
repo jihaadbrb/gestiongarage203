@@ -9,9 +9,15 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth','lang'])->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard');
+    
+    Route::get('/',function(){
+        return 
+            view('admin.dashboard');
     })->name('admin.dashboard');
+
+
+    // Route::get('/',[AdminController::class,'showCharts'])->name('admin.dashboard');
+
     Route::get('/admins',[AdminController::class , 'showAdmins'])->name('admin.admins');
 
 

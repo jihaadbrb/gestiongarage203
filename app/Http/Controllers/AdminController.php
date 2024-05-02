@@ -22,6 +22,38 @@ use function PHPUnit\Framework\returnSelf;
 
 class AdminController extends Controller
 {
+
+
+
+
+    // public function showCharts()
+    // {
+    //     // Prepare data for the area chart
+    //     $areaChartData = Repair::select(
+    //             DB::raw('YEAR(created_at) as year'), 
+    //             DB::raw('MONTH(created_at) as month'), 
+    //             DB::raw('DAY(created_at) as day'), 
+    //             DB::raw('COUNT(*) as total')
+    //         )
+    //         ->groupBy('year', 'month', 'day')
+    //         ->orderByRaw('YEAR(created_at), MONTH(created_at), DAY(created_at)')
+    //         ->get();
+    
+    //         // dd($areaChartData);
+    //     return view('admin.dashboard', [
+    //         'areaChartData' => $areaChartData,
+    //     ]);
+    // }
+    
+    
+    
+    
+    
+
+
+
+
+
     public function showUsers()
     {
         $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->get();

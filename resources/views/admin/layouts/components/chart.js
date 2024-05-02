@@ -1,8 +1,5 @@
 
-
-
 var options = {
-    
         series: [
             { name: "series1", data: [0, 180, 60, 220, 85, 190, 70] },
             { name: "series2", data: [0, 15, 250, 21, 365, 120, 30] },
@@ -36,7 +33,14 @@ var options = {
         labels: ["2015", "2016", "2017", "2018", "2019", "2020", "2021"],
     },
     chart = new ApexCharts(document.querySelector("#area_chart"), options);
-chart.render();
+    chart.render();
+
+
+
+
+
+
+
 options = {
     series: [
         {
@@ -128,3 +132,4 @@ options = {
     document.querySelector("#donut-chart"),
     options
 )).render();
+
