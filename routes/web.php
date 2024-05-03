@@ -16,7 +16,7 @@ Route::middleware(['auth','lang'])->group(function () {
     })->name('admin.dashboard');
 
 
-    // Route::get('/',[AdminController::class,'showCharts'])->name('admin.dashboard');
+    Route::get('/',[AdminController::class,'showCharts'])->name('admin.dashboard');
 
     Route::get('/admins',[AdminController::class , 'showAdmins'])->name('admin.admins');
 

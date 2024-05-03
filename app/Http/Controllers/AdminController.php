@@ -17,6 +17,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Validation\Rules\Exists;
 use PDO;
 use Symfony\Component\CssSelector\Node\FunctionNode;
+use Carbon\Carbon;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -24,31 +25,311 @@ class AdminController extends Controller
 {
 
 
+    public function getRepairsDataForComparison($previousPeriod = 'week')
+    {
+        // Calculate the start and end dates for the last week
+        $endDate = Carbon::now()->endOfWeek();
+        $startDate = Carbon::now()->startOfWeek()->subWeek();
+
+        // Calculate the start and end dates for the previous week
+        $previousEndDate = Carbon::now()->startOfWeek()->subDay();
+        $previousStartDate = Carbon::now()->startOfWeek()->subWeeks(2)->subDay();
+
+        // Get the number of completed repairs for the last week
+        $currentWeekRepairs = Repair::where('status', 'completed')
+            ->whereBetween('endDate', [$startDate, $endDate])
+            ->count();
+
+        // Get the number of completed repairs for the previous week
+        $previousWeekRepairs = Repair::where('status', 'completed')
+            ->whereBetween('endDate', [$previousStartDate, $previousEndDate])
+            ->count();
+
+        // Calculate the percentage change
+        $percentageChange = 0;
+        if ($previousWeekRepairs != 0) {
+            $percentageChange = (($currentWeekRepairs - $previousWeekRepairs) / $previousWeekRepairs) * 100;
+        }
+
+        // Return data in an array
+        return [
+            'currentWeekRepairs' => $currentWeekRepairs,
+            'previousWeekRepairs' => $previousWeekRepairs,
+            'percentageChange' => $percentageChange
+        ];
+    }
 
 
-    // public function showCharts()
-    // {
-    //     // Prepare data for the area chart
-    //     $areaChartData = Repair::select(
-    //             DB::raw('YEAR(created_at) as year'), 
-    //             DB::raw('MONTH(created_at) as month'), 
-    //             DB::raw('DAY(created_at) as day'), 
-    //             DB::raw('COUNT(*) as total')
-    //         )
-    //         ->groupBy('year', 'month', 'day')
-    //         ->orderByRaw('YEAR(created_at), MONTH(created_at), DAY(created_at)')
-    //         ->get();
+
+    public function getTotalAmountComparison($previousPeriod = 'month')
+    {
+        // Get the current month and year
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        // Get the start and end dates for the current period
+        $currentStartDate = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfMonth();
+        $currentEndDate = Carbon::createFromDate($currentYear, $currentMonth, 1)->endOfMonth();
+
+        // Calculate the start and end dates for the previous period
+        $previousStartDate = $previousEndDate = null;
+        if ($previousPeriod === 'month') {
+            $previousStartDate = $currentStartDate->subMonth();
+            $previousEndDate = $currentEndDate->subMonth();
+        } elseif ($previousPeriod === 'year') {
+            $previousStartDate = $currentStartDate->subYear();
+            $previousEndDate = $currentEndDate->subYear();
+        }
+
+        // Get the total amount for the current period
+        $currentTotalAmount = Repair::with('invoices')
+            ->whereBetween('endDate', [$currentStartDate, $currentEndDate])
+            ->get()
+            ->sum(function ($repair) {
+                return $repair->invoices->sum('totalAmount');
+            });
+
+        // Get the total amount for the previous period
+        $previousTotalAmount = Repair::with('invoices')
+            ->whereBetween('endDate', [$previousStartDate, $previousEndDate])
+            ->get()
+            ->sum(function ($repair) {
+                return $repair->invoices->sum('totalAmount');
+            });
+
+        // Calculate the percentage change
+        $percentageChange = 0;
+        if ($previousTotalAmount != 0) {
+            $percentageChange = (($currentTotalAmount - $previousTotalAmount) / $previousTotalAmount) * 100;
+        }
+
+        // Return data in an array
+        return [
+            'currentTotalAmount' => $currentTotalAmount,
+            'previousTotalAmount' => $previousTotalAmount,
+            'percentageChange' => $percentageChange
+        ];
+    }
+
+
+    public function getMechanicsDataForComparison($previousPeriod = 'month')
+    {
+        // Get the current month and year
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        // Get the start and end dates for the current period
+        $currentStartDate = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfMonth();
+        $currentEndDate = Carbon::createFromDate($currentYear, $currentMonth, 1)->endOfMonth();
+
+        // Calculate the start and end dates for the previous period
+        $previousStartDate = $previousEndDate = null;
+        if ($previousPeriod === 'month') {
+            $previousStartDate = $currentStartDate->subMonth();
+            $previousEndDate = $currentEndDate->subMonth();
+        } elseif ($previousPeriod === 'year') {
+            $previousStartDate = $currentStartDate->subYear();
+            $previousEndDate = $currentEndDate->subYear();
+        }
+
+        // Get the number of mechanics for the current period
+        $currentMechanicsNum = User::where('role', 'mechanic')
+            ->whereBetween('created_at', [$currentStartDate, $currentEndDate])
+            ->count();
+
+        // Get the number of mechanics for the previous period
+        $previousMechanicsNum = User::where('role', 'mechanic')
+            ->whereBetween('created_at', [$previousStartDate, $previousEndDate])
+            ->count();
+
+        // Calculate the percentage change
+        $percentageChange = 0;
+        if ($previousMechanicsNum != 0) {
+            $percentageChange = (($currentMechanicsNum - $previousMechanicsNum) / $previousMechanicsNum) * 100;
+        }
+
+        // Return data in an array
+        return [
+            'currentMechanicsNum' => $currentMechanicsNum,
+            'previousMechanicsNum' => $previousMechanicsNum,
+            'percentageChange' => $percentageChange
+        ];
+    }
+
+
+    public function getNewOrdersDataForComparison($previousPeriod = 'month')
+    {
+        // Get the current month and year
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        // Get the start and end dates for the current period
+        $currentStartDate = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfMonth();
+        $currentEndDate = Carbon::createFromDate($currentYear, $currentMonth, 1)->endOfMonth();
+
+        // Calculate the start and end dates for the previous period
+        $previousStartDate = $previousEndDate = null;
+        if ($previousPeriod === 'month') {
+            $previousStartDate = $currentStartDate->subMonth();
+            $previousEndDate = $currentEndDate->subMonth();
+        } elseif ($previousPeriod === 'year') {
+            $previousStartDate = $currentStartDate->subYear();
+            $previousEndDate = $currentEndDate->subYear();
+        }
+
+        // Get the number of new orders for the current period
+        $currentNewOrdersNum = Repair::where('status', 'pending')
+            ->whereBetween('created_at', [$currentStartDate, $currentEndDate])
+            ->count();
+
+        // Get the number of new orders for the previous period
+        $previousNewOrdersNum = Repair::where('status', 'pending')
+            ->whereBetween('created_at', [$previousStartDate, $previousEndDate])
+            ->count();
+
+        // Calculate the percentage change
+        $percentageChange = 0;
+        if ($previousNewOrdersNum != 0) {
+            $percentageChange = (($currentNewOrdersNum - $previousNewOrdersNum) / $previousNewOrdersNum) * 100;
+        }
+
+        // Return data in an array
+        return [
+            'currentNewOrdersNum' => $currentNewOrdersNum,
+            'previousNewOrdersNum' => $previousNewOrdersNum,
+            'percentageChange' => $percentageChange
+        ];
+    }
+
+
+
+    public function getUsersDataForComparison($previousPeriod = 'month')
+    {
+        // Get the current number of users
+        $currentUsersNum = User::count();
+
+        // Calculate the start and end dates for the previous period
+        $startDate = Carbon::now()->subMonth()->startOfMonth();
+        $endDate = Carbon::now()->subMonth()->endOfMonth();
+
+        // Adjust the dates based on the chosen previous period
+        if ($previousPeriod === 'week') {
+            $startDate = Carbon::now()->subWeek()->startOfWeek();
+            $endDate = Carbon::now()->subWeek()->endOfWeek();
+        } elseif ($previousPeriod === 'year') {
+            $startDate = Carbon::now()->subYear()->startOfYear();
+            $endDate = Carbon::now()->subYear()->endOfYear();
+        }
+        // dd($startDate, $endDate);
+        // Get the number of users for the previous period
+        $previousUsersNum = User::whereBetween('created_at', [$startDate, $endDate])->count();
+
+
+        // Calculate the percentage change
+        $percentageChange = 0;
+        if ($previousUsersNum != 0) {
+            $percentageChange = (($currentUsersNum - $previousUsersNum) / $previousUsersNum) * 100;
+        }
+
+        // Return data in an array
+        return [
+            'currentUsersNum' => $currentUsersNum,
+            'previousUsersNum' => $previousUsersNum,
+            'percentageChange' => $percentageChange
+        ];
+    }
+
+    public function showCharts()
+    {
+        $completedRepairsByMonth = DB::table('repairs')
+            ->select(DB::raw('YEAR(endDate) AS year, MONTH(endDate) AS month, COUNT(*) AS completed_repairs_count'))
+            ->where('status', 'completed')
+            ->groupBy(DB::raw('YEAR(endDate), MONTH(endDate)'))
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
+
+        $labels = [];
+        $data = [];
+
+        foreach ($completedRepairsByMonth as $repair) {
+            $labels[] = date('M Y', mktime(0, 0, 0, $repair->month, 1, $repair->year));
+            $data[] = $repair->completed_repairs_count;
+        }
+
+        $chartData = [
+            'labels' => $labels,
+            'data' => $data,
+        ];
+
+        $totalCompletedRepairs = DB::table('repairs')->where('status', 'completed')->count();
+        $totalAmount = Repair::with('invoices')->get()->sum(function ($repair) {
+            return $repair->invoices->sum('totalAmount');
+        });
+        $usersNum = User::where('role', 'client')->latest()->count();
+        $mechanicsNum = User::where('role', 'mechanic')->latest()->count();
+
+        // Call the getUsersDataForComparison method
+
+
+        // Calculate the start and end dates for the last week
+        $startDate = Carbon::now()->subWeek()->startOfWeek();
+        $endDate = Carbon::now()->subWeek()->endOfWeek();
+
+        // Get the total amount for repairs completed in the last week
+        $totalAmountLastWeek = Repair::where('status', 'completed')
+            ->whereBetween('endDate', [$startDate, $endDate])
+            ->with('invoices')
+            ->get()
+            ->sum(function ($repair) {
+                return $repair->invoices->sum('totalAmount');
+            });
+
+        $startDate = Carbon::now()->subMonth()->startOfMonth();
+        $endDate = Carbon::now()->subMonth()->endOfMonth();
+
+        // Get the total amount for repairs completed in the last month
+        $totalAmountLastMonth = Repair::where('status', 'completed')
+            ->whereBetween('endDate', [$startDate, $endDate])
+            ->with('invoices')
+            ->get()
+            ->sum(function ($repair) {
+                return $repair->invoices->sum('totalAmount');
+            });
+
+
+        $totalOrders = DB::table('repairs')->where('status', 'pending')->count();
+
+        $usersComparisonData = $this->getUsersDataForComparison();
+        $repairsDataForComparison = $this->getRepairsDataForComparison();
+        $totalAmountComparison = $this->getTotalAmountComparison();
+        $mechanicsDataForComparison = $this->getMechanicsDataForComparison();
+        $newOrdersDataForComparison = $this->getNewOrdersDataForComparison();
+
+
+
+        return view('admin.dashboard', [
+            'data' => $chartData,
+            'totalCompletedRepairs' => $totalCompletedRepairs,
+            'totalAmount' => $totalAmount,
+            'usersNum' => $usersNum,
+            'usersComparisonData' => $usersComparisonData, // Pass users comparison data to the view
+            'totalAmountLastWeek' => $totalAmountLastWeek,
+            'totalAmountLastMonth' => $totalAmountLastMonth,
+            'repairsDataForComparison' => $repairsDataForComparison,
+            'mechanicsNum' => $mechanicsNum,
+            'totalOrders' => $totalOrders,
+            'totalAmountComparison' => $totalAmountComparison,
+            'mechanicsDataForComparison' => $mechanicsDataForComparison,
+            'newOrdersDataForComparison'=>$newOrdersDataForComparison
+        ]);
+    }
     
-    //         // dd($areaChartData);
-    //     return view('admin.dashboard', [
-    //         'areaChartData' => $areaChartData,
-    //     ]);
-    // }
-    
-    
-    
-    
-    
+
+
+
+
+
 
 
 

@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Create users
-        User::factory(5)->create()->each(function ($user) {
+        User::factory(100)->create()->each(function ($user) {
             // For each user, create related data
             $vehicle = $user->vehicles()->save(\App\Models\Vehicle::factory()->make());
             $repair = $user->repairs()->save(\App\Models\Repair::factory()->make());

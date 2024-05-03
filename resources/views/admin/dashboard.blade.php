@@ -29,9 +29,10 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Total Sales</p>
-                                    <h4 class="mb-2">1452</h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>9.23%</span>from previous period</p>
+                                    <p class="text-truncate font-size-14 mb-2">Total Amounts</p>
+                                    <h4 class="mb-2">$ {{$totalAmount }}</h4>
+                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle">
+                                        </i>{{$totalAmountComparison['percentageChange']}}%</span>from previous period</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-primary rounded-3">
@@ -48,8 +49,12 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-truncate font-size-14 mb-2">New Orders</p>
-                                    <h4 class="mb-2">938</h4>
-                                    <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-down-line me-1 align-middle"></i>1.09%</span>from previous period</p>
+                                    <h4 class="mb-2">
+                                        {{$totalOrders}}
+                                    </h4>
+                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
+                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>
+                                        {{$newOrdersDataForComparison['percentageChange']}} %</span>from previous period</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-success rounded-3">
@@ -65,9 +70,11 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">New Users</p>
-                                    <h4 class="mb-2">8246</h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>16.2%</span>from previous period</p>
+                                    <p class="text-truncate font-size-14 mb-2">Users</p>
+                                    <h4 class="mb-2">
+                                        {{ $usersNum }}
+                                    </h4>
+                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{$usersComparisonData['percentageChange']}} %</span>from previous period</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-primary rounded-3">
@@ -83,9 +90,11 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Unique Visitors</p>
-                                    <h4 class="mb-2">29670</h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>11.7%</span>from previous period</p>
+                                    <p class="text-truncate font-size-14 mb-2">Mechanics</p>
+                                    <h4 class="mb-2">{{$mechanicsNum}}</h4>
+                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
+                                        <i class="ri-arrow-right-up-line me-1 align-middle">
+                                            </i>{{$mechanicsDataForComparison['percentageChange']}} %</span>from previous period</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-success rounded-3">
@@ -104,44 +113,34 @@
                     <div class="card">
                         <div class="card-body pb-0">
                             <div class="float-end d-none d-md-inline-block">
-                                <div class="dropdown card-header-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="text-muted">Report<i class="mdi mdi-chevron-down ms-1"></i></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Export</a>
-                                        <a class="dropdown-item" href="#">Import</a>
-                                        <a class="dropdown-item" href="#">Download Report</a>
-                                    </div>
-                                </div>
+                               
                             </div>
-                            <h4 class="card-title mb-4">Email Sent</h4>
+                            <h4 class="card-title mb-4">Completed Repairs</h4>
 
                             <div class="text-center pt-3">
                                 <div class="row">
                                     <div class="col-sm-4 mb-3 mb-sm-0">
                                         <div class="d-inline-flex">
-                                            <h5 class="me-2">25,117</h5>
+                                            <h5 class="me-2">{{$totalCompletedRepairs}}</h5>
                                             <div class="text-success font-size-12">
-                                                <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Marketplace</p>
+                                        <p class="text-muted text-truncate mb-0">Completed Repairs</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4 mb-3 mb-sm-0">
                                         <div class="d-inline-flex">
-                                            <h5 class="me-2">$34,856</h5>
+                                            <h5 class="me-2">$ {{$totalAmountLastWeek}}</h5>
                                             <div class="text-success font-size-12">
-                                                <i class="mdi mdi-menu-up font-size-14"> </i>1.2 %
+                                                <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
                                         <p class="text-muted text-truncate mb-0">Last Week</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4">
                                         <div class="d-inline-flex">
-                                            <h5 class="me-2">$18,225</h5>
+                                            <h5 class="me-2">$ {{$totalAmountLastMonth}}</h5>
                                             <div class="text-success font-size-12">
-                                                <i class="mdi mdi-menu-up font-size-14"> </i>1.7 %
+                                                <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
                                         <p class="text-muted text-truncate mb-0">Last Month</p>
@@ -150,8 +149,99 @@
                             </div>
                         </div>
                         <div class="card-body py-0 px-2">
-                            <div id="area_chart" class="apex-charts" dir="ltr"></div>
-
+                            {{-- <div id="area_chart" class="apex-charts" dir="ltr"></div> --}}
+                            <div id="areaChart" style="width: 80%; margin: auto;">
+                                {{-- <canvas id="areaChart"></canvas> --}}
+                            </div>
+                            <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+                            <script>
+                                // Define common color options
+                                var commonColors = ['#0f9cf3', '#6fd088', '#ffbb44'];
+                            
+                                // Define common options for all charts
+                                var commonOptions = {
+                                    chart: {
+                                        toolbar: {
+                                            show: false
+                                        },
+                                        height: 350
+                                    },
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    grid: {
+                                        show: true,
+                                        borderColor: '#90A4AE',
+                                        strokeDashArray: 0,
+                                        position: 'back',
+                                        xaxis: {
+                                            lines: {
+                                                show: true
+                                            }
+                                        },
+                                        yaxis: {
+                                            lines: {
+                                                show: true
+                                            }
+                                        },
+                                        row: {
+                                            colors: undefined,
+                                            opacity: 0.8
+                                        },
+                                        column: {
+                                            colors: undefined,
+                                            opacity: 0.8
+                                        },
+                                        padding: {
+                                            top: 10,
+                                            right: 0,
+                                            bottom: 10,
+                                            left: 10
+                                        }
+                                    },
+                                    legend: {
+                                        show: false
+                                    }
+                                };
+                            
+                                // Define options for the area chart
+                                var areaOptions = {
+                                    series: [{
+                                        name: 'Data',
+                                        data: {!! json_encode($data['data']) !!}
+                                    }],
+                                    colors: [commonColors[0]],
+                                    stroke: {
+                                        curve: 'smooth',
+                                        width: 2
+                                    },
+                                    xaxis: {
+                                        categories: {!! json_encode($data['labels']) !!}
+                                    }
+                                };
+                            
+                                // Create area chart
+                                var areaChart = new ApexCharts(document.querySelector("#areaChart"), Object.assign({}, commonOptions, areaOptions));
+                                areaChart.render();
+                            
+                                // Define options for the column-line chart
+                                var columnLineOptions = {
+                                    // Define options for the column-line chart here
+                                };
+                            
+                                // Create column-line chart
+                                var columnLineChart = new ApexCharts(document.querySelector("#columnLineChart"), Object.assign({}, commonOptions, columnLineOptions));
+                                columnLineChart.render();
+                            
+                                // Define options for the donut chart
+                                var donutOptions = {
+                                    // Define options for the donut chart here
+                                };
+                            
+                                // Create donut chart
+                                var donutChart = new ApexCharts(document.querySelector("#donutChart"), Object.assign({}, commonOptions, donutOptions));
+                                donutChart.render();
+                            </script>
                             
 
                         </div>
@@ -174,6 +264,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <h4 class="card-title mb-4">Revenue</h4>
 
                             <div class="text-center pt-3">
@@ -394,7 +485,7 @@
                             <!-- end row -->
 
                             <div class="mt-4">
-                                <div id="donut-chart" class="apex-charts"></div>
+                                {{-- <div id="donut-chart" class="apex-charts"></div> --}}
                             </div>
                         </div>
                     </div><!-- end card -->
