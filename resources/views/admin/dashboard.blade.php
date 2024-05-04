@@ -31,12 +31,14 @@
                                 <div class="flex-grow-1">
                                     <p class="text-truncate font-size-14 mb-2">Total Amounts</p>
                                     <h4 class="mb-2">$ {{$totalAmount }}</h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle">
+                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
+                                        <i class="ri-arrow-right-up-line me-1 align-middle">
                                         </i>{{$totalAmountComparison['percentageChange']}}%</span>from previous period</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-primary rounded-3">
-                                        <i class="ri-shopping-cart-2-line font-size-24"></i>  
+                                        <i class="mdi mdi-currency-usd font-size-24"></i>  
+
                                     </span>
                                 </div>
                             </div>                                            
@@ -58,7 +60,8 @@
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-success rounded-3">
-                                        <i class="mdi mdi-currency-usd font-size-24"></i>  
+                                        <i class="ri-shopping-cart-2-line font-size-24"></i>  
+
                                     </span>
                                 </div>
                             </div>                                              
@@ -207,8 +210,8 @@
                                 // Define options for the area chart
                                 var areaOptions = {
                                     series: [{
-                                        name: 'Data',
-                                        data: {!! json_encode($data['data']) !!}
+                                        name: 'Completed Repairs',
+                                        data: {!! json_encode($data['completed_repairs']) !!}
                                     }],
                                     colors: [commonColors[0]],
                                     stroke: {
@@ -223,24 +226,6 @@
                                 // Create area chart
                                 var areaChart = new ApexCharts(document.querySelector("#areaChart"), Object.assign({}, commonOptions, areaOptions));
                                 areaChart.render();
-                            
-                                // Define options for the column-line chart
-                                var columnLineOptions = {
-                                    // Define options for the column-line chart here
-                                };
-                            
-                                // Create column-line chart
-                                var columnLineChart = new ApexCharts(document.querySelector("#columnLineChart"), Object.assign({}, commonOptions, columnLineOptions));
-                                columnLineChart.render();
-                            
-                                // Define options for the donut chart
-                                var donutOptions = {
-                                    // Define options for the donut chart here
-                                };
-                            
-                                // Create donut chart
-                                var donutChart = new ApexCharts(document.querySelector("#donutChart"), Object.assign({}, commonOptions, donutOptions));
-                                donutChart.render();
                             </script>
                             
 
@@ -249,50 +234,105 @@
                 </div>
                 <!-- end col -->
                 <div class="col-xl-6">
-                    <div class="card">
+                   <div class="card">
                         <div class="card-body pb-0">
                             <div class="float-end d-none d-md-inline-block">
-                                <div class="dropdown">
-                                    <a class="text-reset" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="text-muted">This Years<i class="mdi mdi-chevron-down ms-1"></i></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Today</a>
-                                        <a class="dropdown-item" href="#">Last Week</a>
-                                        <a class="dropdown-item" href="#">Last Month</a>
-                                        <a class="dropdown-item" href="#">This Year</a>
-                                    </div>
-                                </div>
+                               
                             </div>
-                            
                             <h4 class="card-title mb-4">Revenue</h4>
 
                             <div class="text-center pt-3">
                                 <div class="row">
                                     <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <div>
-                                            <h5>17,493</h5>
-                                            <p class="text-muted text-truncate mb-0">Marketplace</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="me-2">{{$totalCompletedRepairs}}</h5>
+                                            <div class="text-success font-size-12">
+                                            </div>
                                         </div>
+                                        <p class="text-muted text-truncate mb-0">Completed Repairs</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <div>
-                                            <h5>$44,960</h5>
-                                            <p class="text-muted text-truncate mb-0">Last Week</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="me-2">$ {{$totalAmountLastWeek}}</h5>
+                                            <div class="text-success font-size-12">
+                                                <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
+                                            </div>
                                         </div>
+                                        <p class="text-muted text-truncate mb-0">Last Week</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4">
-                                        <div>
-                                            <h5>$29,142</h5>
-                                            <p class="text-muted text-truncate mb-0">Last Month</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="me-2">$ {{$totalAmountLastMonth}}</h5>
+                                            <div class="text-success font-size-12">
+                                                <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
+                                            </div>
                                         </div>
+                                        <p class="text-muted text-truncate mb-0">Last Month</p>
                                     </div><!-- end col -->
                                 </div><!-- end row -->
                             </div>
                         </div>
                         <div class="card-body py-0 px-2">
-                            <div id="column_line_chart" class="apex-charts" dir="ltr"></div>
+                            <div id="column_line_chart" style="width: 80%; margin: auto;"></div>
+                            <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+                            <script>
+                                var chartData = @json($data);
+                                var options = {
+                                    series: [
+                                        {
+                                            name: "Completed Repairs (Column)",
+                                            type: "column",
+                                            data: chartData.completed_repairs
+                                        },
+                                        {
+                                            name: "Revenue (Line)",
+                                            type: "line",
+                                            data: chartData.revenue
+                                        }
+                                    ],
+                                    chart: { height: 350, toolbar: { show: false } },
+                                    stroke: { width: [0, 2.3], curve: "smooth" },
+                                    plotOptions: { bar: { horizontal: false, columnWidth: "34%" } },
+                                    dataLabels: { enabled: false },
+                                    markers: {
+                                        size: [0, 3.5],
+                                        colors: ["#6fd088"],
+                                        strokeWidth: 2,
+                                        strokeColors: "#6fd088",
+                                        hover: { size: 4 },
+                                    },
+                                    legend: { show: true },
+                                    yaxis: {
+                                        labels: {
+                                            formatter: function (e) {
+                                                // Check if the value is greater than or equal to 1000
+                                                if (Math.abs(e) >= 1000) {
+                                                    // Divide the value by 1000 and round to two decimal places
+                                                    var val = (Math.abs(e) / 1000).toFixed(1);
+                                                    // Return the formatted value with "k" appended
+                                                    return val + "k";
+                                                }
+                                                // Return the original value if it's less than 1000
+                                                return e;
+                                            },
+                                        },
+                                    },
+                                    colors: ["#0f9cf3", "#6fd088"],
+                                    labels: chartData.labels
+                                };
+                            
+                                var chart = new ApexCharts(
+                                    document.querySelector("#column_line_chart"),
+                                    options
+                                );
+                                chart.render();
+                            </script>
+                            
+                            
+                            
+                            
                         </div>
+                        
                     </div><!-- end card -->
                 </div>
                 <!-- end col -->
@@ -328,117 +368,36 @@
                                             <th>Name</th>
                                             <th>Position</th>
                                             <th>Status</th>
-                                            <th>Age</th>
+                                            <th>Email</th>
                                             <th>Start date</th>
-                                            <th style="width: 120px;">Salary</th>
+                                            <th style="width: 120px;">Profit </th>
                                         </tr>
                                     </thead><!-- end thead -->
                                     <tbody>
+
+                                        @foreach($mechanicsTotalAmount as $mechanic)
                                         <tr>
-                                            <td><h6 class="mb-0">Charles Casey</h6></td>
-                                            <td>Web Developer</td>
+                                            <td><h6 class="mb-0">{{ $mechanic->name }}</h6></td>
+                                            <td>{{ $mechanic->role }}</td>
                                             <td>
-                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-success align-middle me-2"></i>Active</div>
+                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-{{ $mechanic->totalEarned > 0 ? 'success' : 'danger' }} align-middle me-2"></i>{{ $mechanic->totalEarned > 0 ? 'Active' : 'Inactive' }}</div>
                                             </td>
+                                            <td>{{ $mechanic->email }}</td>
+                                            <td>{{ $mechanic->created_at }}</td>
                                             <td>
-                                                23
+                                                {{-- Calculate total amount for mechanic's repairs --}}
+                                                @php
+                                                    $totalAmount = $mechanic->totalEarned ?? 0;
+                                                @endphp
+                                                ${{ $totalAmount }}
                                             </td>
-                                            <td>
-                                                04 Apr, 2021
-                                            </td>
-                                            <td>$42,450</td>
                                         </tr>
-                                         <!-- end -->
-                                         <tr>
-                                            <td><h6 class="mb-0">Alex Adams</h6></td>
-                                            <td>Python Developer</td>
-                                            <td>
-                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-warning align-middle me-2"></i>Deactive</div>
-                                            </td>
-                                            <td>
-                                                28
-                                            </td>
-                                            <td>
-                                                01 Aug, 2021
-                                            </td>
-                                            <td>$25,060</td>
-                                        </tr>
-                                         <!-- end -->
-                                         <tr>
-                                            <td><h6 class="mb-0">Prezy Kelsey</h6></td>
-                                            <td>Senior Javascript Developer</td>
-                                            <td>
-                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-success align-middle me-2"></i>Active</div>
-                                            </td>
-                                            <td>
-                                                35
-                                            </td>
-                                            <td>
-                                                15 Jun, 2021
-                                            </td>
-                                            <td>$59,350</td>
-                                        </tr>
-                                         <!-- end -->
-                                         <tr>
-                                            <td><h6 class="mb-0">Ruhi Fancher</h6></td>
-                                            <td>React Developer</td>
-                                            <td>
-                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-success align-middle me-2"></i>Active</div>
-                                            </td>
-                                            <td>
-                                                25
-                                            </td>
-                                            <td>
-                                                01 March, 2021
-                                            </td>
-                                            <td>$23,700</td>
-                                        </tr>
-                                         <!-- end -->
-                                         <tr>
-                                            <td><h6 class="mb-0">Juliet Pineda</h6></td>
-                                            <td>Senior Web Designer</td>
-                                            <td>
-                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-success align-middle me-2"></i>Active</div>
-                                            </td>
-                                            <td>
-                                                38
-                                            </td>
-                                            <td>
-                                                01 Jan, 2021
-                                            </td>
-                                            <td>$69,185</td>
-                                        </tr>
-                                         <!-- end -->
-                                         <tr>
-                                            <td><h6 class="mb-0">Den Simpson</h6></td>
-                                            <td>Web Designer</td>
-                                            <td>
-                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-warning align-middle me-2"></i>Deactive</div>
-                                            </td>
-                                            <td>
-                                                21
-                                            </td>
-                                            <td>
-                                                01 Sep, 2021
-                                            </td>
-                                            <td>$37,845</td>
-                                        </tr>
-                                         <!-- end -->
-                                         <tr>
-                                            <td><h6 class="mb-0">Mahek Torres</h6></td>
-                                            <td>Senior Laravel Developer</td>
-                                            <td>
-                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-success align-middle me-2"></i>Active</div>
-                                            </td>
-                                            <td>
-                                                32
-                                            </td>
-                                            <td>
-                                                20 May, 2021
-                                            </td>
-                                            <td>$55,100</td>
-                                        </tr>
-                                         <!-- end -->
+                                    @endforeach
+                                    
+                                    
+
+
+
                                     </tbody><!-- end tbody -->
                                 </table> <!-- end table -->
                             </div>

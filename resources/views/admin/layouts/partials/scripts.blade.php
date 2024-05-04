@@ -945,8 +945,8 @@ $(document).ready(function() {
     <script src="assets/js/pages/dashboard.init.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    {{-- <script>
+{{-- 
+    <script>
         var ctx = document.getElementById('areaChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'line',

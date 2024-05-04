@@ -15,7 +15,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="totalAmount" class="form-label">Total Amount</label>
-                        <input type="number" class="form-control" id="totalAmount" name="totalAmount">
+                        <input type="number" disabled class="form-control" id="totalAmount" name="totalAmount">
                     </div>
                     
                         <input type="hidden" class="form-control" id="invoicerepair_id" name="repair_id">
