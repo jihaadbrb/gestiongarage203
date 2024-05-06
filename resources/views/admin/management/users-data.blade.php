@@ -8,11 +8,31 @@
             justify-content: space-between;
         }
 
-        .add-client {
+        .add-client,.import-clients {
             border: 0;
             border-radius: 5px;
             padding: 8px 19px;
         }
+        #importForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adjust spacing between elements */
+}
+
+#file {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+#importButton {
+  background-color: #007bff; /* Adjust button color */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Indicate clickable element */
+}
+
     </style>
     <div class="page-content">
         <div class="container-fluid">
@@ -23,14 +43,29 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            
                             <div class="add-new">
+
                                 <h4 class="card-title">{{ __('Client List') }}</h4>
-                                <button class="btn-primary add-client">{{ __('Add New Client') }}</button>
+                                <button class="btn-primary  add-client">{{ __('Add New Client') }}</button>
+                                <button class="btn-primary import-clients">
+                                    <i class="fas fa-upload"></i> {{ __('Import Clients') }}
+                                  </button>
+                                  
+                                    {{-- <form action="{{ route('import.users') }}" method="POST" enctype="multipart/form-data" id="importForm">
+                                        @csrf
+                                        <div class="form-group">
+                                        <label for="file">Select Excel File</label>
+                                        <input type="file" name="file" id="file" class="form-control" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" id="importButton">Import Users</button>
+                                    </form> --}}
+                                  
                                 <p class="card-title-desc">
 
                                 </p>
                             </div>
-
+                            
                             <table id="datatable-buttons"
                                 class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -81,6 +116,7 @@
 
                                     @include('admin.layouts.components.users.edit-modal')
                                     @include('admin.layouts.components.users.add-modal')
+                                    @include('admin.layouts.components.users.import-modal')
                                     @include('admin.layouts.components.users.confirm-modal')
                                     @include('admin.layouts.components.users.show-modal')
 
@@ -115,6 +151,5 @@
 </div>
 
 <!-- Modal for editing client -->
-
 
 @endsection

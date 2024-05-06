@@ -70,7 +70,9 @@
                 var clientId = $('#editClientId').val();
                 var formData = $('#editClientForm').serialize();
 
-                // Axios request
+                console(formData);
+                    alert("good")
+                // Axios request    
                 axios({
                     method: 'put',
                     url: '/users/' + clientId,
@@ -93,6 +95,23 @@
 
 
     </script>
+
+
+{{-- import client  --}}
+
+<script>
+    $(document).ready(function() {
+        console.log("Document ready");
+        $('.import-clients').click(function() {
+            $('#importUsersModal').modal('show');
+        });
+
+    });
+
+
+
+</script>
+
 
 {{-- delete client  --}}
     <script>
@@ -218,7 +237,12 @@
     </script>
 
 
-
+<script>
+    // When the file input changes, submit the form
+    document.getElementById('avatar-input').addEventListener('change', function() {
+        document.getElementById('avatar-upload-form').submit();
+    });
+</script>
 
     <script>
       $(".show-mechanic").on("click", function() {

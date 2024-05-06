@@ -29,6 +29,10 @@
                         <label for="phoneNumber" class="form-label" >Phone Number</label>
                         <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="">
                     </div>
+                    {{-- <div class="mb-3">
+                        <label for="userImage" class="form-label" >Profile Image</label>
+                        <input type="text" class="form-control" id="userImage" name="phoneNumber" value="">
+                    </div> --}}
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
                         <select class="form-select" id="role" name="role">

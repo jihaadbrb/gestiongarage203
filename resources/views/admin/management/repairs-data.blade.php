@@ -25,6 +25,7 @@
                             <div class="add-new">
                                 <h4 class="card-title">{{ __('Repairs Management') }}</h4>
                                 <p class="card-title-desc">
+                                        <button type="button" class="btn btn-primary">Send Mail for All Completed Repairs</button>
 
                                 </p>
                             </div>  
@@ -83,7 +84,13 @@
                                                 <button type="button" class="btn add-invoice" data-repairinvoice-id="{{ $repair->id }}">
                                                     <i class="ri-printer-line"></i>
                                                 </button>
+                                                <form action="/send-mail" method="GET" style="display: inline;">
+                                                    @csrf
+                                                    <input type="hidden" name="repair_id" value="{{ $repair->id }}">
+                                                    <button type="submit" class="btn">Send Mail</button>
+                                                </form>
                                             @endif
+                                        
                                             <button type="button" class="btn  add-spare-part"
                                             data-repair-id="{{ $repair->id }}">
                                             <i class=" ri-send-plane-line

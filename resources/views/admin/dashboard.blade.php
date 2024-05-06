@@ -408,44 +408,62 @@
                 <div class="col-xl-4">
                     <div class="card">
                         <div class="card-body">
-                            <div class="float-end">
-                                <select class="form-select shadow-none form-select-sm">
-                                    <option selected>Apr</option>
-                                    <option value="1">Mar</option>
-                                    <option value="2">Feb</option>
-                                    <option value="3">Jan</option>
-                                </select>
-                            </div>
-                            <h4 class="card-title mb-4">Monthly Earnings</h4>
                             
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="text-center mt-4">
-                                        <h5>3475</h5>
-                                        <p class="mb-2 text-truncate">Market Place</p>
-                                    </div>
-                                </div>
-                                <!-- end col -->
-                                <div class="col-4">
-                                    <div class="text-center mt-4">
-                                        <h5>458</h5>
-                                        <p class="mb-2 text-truncate">Last Week</p>
-                                    </div>
-                                </div>
-                                <!-- end col -->
-                                <div class="col-4">
-                                    <div class="text-center mt-4">
-                                        <h5>9062</h5>
-                                        <p class="mb-2 text-truncate">Last Month</p>
-                                    </div>
-                                </div>
-                                <!-- end col -->
-                            </div>
+                            <h4 class="card-title mb-4">Top Three Mechanics</h4>
+                            
+                           
                             <!-- end row -->
 
                             <div class="mt-4">
-                                {{-- <div id="donut-chart" class="apex-charts"></div> --}}
+                                {{-- <div id="mechanics_monthly_revenue_chart"></div> --}}
+                                <canvas id="topThreeChart" width="400" height="350"></canvas>
+
                             </div>
+                            
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                            <script>
+                                var topThreeData = @json($topThreeChartData);
+                                var mechanics = topThreeData.mechanics;
+                                console.log(mechanics);
+
+                                var earned = topThreeData.earned;
+
+                               
+                            
+                                var ctx = document.getElementById('topThreeChart').getContext('2d');
+                                var myChart = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: mechanics,
+                                        datasets: [{
+                                            label: 'Total Earned',
+                                            data: earned,
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        }
+                                    }
+                                });
+                            </script>
+                            
+                            
+                                                        
                         </div>
                     </div><!-- end card -->
                 </div><!-- end col -->

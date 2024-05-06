@@ -301,10 +301,33 @@ class ChartController extends Controller
             }
             $mechanicsTotalAmount[$mechanicName]->totalEarned += $totalAmount;
         }
+        $mechanicsEarned = [];
 
-        // Dump the result
-        // dd($mechanicsTotalAmount);
+        foreach ($mechanicsTotalAmount as $mechanicName => $mechanicData) {
+            $totalEarned = $mechanicData->totalEarned;
+            $mechanicsEarned[$mechanicName] = $totalEarned;
+        }
 
+
+        $topThreeMechanics = [];
+
+        // Sort mechanics by total earned amounts in descending order
+        arsort($mechanicsEarned);
+
+        // Extract the top three earners
+        $topThreeMechanics = array_slice($mechanicsEarned, 0, 3);
+
+        // Extract names and total earned amounts for the top three mechanics
+        $topThreeNames = array_keys($topThreeMechanics);
+        $topThreeEarned = array_values($topThreeMechanics);
+
+        $topThreeChartData = [
+            'mechanics' => $topThreeNames,
+            'earned' => $topThreeEarned,
+        ];
+
+
+        // dd($topThreeChartData);
 
 
 
@@ -322,7 +345,8 @@ class ChartController extends Controller
             'totalAmountComparison' => $totalAmountComparison,
             'mechanicsDataForComparison' => $mechanicsDataForComparison,
             'newOrdersDataForComparison' => $newOrdersDataForComparison,
-            'mechanicsTotalAmount'=>$mechanicsTotalAmount
+            'mechanicsTotalAmount' => $mechanicsTotalAmount,
+            'topThreeChartData' => $topThreeChartData,
         ]);
     }
 }
