@@ -24,8 +24,7 @@ Route::middleware(['auth','lang'])->group(function () {
             view('admin.dashboard');
     })->name('admin.dashboard');
 
-    // send mail
-    Route::get('send-mail', [MailController::class, 'index']);
+    
 
     // import data 
     Route::post('/import-users', [ClientController::class, 'importUsers'])->name('import.users');
@@ -43,7 +42,7 @@ Route::middleware(['auth','lang'])->group(function () {
     Route::get('/users', [AdminController::class, 'showUsers'])->middleware(['auth', 'verified'])->name('admin.users');
     Route::put('/users/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::post('/users/showModal',[AdminController::class,'showModal'])->name('users.showModal');
-    Route::post('/users/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
+    Route::delete('/users/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     Route::get('/lock-screen',[ClientController::class,'lockScreen']);
     Route::post('/lock-screen',[ClientController::class,'unlock'])->name('unlock');
@@ -94,7 +93,11 @@ Route::middleware(['auth','lang'])->group(function () {
     })->name('products.changeLocale');
 
     // mails 
+    Route::get('/send-mail', [MailController::class, 'index']);
+    Route::get('/send-mails',[MailController::class,'sendAll'])->name('admin.sendAll');
     Route::get('/mails',[MailController::class ,'showMails'])->name('admin.mails');
+
+    Route::post('/send-email', [MailController::class,'sendEmail'])->name('admin.sendEmail');
 
 });
 

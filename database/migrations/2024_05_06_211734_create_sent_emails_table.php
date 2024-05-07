@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('sent_emails', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('recipient'); // Email address of the recipient
+            $table->string('subject'); // Subject of the email
+            $table->text('body'); // Body of the email
+            $table->foreignId('user_id')->constrained('users');
+            $table->timestamp('sent_at')->nullable(); // Timestamp when the email was sent
+            $table->timestamps(); // Automatically manage created_at and updated_at columns
         });
     }
 

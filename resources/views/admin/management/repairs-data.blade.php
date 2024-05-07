@@ -25,7 +25,12 @@
                             <div class="add-new">
                                 <h4 class="card-title">{{ __('Repairs Management') }}</h4>
                                 <p class="card-title-desc">
-                                        <button type="button" class="btn btn-primary">Send Mail for All Completed Repairs</button>
+                                    <form method="GET" action="{{route('admin.sendAll')}}" >
+                                        <button type="submit" class="btn btn-primary">
+                                            Send Mail for All Completed Repairs
+                                        </button>
+                                    </form>
+                                      
 
                                 </p>
                             </div>  

@@ -58,6 +58,10 @@ class User extends Authenticatable
         return $this->hasMany(Repair::class);
     }
 
+    public function emails()
+    {
+        return $this->hasMany(SentEmail::class);
+    }
 
     public function vehicles()
     {
@@ -69,5 +73,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Task::class, 'mechanic_tasks')->withTimestamps();
     }
-
 }

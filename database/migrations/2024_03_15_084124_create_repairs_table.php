@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('endDate')->nullable();
             $table->text('mechanicNotes')->nullable();
             $table->text('clientNotes')->nullable();
-            $table->foreignId('user_id')->constrained('users') ;
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade') ;
             $table->foreignId('vehicle_id')->constrained('vehicles') ;
             $table->foreignId('mechanic_id')->constrained('users') ;
 

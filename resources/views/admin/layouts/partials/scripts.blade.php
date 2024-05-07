@@ -128,7 +128,7 @@
         $('#confirmDeleteBtn').click(function() {
             var formData = $('#deleteForm').serialize(); // Serialize form data
             // Axios DELETE request
-            axios.post('{{ route("admin.destroy") }}', formData)
+            axios.delete('{{ route("admin.destroy") }}', formData)
                 .then(function (response) {
                     if (response.data == "ok") {
                         $("#row").remove(); // Remove the deleted client row from the table
@@ -899,8 +899,50 @@ $(document).ready(function() {
     });
 </script>
 
+{{-- // compose email --}}
+
+<script>
+        $(document).ready(function() {
+        $('.compose-email').click(function() {
+            $('#composemodal').modal('show');
+        });
+    
+        $('#sendEmailBtn').click(function() {
+            var formData = $('#composeForm').serialize();
+            console.log(formData);
+            axios.post('/send-email', formData)
+                .then(function(response) {
+                    $('#composemodal').modal('hide');
+                })
+                .catch(function(error) {
+                    console.error("error" + error);
+                });
+        });
+    });
+</script>  
 
 
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sendEmailBtn = document.getElementById('sendEmailBtn');
+        sendEmailBtn.addEventListener('click', function () {
+            const formData = new FormData(document.getElementById('composeForm'));
+            console.log(formData);
+            alert(formData);
+            axios.post('/send-email', formData)
+                .then(response => {
+                    console.log(response.data);
+            alert(response.data);
+
+                    // Close the modal
+                    $('#composemodal').modal('hide');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script> --}}
 
 
 
