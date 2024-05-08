@@ -43,7 +43,10 @@
                                         <th>{{ __('Part Refrence') }}</th>
                                         <th>{{ __('Supplier') }}</th>
                                         <th>{{ __('Price') }}</th>
+                                        @if (Auth::user()->role === "admin")
                                         <th>{{ __('Action') }}</th>
+                                            
+                                        @endif
                                     </tr>
                                 </thead>
 
@@ -61,9 +64,12 @@
                                         <td>{{ $spare->supplier }}</td>
                                         <td>{{ $spare->price }}</td>
                                         <td>
-                                            <button type="button" class="btn delete-spare" data-spare-id="{{ $spare->id }}">
+                                            @if (Auth::user()->role==="admin")
+                                                <button type="button" class="btn delete-spare" data-spare-id="{{ $spare->id }}">
                                                 <i class="r ri-delete-bin-3-line"></i>
                                             </button>
+                                            @endif
+                                            
                                             
                                         </td>
                                     </tr>

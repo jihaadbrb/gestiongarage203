@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\SparePart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -39,10 +40,22 @@ class InvoiceController extends Controller
 
     public function showInvoices()
     {
-        $invoices = Invoice::with('repair', 'repair.user', 'repair.vehicle')->get();
-        return
-            view('admin.management.invoices-data', ['invoices' => $invoices]);
+        $user = Auth::user();
+    
+        // Check if the user is an admin
+        if ($user->role === 'admin') {
+            // Admin can see all invoices
+            $invoices = Invoice::with('repair', 'repair.user', 'repair.vehicle')->get();
+        } else {
+            // User can only see their own invoices
+            $invoices = Invoice::whereHas('repair', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->with('repair', 'repair.user', 'repair.vehicle')->get();
+        }
+    
+        return view('admin.management.invoices-data', ['invoices' => $invoices]);
     }
+    
 
     public function showInvoiceModal(Request $request)
     {

@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
     
     public function showVehicles()
     {
-        $vehicles = Vehicle::with('user')->get();
-        // dd($vehicles);
-        return
-            view('admin.management.vehicles-data', ['vehicles' => $vehicles]);
+        $user = Auth::user();
+    
+        // Check if the user is an admin
+        if ($user->role === 'admin') {
+            // Admin can see all vehicles
+            $vehicles = Vehicle::with('user')->get();
+        } else {
+            // User can only see vehicles associated with their account
+            $vehicles = Vehicle::where('user_id', $user->id)->with('user')->get();
+        }
+    
+        return view('admin.management.vehicles-data', ['vehicles' => $vehicles]);
     }
-
+    
     public function storeVehicle(Request $request)
     {
         $request->validate([
@@ -24,22 +33,26 @@ class VehicleController extends Controller
             'model' => ['required', 'string', 'max:255'],
             'fuelType' => ['required', 'string', 'max:255'],
             'registration' => ['required', 'string', 'max:255', 'unique:vehicles'],
-            'user_id' => ['required', 'integer', 'exists:users,id'], // Check if user exists
             'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow multiple image uploads
         ]);
-
+    
+        // Initialize vehicleData array
         $vehicleData = [
             'make' => $request->make,
             'model' => $request->model,
             'fuelType' => $request->fuelType,
             'registration' => $request->registration,
-            'user_id' => $request->user_id,
+            'user_id' => $request->user_id ?? auth()->id(), // Use provided user_id or fallback to authenticated user's ID
         ];
+    
         // Check if user exists (alternative approach)
-        $user = User::find($request->user_id);
-        if (!$user) {
-            return back()->withErrors(['user_id' => 'Invalid user ID.']);
+        if ($request->has('user_id')) {
+            $user = User::find($request->user_id);
+            if (!$user) {
+                return back()->withErrors(['user_id' => 'Invalid user ID.']);
+            }
         }
+    
         // Handle image uploads and add paths to vehicleData
         if ($request->hasFile('photos')) {
             $imagePaths = [];
@@ -49,12 +62,13 @@ class VehicleController extends Controller
             }
             $vehicleData['photos'] = json_encode($imagePaths); // Encode paths as JSON
         }
-
+    
         // Create vehicle instance with all data
         $vehicle = Vehicle::create($vehicleData);
-
+    
         return redirect()->back(); // Or your desired redirection logic
     }
+    
 
     public function showVehiclePics(Request $request)
     {

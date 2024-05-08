@@ -1,3 +1,4 @@
+
 @extends('admin.layouts.home')
 @section('content')
 <div class="main-content">
@@ -47,10 +48,12 @@
                             <div class="add-new">
 
                                 <h4 class="card-title">{{ __('Client List') }}</h4>
-                                <button class="btn-primary  add-client">{{ __('Add New Client') }}</button>
+                                @if(Auth::user()->role === 'admin')
+                                <button class="btn-primary add-client">{{ __('Add New Client') }}</button>
                                 <button class="btn-primary import-clients">
                                     <i class="fas fa-upload"></i> {{ __('Import Clients') }}
-                                  </button>
+                                </button>
+                                @endif
                                   
                                     {{-- <form action="{{ route('import.users') }}" method="POST" enctype="multipart/form-data" id="importForm">
                                         @csrf
@@ -65,7 +68,7 @@
 
                                 </p>
                             </div>
-                            
+                        @if (Auth::user()->role === "admin")
                             <table id="datatable-buttons"
                                 class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -84,6 +87,7 @@
 
 
                                 <tbody>
+                               
                                     @foreach ($clients as $client)
                                     <tr data-client-id="{{ $client->deleteId }}" id="row">
                                         <td>{{ $client->name }}</td>
@@ -92,37 +96,69 @@
                                         <td>{{ $client->phoneNumber }}</td>
                                         <td>{{ $client->created_at }}</td>
                                         <td>
-                                            <button type="button" class="btn  edit-client"
-                                                data-client-id="{{ $client->id }}"
-                                                data-client-name="{{ $client->name }}"
-                                                data-client-email="{{ $client->email }}"
-                                                data-client-address="{{ $client->address }}"
-                                                data-client-phone="{{ $client->phoneNumber }}">
-                                                <i class=" ri-edit-2-line "></i>
+                                            <!-- Display edit, delete, and show buttons -->
+                                            <button type="button" class="btn edit-client" data-client-id="{{ $client->id }}" data-client-name="{{ $client->name }}" data-client-email="{{ $client->email }}" data-client-address="{{ $client->address }}" data-client-phone="{{ $client->phoneNumber }}">
+                                                <i class="ri-edit-2-line"></i>
                                             </button>
-                                            <button type="button" class="btn  delete-client"
-                                                data-client-id="{{ $client->id }}">
-                                                <i class="r ri-delete-bin-3-line"></i>
-                                            </button>
-                                            <button type="button" class="btn  show-client"
-                                            data-client-id="{{ $client->id }}">
-                                            <i class=" ri-file-info-line
-                                            "></i>
+                                                @if (Auth::user()->role ==="admin")
+                                                    <button type="button" class="btn delete-client" data-client-id="{{ $client->id }}">
+                                                        <i class="ri-delete-bin-3-line"></i>
+                                                    </button>
+                                                 @endif    
+                                               
+                                            
+
+                                            <button type="button" class="btn show-client" data-client-id="{{ $client->id }}">
+                                                <i class="ri-file-info-line"></i>
                                             </button>
                                         </td>
                                     </tr>
-
                                     @endforeach
 
-                                    @include('admin.layouts.components.users.edit-modal')
-                                    @include('admin.layouts.components.users.add-modal')
-                                    @include('admin.layouts.components.users.import-modal')
-                                    @include('admin.layouts.components.users.confirm-modal')
-                                    @include('admin.layouts.components.users.show-modal')
+                                  
 
                                 </tbody>
                             </table>
+                            @else
+                            <div class="col-lg-6">
+                                @foreach ($clients as $client)
+                                <div class="card">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-md-4">
+                                            <!-- Client Image -->
+                                            @if (Auth::user()->avatar)
+                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="card-img img-fluid" id="avatar-image">
+                                        @else
+                                            <!-- Default avatar image or placeholder -->
+                                            <img src="https://i.pinimg.com/originals/06/3b/bf/063bbf0665eaf9c1730bccdc5c8af1b2.jpg" 
+                                            alt="Default Avatar" class="card-img img-fluid" id="avatar-image">
+                                        @endif
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $client->name }}</h5>
+                                                <p class="card-text">Email: {{ $client->email }}</p>
+                                                <p class="card-text">Address: {{ $client->address }}</p>
+                                                <p class="card-text">Phone Number: {{ $client->phoneNumber }}</p>
+                                                <p class="card-text"><small class="text-muted">Start Date: {{ $client->created_at }}</small></p>
+                                                <button type="button" class="btn edit-client" data-client-id="{{ $client->id }}" data-client-name="{{ $client->name }}" data-client-email="{{ $client->email }}" data-client-address="{{ $client->address }}" data-client-phone="{{ $client->phoneNumber }}">
+                                                    <i class="ri-edit-2-line"></i>
+                                                </button>
+                                                <button type="button" class="btn show-client" data-client-id="{{ $client->id }}">
+                                                    <i class="ri-file-info-line"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @endforeach
+                                
+                            </div>
+                            @endif
+                          
                         </div>
+                       
                     </div>
                 </div>
                 <!-- end col -->
@@ -147,9 +183,11 @@
             </div>
         </div>
     </footer>
-
 </div>
-
+@include('admin.layouts.components.users.edit-modal')
+@include('admin.layouts.components.users.add-modal')
+@include('admin.layouts.components.users.import-modal')
+@include('admin.layouts.components.users.confirm-modal')
+@include('admin.layouts.components.users.show-modal')
 <!-- Modal for editing client -->
-
 @endsection

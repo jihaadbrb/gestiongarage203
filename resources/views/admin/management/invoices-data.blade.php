@@ -52,6 +52,7 @@
 
                                 <tbody>
                                     @foreach ($invoices as $invoice)
+
                                     <tr data-invoice-id="{{ $invoice->deleteId }}" id="row">
                                         <td>{{ $invoice->repair->user->name }}</td>
                                         <td>{{ $invoice->repair->mechanic->name }}</td>
@@ -81,7 +82,6 @@
                                             </button> 
                                         </td>
                                     </tr>
-
                                     @endforeach
 
                                     {{-- @include('admin.layouts.components.users.edit-modal')

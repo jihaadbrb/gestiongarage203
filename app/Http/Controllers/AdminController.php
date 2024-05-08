@@ -18,6 +18,7 @@ use Illuminate\Validation\Rules\Exists;
 use PDO;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -26,14 +27,24 @@ class AdminController extends Controller
 
     public function showUsers()
     {
-        $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->get();
-        $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
+        // Fetch all users for admin
+        if (Auth::user()->role === "admin" || Auth::user()->role === "mechanic") {
+            $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->get();
+            $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
+        } 
+        // Fetch only the authenticated user for regular users
+        else {
+            $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->where('id', Auth::id())->get();
+            $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
+        }
+    
         return view('admin.management.users-data', ['clients' => $clients, 'mechanics' => $mechanics]);
     }
+    
 
     public function showMechanics()
     {
-        $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
+        $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->with('repairs')->get();
         return view('admin.management.mechanic-data', ['mechanics' => $mechanics]);
     }
     public function showAdmins()

@@ -1,53 +1,69 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use App\Models\Repair;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RepairController extends Controller
 {
    
     public function showRepairs()
-    {
+{
+    $user = Auth::user();
+
+    // Check if the user is an admin
+    if ($user->role === 'admin') {
+        // Admin can see all repairs
         $repairs = Repair::with('user', 'vehicle')->get();
-        return
-            view('admin.management.repairs-data', ['repairs' => $repairs]);
+    } else {
+        // User can only see their own repairs
+        $repairs = Repair::where('user_id', $user->id)->with('user', 'vehicle')->get();
     }
 
-
-    public function storeRepair(Request $request)
-    {
-        // dd($request);
-        $request->validate([
-            'description' => 'required',
-            'startDate' => 'required|date',
-            'endDate' => 'nullable|date|after:startDate',  // Optional, validate after startDate
-            'mechanicNotes' => 'nullable|string',
-            'clientNotes' => 'required|string',
-            'user_id' => 'required',
-            'mechanic_id' => 'required'
-            // 'spare_parts_id'=>'required'
-        ]);
-
-        // Set default status if not provided in the request
-        $status = $request->input('status', 'in_progress');
-
-        // You can also use $request->filled('status') to check if status is provided
-
-        $repairData = $request->all();
-        $repairData['status'] = $status; // Set the status in the repair data
-        $repairData['user_id'] = $request->get('user_id'); // Use route parameter if available, then form data
-        $repairData['vehicle_id'] = $request->get('vehicle_id'); // Use route parameter if available, then form data
-        $repairData['mechanic_id'] = $request->get('mechanic_id'); // Get mechanic ID from form
-        // $repairData['spare_parts_id'] = $request->get('spare_parts_id'); // Get mechanic ID from form
+    return view('admin.management.repairs-data', ['repairs' => $repairs]);
+}
 
 
-        $repair = Repair::create($repairData);
 
-        return redirect()->route('admin.repairs')->with('success', 'Repair record created successfully!');
+public function storeRepair(Request $request)
+{
+    $request->validate([
+        'description' => 'required',
+        'mechanicNotes' => 'nullable|string',
+        'clientNotes' => 'required|string',
+        'user_id' => 'required',
+        'mechanic_id' => 'required'
+    ]);
+
+    // Set default status if not provided in the request
+    $status = $request->input('status', 'pending');
+
+    // Set startDate to current date
+    $startDate = Carbon::now()->toDateString();
+
+    // Set endDate if status is 'complete'
+    $endDate = null;
+    if ($status === 'complete') {
+        $endDate = Carbon::now()->toDateString();
     }
+
+    $repairData = $request->all();
+    $repairData['status'] = $status;
+    $repairData['startDate'] = $startDate;
+    $repairData['endDate'] = $endDate;
+    $repairData['user_id'] = $request->get('user_id');
+    $repairData['vehicle_id'] = $request->get('vehicle_id');
+    $repairData['mechanic_id'] = $request->get('mechanic_id');
+
+    $repair = Repair::create($repairData);
+
+    return redirect()->route('admin.repairs')->with('success', 'Repair record created successfully!');
+}
+
 
 
     public function fetchMechanics()

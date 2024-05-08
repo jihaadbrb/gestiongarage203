@@ -46,9 +46,16 @@
                         <span>{{ __('Managment') }}</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        
+                        @if (Auth::user()->role==="admin" || Auth::user()->role==="mechanic")
                         <li><a href="{{route('admin.users')}}">users</a></li>
+                        @else
+                        <li><a href="{{route('admin.users')}}">Profile</a></li>
+                            
+                        @endif
+
+
                         <li><a href="{{route('admin.mechanics')}}">Mechanics</a></li>
-                        <li><a href="{{route('admin.admins')}}">Admins</a></li>
                         <li><a href="{{route('admin.vehicles')}}">Vehicles</a></li>
                         <li><a href="{{route('admin.repairs')}}">Repairs</a></li>
                         <li><a href="{{route('admin.Invoices')}}">Invoices</a></li>
@@ -70,7 +77,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('admin.mails')}}">Inbox</a></li>
-                        <li><a href="email-read.html">Read Email</a></li>
+                        {{-- <li><a href="email-read.html">Read Email</a></li> --}}
                     </ul>
                 </li>
 

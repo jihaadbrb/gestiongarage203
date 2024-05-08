@@ -23,50 +23,52 @@
                                     <th>{{ __('Address') }}</th>
                                     <th>{{ __('Phone Number') }}</th>
                                     <th>{{ __('Start date') }}</th>
+                                    @if(Auth::user()->role === 'admin')
+
                                     <th>{{ __('Action') }}</th>
+                                    @endif
                                 </tr>
                                 </thead>
 
 
                                 <tbody>
-                                    @foreach ($mechanics as $client)
-                                        <tr data-client-id="{{$client->id}}" id="row">
-                                            <td>{{ $client->name }}</td> 
-                                            <td>{{$client->email}}</td>
-                                            <td>{{$client->address}}</td>
-                                            <td>{{$client->phoneNumber}}</td>
-                                            <td>{{$client->created_at}}</td>
-                                            <td>
-                                                <button type="button" class="btn edit-client" 
-                                                data-client-id="{{$client->id}}"
-                                                data-client-name="{{$client->name}}"
-                                                data-client-email="{{$client->email}}"
-                                                data-client-address="{{$client->address}}"
-                                                data-client-phone="{{$client->phoneNumber}}"
-                                            >
-                                            <i class=" ri-edit-2-line "></i>
-
-                                            </button>
-                                            <button type="button" class="btn  delete-client" 
-                                            data-client-id="{{$client->id}}">
-                                            <i class="r ri-delete-bin-3-line"></i>
-                                        </button>
-                                        <button type="button" class="btn  show-mechanic"
-                                        data-client-id="{{ $client->id }}">
-                                        <i class=" ri-file-info-line
-                                        "></i>
-                                        </button>
-                                            </td>
-                                        </tr>
-
-
+                                    @foreach ($mechanics as $mechanic)
+                                            <tr data-client-id="{{$mechanic->id}}" id="row">
+                                                <td>{{ $mechanic->name }}</td> 
+                                                <td>{{$mechanic->email}}</td>
+                                                <td>{{$mechanic->address}}</td>
+                                                <td>{{$mechanic->phoneNumber}}</td>
+                                                <td>{{$mechanic->created_at}}</td>
+                                                <td>
+                                                    @if(Auth::user()->role === 'admin')
+                                                        <!-- Display buttons for admin -->
+                                                        <button type="button" class="btn edit-client" 
+                                                        data-client-id="{{$mechanic->id}}"
+                                                        data-client-name="{{$mechanic->name}}"
+                                                        data-client-email="{{$mechanic->email}}"
+                                                        data-client-address="{{$mechanic->address}}"
+                                                        data-client-phone="{{$mechanic->phoneNumber}}"
+                                                        >
+                                                        <i class="ri-edit-2-line"></i>
+                                                        </button>
+                                                        <button type="button" class="btn  delete-client" 
+                                                        data-client-id="{{$mechanic->id}}">
+                                                        <i class="ri-delete-bin-3-line"></i>
+                                                        </button>
+                                                        <button type="button" class="btn  show-mechanic"
+                                                        data-client-id="{{ $mechanic->id }}">
+                                                        <i class="ri-file-info-line"></i>
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
                                        
                                     @endforeach
                                     @include('admin.layouts.components.users.confirm-modal')
                                     @include('admin.layouts.components.users.edit-modal')
                                     @include('admin.layouts.components.users.show-modal')
-
                                 </tbody>
+                                
                             </table>
                         </div>
                     </div>
@@ -93,8 +95,4 @@
     
 </div>
 
-
-
 @endsection
-
-

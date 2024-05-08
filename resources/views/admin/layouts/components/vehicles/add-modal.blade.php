@@ -14,24 +14,34 @@
                         <input type="text" class="form-control" id="make" name="make" value="">
                     </div>
                     <div class="mb-3">
-                        <label for="model" class="form-label">model</label>
+                        <label for="model" class="form-label">Model</label>
                         <input type="text" class="form-control" id="model" name="model" value="">
                     </div>
                     <div class="mb-3">
-                        <label for="fuelType" class="form-label">fuelType</label>
+                        <label for="fuelType" class="form-label">Fuel Type</label>
                         <input type="text" class="form-control" id="fuelType" name="fuelType">
                     </div>
                     <div class="mb-3">
-                        <label for="registration" class="form-label">registration</label>
+                        <label for="registration" class="form-label">Registration</label>
                         <textarea class="form-control" id="registration" name="registration"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="photos" class="form-label" >photos</label>
-                        <input type="file" id="photos" name="photos[]" accept="image/*" multiple>                    </div>
+                        <label for="photos" class="form-label" >Photos</label>
+                        <input type="file" id="photos" name="photos[]" accept="image/*" multiple>
+                    </div>
+                    @if (Auth::user()->role === "client")
+                        
                     <div class="mb-3">
-                        <label for="user_id" class="form-label" >user Id</label>
+                        <label for="user_id" class="form-label">User ID</label>
+                        <input type="text" class="form-control" id="user_id" name="user_id" value="" disabled>
+                    </div>
+                    @else
+                    div class="mb-3">
+                        <label for="user_id" class="form-label">User ID</label>
                         <input type="text" class="form-control" id="user_id" name="user_id" value="">
                     </div>
+                    @endif
+                   
                    
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

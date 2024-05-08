@@ -38,10 +38,17 @@
                 <input type="file" id="photos" name="photos[]" accept="image/*" multiple>                    </div>
             <div class="mb-3">
             </div>
-            <div class="form-group">
-              <label for="vehicleUserId">User ID</label>
-              <input type="text" class="form-control" id="vehicleUserId" name="user_id" >
-            </div>
+            @if (Auth::user()->role === "client")
+              <div class="form-group">
+                <label for="vehicleUserId">User ID</label>
+                <input type="text" class="form-control" id="vehicleUserId" name="user_id" disabled >
+              </div>
+            @else
+              <div class="form-group">
+                <label for="vehicleUserId">User ID</label>
+                <input type="text" class="form-control" id="vehicleUserId" name="user_id" >
+              </div>
+            @endif
             <button type="submit" class="btn btn-primary submitVehicle">Save Changes</button>
           </form>
         </div>

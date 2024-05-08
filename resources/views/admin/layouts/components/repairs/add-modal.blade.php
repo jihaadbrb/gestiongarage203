@@ -24,16 +24,29 @@
                     </div> --}}
                     <div class="mb-3">
                         <label for="startDate" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="startDate" name="startDate">
+                        <input type="date" class="form-control" id="startDate" name="startDate"
+                     
+                        >
                     </div>
                     <div class="mb-3">
                         <label for="endDate" class="form-label">End Date (Optional)</label>
-                        <input type="date" class="form-control" id="endDate" name="endDate">
+                        <input type="date" class="form-control" id="endDate" name="endDate" 
+                        
+                        @if (Auth::user()->role === "client")
+                        @disabled(true)
+                    @endif
+                        >
                     </div>
                     <div class="mb-3">
                         <label for="mechanicNotes" class="form-label">Mechanic Notes (Optional)</label>
-                        <textarea class="form-control" id="mechanicNotes" name="mechanicNotes" rows="3"></textarea>
+                        <textarea class="form-control" id="mechanicNotes" name="mechanicNotes" rows="3"
+                            @if (Auth::user()->role === "client")
+                                @disabled(true)
+                            @endif
+                        ></textarea>
                     </div>
+                   
+                    
                     <div class="mb-3">
                         <label for="clientNotes" class="form-label">Client Notes</label>
                         <textarea class="form-control" id="clientNotes" name="clientNotes" rows="3"></textarea>

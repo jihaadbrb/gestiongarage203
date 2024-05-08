@@ -10,15 +10,26 @@ use App\Models\User;
 use App\Models\Repair;
 use App\Models\SentEmail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class MailController extends Controller
 {
     public function showMails()
     {
-        $emails = SentEmail::with('user')->get();
-        return
-            view('admin.management.mail-data', ['emails' => $emails]);
+        $user = Auth::user();
+    
+        // Check if the user is an admin
+        if ($user->role === 'admin') {
+            // Admin can see all emails
+            $emails = SentEmail::with('user')->get();
+        } else {
+            // User can only see emails associated with their account
+            $emails = SentEmail::where('user_id', $user->id)->with('user')->get();
+        }
+    
+        return view('admin.management.mail-data', ['emails' => $emails]);
     }
+    
     public function index(Request $request)
     {
 

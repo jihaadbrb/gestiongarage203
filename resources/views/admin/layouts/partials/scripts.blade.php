@@ -328,7 +328,7 @@
         $('#addVehicleForm').click(function() {
         console.log("Submit button clicked");
         var formData = $('#addVehicleForm').serialize();
-
+            alert(formData);
         // Axios request
         axios({
             method: 'post',

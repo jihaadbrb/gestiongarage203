@@ -26,9 +26,12 @@
                                 <h4 class="card-title">{{ __('Repairs Management') }}</h4>
                                 <p class="card-title-desc">
                                     <form method="GET" action="{{route('admin.sendAll')}}" >
+                                        @if(Auth::user()->role === 'admin')
+
                                         <button type="submit" class="btn btn-primary">
                                             Send Mail for All Completed Repairs
                                         </button>
+                                        @endif
                                     </form>
                                       
 
@@ -50,22 +53,31 @@
                                         <th>{{ __('End Date') }}</th>
                                         <th>{{ __('user name') }}</th>
                                         <th>{{ __('vehicle regestration') }}</th>
+                                        @if(Auth::user()->role === 'admin')
+
                                         <th>{{ __('action') }}</th>
+                                        @endif
                                     </tr>
                                 </thead>
 
 
                                 <tbody>
                                     @foreach ($repairs as $repair)
+
                                     <tr data-client-id="{{ $repair->deleteId }}" id="row">
                                         <td>{{ $repair->description }}</td>
                                         <td>
-                                            {{ $repair->status }}
-                                            <select class="form-select repair-status" data-repair-id="{{ $repair->id }}">
-                                                <option value="pending" {{ $repair->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                                <option value="in_progress" {{ $repair->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                                <option value="completed" {{ $repair->status === 'completed' ? 'selected' : '' }}>Completed</option>
-                                            </select>
+                                            
+                                            @if(Auth::user()->role === 'admin')
+                                                    <select class="form-select repair-status" data-repair-id="{{ $repair->id }}">
+                                                        <option value="pending" {{ $repair->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                                        <option value="in_progress" {{ $repair->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                                        <option value="completed" {{ $repair->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                                                    </select>
+                                                @else
+                                                <span class="badge bg-{{ $repair->status === 'completed' ? 'success' : ($repair->status === 'in_progress' ? 'warning' : 'danger') }}" style="font-size: 15px; color: rgb(255, 255, 255);">{{ ucfirst($repair->status) }}</span>                                                @endif
+
+                                            
                                         </td>
                                         <td>{{ $repair->startDate }}</td>
                                         <td>{{ $repair->endDate }}</td>
@@ -81,11 +93,12 @@
                                                 data-repair-phone="{{ $repair->phoneNumber }}">
                                                 <i class=" ri-edit-2-line "></i>
                                             </button>--}}
-                                            <button type="button" class="btn  delete-repair"
-                                                data-repair-id="{{ $repair->id }}">
-                                                <i class="r ri-delete-bin-3-line"></i>
-                                            </button>
-                                            @if($repair->status === 'completed')
+                                            @if($repair->status === 'completed' && Auth::user()->role === "admin")
+
+                                                <button type="button" class="btn  delete-repair"
+                                                    data-repair-id="{{ $repair->id }}">
+                                                    <i class="r ri-delete-bin-3-line"></i>
+                                                </button>
                                                 <button type="button" class="btn add-invoice" data-repairinvoice-id="{{ $repair->id }}">
                                                     <i class="ri-printer-line"></i>
                                                 </button>
@@ -95,16 +108,14 @@
                                                     <button type="submit" class="btn">Send Mail</button>
                                                 </form>
                                             @endif
-                                        
-                                            <button type="button" class="btn  add-spare-part"
-                                            data-repair-id="{{ $repair->id }}">
-                                            <i class=" ri-send-plane-line
-
-                                            "></i>
-                                            </button>  
+                                                @if (Auth::user()->role==="admin")
+                                                     <button type="button" class="btn  add-spare-part"
+                                                        data-repair-id="{{ $repair->id }}">
+                                                        <i class=" ri-send-plane-line"></i>
+                                                        </button>  
+                                                @endif
                                         </td>
                                     </tr>
-
                                     @endforeach
 
                                     {{-- @include('admin.layouts.components.users.edit-modal')

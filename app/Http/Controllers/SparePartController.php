@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Repair;
 use App\Models\SparePart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SparePartController extends Controller
 {
@@ -41,12 +42,22 @@ class SparePartController extends Controller
 
     public function showSpareParts()
     {
-        // Fetch spare parts along with their related repairs
-        // $spareParts = Repair::with('spareParts')->get();
-        $spareParts = SparePart::with('repairs')->get();
-        // dd($spareParts);
+        $user = Auth::user();
+    
+        // Check if the user is an admin
+        if ($user->role === 'admin') {
+            // Admin can see all spare parts
+            $spareParts = SparePart::with('repairs')->get();
+        } else {
+            // User can only see spare parts related to their repairs
+            $spareParts = SparePart::whereHas('repairs', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->with('repairs')->get();
+        }
+    
         return view('admin.management.spareParts-data', ['spares' => $spareParts]);
     }
+    
 
     public function destroySparePart(Request $request)
     {
