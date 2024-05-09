@@ -3,6 +3,9 @@
 <div class="main-content">
 
     <div class="page-content">
+        @if (Auth::user()->role==="admin")
+            
+       
         <div class="container-fluid">
             
             <!-- start page title -->
@@ -470,7 +473,122 @@
             </div>
             <!-- end row -->
         </div>
+
+        @else
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Dashboard</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">reda</a></li>
+                                <li class="breadcrumb-item active">admin</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
         
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Amount To Pay</p>
+                                    <h4 class="mb-2 font-size-16">$ {{$amountToPay }}</h4>
+                                </div>
+                                <div class="avatar-sm">
+                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                        <i class="mdi mdi-currency-usd font-size-24"></i>  
+                                    </span>
+                                </div>
+                            </div>                                            
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Status</p>
+                                    <h4 class="mb-2 font-size-16">{{$status}}</h4>
+                                </div>
+                                <div class="avatar-sm">
+                                    @if($status === 'completed')
+                                        <span class="avatar-title bg-light text-success rounded-3">
+                                            <i class="ri-check-line font-size-24"></i>  
+                                        </span>
+                                    @elseif($status === 'pending')
+                                        <span class="avatar-title bg-light text-warning rounded-3">
+                                            <i class="ri-time-line font-size-24"></i>  
+                                        </span>
+                                    @elseif($status === 'in_progress')
+                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                            <i class="ri-loader-line font-size-24"></i>  
+                                        </span>
+                                    @else
+                                        <span class="avatar-title bg-light text-danger rounded-3">
+                                            <i class="ri-close-line font-size-24"></i>  
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>                                              
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Vehicle  </p>
+                                    @foreach ($invoiceDetails as $details)
+                                        <h4 class="font-size-14 mb-2">{{ $details['vehicleMake'] }} / {{ $details['vehicleRegistration'] }}</h4>
+                                    @endforeach
+                                </div>
+                                <div class="avatar-sm">
+                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                        <i class="ri-car-line font-size-24"></i>  
+                                    </span>
+                                </div>
+                            </div>                                              
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Mechanic</p>
+                                    @foreach ($invoiceDetails as $details)
+                                        <h4 class="font-size-14 mb-2">{{ $details['mechanicName'] }}</h4>
+                                    @endforeach
+                                </div>
+                                <div class="avatar-sm">
+                                    <span class="avatar-title bg-light text-success rounded-3">
+                                        <i class="ri-user-3-line font-size-24"></i>  
+
+                                    </span>
+                                </div>
+                            </div>                                              
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        
+            <!-- Invoice Cards -->
+            
+            <!-- End Invoice Cards -->
+        </div>
+        
+        
+       @endif  
     </div>
     <!-- End Page-content -->
    

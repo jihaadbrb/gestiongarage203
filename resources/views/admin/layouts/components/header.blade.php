@@ -191,30 +191,37 @@
             </div>
 
             <div class="dropdown d-none d-sm-inline-block">
-                <button type="button" class="btn header-item waves-effect"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="" src="assets/images/flags/us.jpg" alt="Header Language" height="16">
+                <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @if(app()->getlocale() == 'ar')
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Flag_of_Morocco_hexagram.svg" alt="Arabic" height="16">
+                    @elseif(app()->getlocale() == 'es')
+                        <img src="assets/images/flags/spain.jpg" alt="Spanish" height="16">
+                    @elseif(app()->getlocale() == 'fr')
+                        <img src="assets/images/flags/french.jpg" alt="French" height="16">
+                    @else
+                        <img src="assets/images/flags/us.jpg" alt="English" height="16">
+                    @endif
                 </button>
-                <select class="dropdown-menu dropdown-menu-end selectLocale" >
+                <select class="dropdown-menu dropdown-menu-end selectLocale">
                     <option @if(app()->getlocale() == 'ar') selected @endif value="ar">
-                        <img src="assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12">
+                        <img src="assets/images/flags/ar.jpg" alt="Arabic" class="me-1" height="12">
                         <span class="align-middle">ar</span>
                     </option>
-                    <option @if(app()->getlocale() == 'es') selected @endif  value="es">
-                        <img src="assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12">
+                    <option @if(app()->getlocale() == 'es') selected @endif value="es">
+                        <img src="assets/images/flags/spain.jpg" alt="Spanish" class="me-1" height="12">
                         <span class="align-middle">es</span>
                     </option>
-                    <option @if(app()->getlocale() == 'en') selected @endif  value="en">
-                        <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12">
+                    <option @if(app()->getlocale() == 'en') selected @endif value="en">
+                        <img src="assets/images/flags/us.jpg" alt="English" class="me-1" height="12">
                         <span class="align-middle">en</span>
                     </option>
-                    <option @if(app()->getlocale() == 'fr') selected @endif  value="fr">
-                        <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12">
+                    <option @if(app()->getlocale() == 'fr') selected @endif value="fr">
+                        <img src="assets/images/flags/french.jpg" alt="French" class="me-1" height="12">
                         <span class="align-middle">fr</span>
                     </option>
                 </select>
-
             </div>
+            
 
             <div class="dropdown d-none d-lg-inline-block ms-1">
                 <button type="button" class="btn header-item noti-icon waves-effect"

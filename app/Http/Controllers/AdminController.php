@@ -44,7 +44,7 @@ class AdminController extends Controller
 
     public function showMechanics()
     {
-        $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->with('repairs')->get();
+        $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
         return view('admin.management.mechanic-data', ['mechanics' => $mechanics]);
     }
     public function showAdmins()

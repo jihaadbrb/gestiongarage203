@@ -47,7 +47,13 @@
                             
                             <div class="add-new">
 
+                                @if(Auth::user()->role === 'admin')
+
                                 <h4 class="card-title">{{ __('Client List') }}</h4>
+                            @else
+                                <h4 class="card-title">{{ __('Client Profile') }}</h4>
+
+                            @endif
                                 @if(Auth::user()->role === 'admin')
                                 <button class="btn-primary add-client">{{ __('Add New Client') }}</button>
                                 <button class="btn-primary import-clients">
@@ -76,9 +82,9 @@
 
                                 <thead>
                                     <tr>
+                                        <th>{{ __('Avatar') }}</th>
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Email') }}</th>
-                                        <th>{{ __('Address') }}</th>
                                         <th>{{ __('Phone Number') }}</th>
                                         <th>{{ __('Start Date') }}</th>
                                         <th>{{ __('Action') }}</th>
@@ -90,9 +96,23 @@
                                
                                     @foreach ($clients as $client)
                                     <tr data-client-id="{{ $client->deleteId }}" id="row">
+
+                                        <td>
+
+                                            
+
+
+                                            @if ($client->avatar)
+                                                <img src="{{ asset('storage/' . $client->avatar) }}" class="avatar-sm rounded-circle" id="avatar-image">
+                                            @else
+                                                <!-- Default avatar image or placeholder -->
+                                                <img src="https://i.pinimg.com/originals/06/3b/bf/063bbf0665eaf9c1730bccdc5c8af1b2.jpg" 
+                                                alt="Default Avatar" class="avatar-sm rounded-circle" id="avatar-image">
+                                            @endif
+                                        </td>
+
                                         <td>{{ $client->name }}</td>
                                         <td>{{ $client->email }}</td>
-                                        <td>{{ $client->address }}</td>
                                         <td>{{ $client->phoneNumber }}</td>
                                         <td>{{ $client->created_at }}</td>
                                         <td>
@@ -125,14 +145,24 @@
                                 <div class="card">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-md-4">
-                                            <!-- Client Image -->
-                                            @if (Auth::user()->avatar)
-                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="card-img img-fluid" id="avatar-image">
-                                        @else
-                                            <!-- Default avatar image or placeholder -->
-                                            <img src="https://i.pinimg.com/originals/06/3b/bf/063bbf0665eaf9c1730bccdc5c8af1b2.jpg" 
-                                            alt="Default Avatar" class="card-img img-fluid" id="avatar-image">
-                                        @endif
+
+                                            <div class="">
+                                                <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data" id="avatar-upload-form">
+                                                    @csrf
+                                                    <input type="file" name="avatar" id="avatar-input" style="display: none;">
+                                                </form>
+                                                <label for="avatar-input">
+                                                    @if (Auth::user()->avatar)
+                                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="card-img img-fluid" id="avatar-image">
+                                                    @else
+                                                        <!-- Default avatar image or placeholder -->
+                                                        <img src="https://i.pinimg.com/originals/06/3b/bf/063bbf0665eaf9c1730bccdc5c8af1b2.jpg" 
+                                                        alt="Default Avatar" class="card-img img-fluid" id="avatar-image">
+                                                    @endif
+                                                </label>
+                                            </div>
+
+                                          
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">

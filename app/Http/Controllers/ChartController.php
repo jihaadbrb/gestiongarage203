@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\Repair;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ChartController extends Controller
@@ -228,125 +230,171 @@ class ChartController extends Controller
 
     public function showCharts()
     {
-        // Retrieve data for completed repairs count
-        $completedRepairsByMonth = DB::table('repairs')
-            ->select(DB::raw('YEAR(endDate) AS year, MONTH(endDate) AS month, COUNT(*) AS completed_repairs_count'))
-            ->where('status', 'completed')
-            ->groupBy(DB::raw('YEAR(endDate), MONTH(endDate)'))
-            ->orderBy('year')
-            ->orderBy('month')
-            ->get();
+        if (Auth::user()->role === 'admin') {
+            // Retrieve data for completed repairs count
+            $completedRepairsByMonth = DB::table('repairs')
+                ->select(DB::raw('YEAR(endDate) AS year, MONTH(endDate) AS month, COUNT(*) AS completed_repairs_count'))
+                ->where('status', 'completed')
+                ->groupBy(DB::raw('YEAR(endDate), MONTH(endDate)'))
+                ->orderBy('year')
+                ->orderBy('month')
+                ->get();
 
-        $labels = [];
-        $completedRepairsData = [];
-        $revenueData = [];
+            $labels = [];
+            $completedRepairsData = [];
+            $revenueData = [];
 
-        // Process completed repairs and revenue data
-        foreach ($completedRepairsByMonth as $repair) {
-            $labels[] = date('M Y', mktime(0, 0, 0, $repair->month, 1, $repair->year));
-            $completedRepairsData[] = $repair->completed_repairs_count;
+            // Process completed repairs and revenue data
+            foreach ($completedRepairsByMonth as $repair) {
+                $labels[] = date('M Y', mktime(0, 0, 0, $repair->month, 1, $repair->year));
+                $completedRepairsData[] = $repair->completed_repairs_count;
 
-            // Retrieve and calculate revenue data for the same month
-            $revenue = DB::table('repairs')
-                ->join('invoices', 'repairs.id', '=', 'invoices.repair_id')
-                ->where('repairs.status', 'completed')
-                ->whereYear('repairs.endDate', $repair->year)
-                ->whereMonth('repairs.endDate', $repair->month)
-                ->sum('invoices.totalAmount');
+                // Retrieve and calculate revenue data for the same month
+                $revenue = DB::table('repairs')
+                    ->join('invoices', 'repairs.id', '=', 'invoices.repair_id')
+                    ->where('repairs.status', 'completed')
+                    ->whereYear('repairs.endDate', $repair->year)
+                    ->whereMonth('repairs.endDate', $repair->month)
+                    ->sum('invoices.totalAmount');
 
-            $revenueData[] = $revenue;
-        }
-
-        // Prepare chart data
-        $chartData = [
-            'labels' => $labels,
-            'completed_repairs' => $completedRepairsData,
-            'revenue' => $revenueData,
-        ];
-        // dd($chartData['revenue']);
-        // Retrieve other data for the view
-        $totalCompletedRepairs = DB::table('repairs')->where('status', 'completed')->count();
-        $totalAmounts = Repair::with('invoices')->get()->sum(function ($repair) {
-            return $repair->invoices->sum('totalAmount');
-        });
-        $usersNum = User::where('role', 'client')->latest()->count();
-        $mechanicsNum = User::where('role', 'mechanic')->latest()->count();
-        $totalAmountLastWeek = 0; // Calculate this value as per your requirements
-        $totalAmountLastMonth = 0; // Calculate this value as per your requirements
-        $totalOrders = DB::table('repairs')->where('status', 'pending')->count();
-        $usersComparisonData = $this->getUsersDataForComparison();
-        $repairsDataForComparison = $this->getRepairsDataForComparison();
-        $totalAmountComparison = $this->getTotalAmountComparison();
-        $mechanicsDataForComparison = $this->getMechanicsDataForComparison();
-        $newOrdersDataForComparison = $this->getNewOrdersDataForComparison();
-
-        $repairs = Repair::with('mechanic', 'invoices')->get();
-
-        $mechanicsTotalAmount = [];
-
-        foreach ($repairs as $repair) {
-            // Get the mechanic's data
-            $mechanicData = $repair->mechanic;
-
-            // Get the mechanic's name
-            $mechanicName = $mechanicData->name;
-
-            // Get the total amount for this repair
-            $totalAmount = $repair->invoices->sum('totalAmount');
-
-            // Add the total amount to the mechanic's data
-            if (!isset($mechanicsTotalAmount[$mechanicName])) {
-                $mechanicsTotalAmount[$mechanicName] = $mechanicData;
-                $mechanicsTotalAmount[$mechanicName]->totalEarned = 0;
+                $revenueData[] = $revenue;
             }
-            $mechanicsTotalAmount[$mechanicName]->totalEarned += $totalAmount;
+
+            // Prepare chart data
+            $chartData = [
+                'labels' => $labels,
+                'completed_repairs' => $completedRepairsData,
+                'revenue' => $revenueData,
+            ];
+
+            // Retrieve other data for the view
+            $totalCompletedRepairs = DB::table('repairs')->where('status', 'completed')->count();
+            $totalAmounts = Repair::with('invoices')->get()->sum(function ($repair) {
+                return $repair->invoices->sum('totalAmount');
+            });
+            $usersNum = User::where('role', 'client')->latest()->count();
+            $mechanicsNum = User::where('role', 'mechanic')->latest()->count();
+            $totalAmountLastWeek = 0; // Calculate this value as per your requirements
+            $totalAmountLastMonth = 0; // Calculate this value as per your requirements
+            $totalOrders = DB::table('repairs')->where('status', 'pending')->count();
+            $usersComparisonData = $this->getUsersDataForComparison();
+            $repairsDataForComparison = $this->getRepairsDataForComparison();
+            $totalAmountComparison = $this->getTotalAmountComparison();
+            $mechanicsDataForComparison = $this->getMechanicsDataForComparison();
+            $newOrdersDataForComparison = $this->getNewOrdersDataForComparison();
+
+            $repairs = Repair::with('mechanic', 'invoices')->get();
+
+            $mechanicsTotalAmount = [];
+
+            foreach ($repairs as $repair) {
+                // Get the mechanic's data
+                $mechanicData = $repair->mechanic;
+
+                // Get the mechanic's name
+                $mechanicName = $mechanicData->name;
+
+                // Get the total amount for this repair
+                $totalAmount = $repair->invoices->sum('totalAmount');
+
+                // Add the total amount to the mechanic's data
+                if (!isset($mechanicsTotalAmount[$mechanicName])) {
+                    $mechanicsTotalAmount[$mechanicName] = $mechanicData;
+                    $mechanicsTotalAmount[$mechanicName]->totalEarned = 0;
+                }
+                $mechanicsTotalAmount[$mechanicName]->totalEarned += $totalAmount;
+            }
+            $mechanicsEarned = [];
+
+            foreach ($mechanicsTotalAmount as $mechanicName => $mechanicData) {
+                $totalEarned = $mechanicData->totalEarned;
+                $mechanicsEarned[$mechanicName] = $totalEarned;
+            }
+
+
+            $topThreeMechanics = [];
+
+            // Sort mechanics by total earned amounts in descending order
+            arsort($mechanicsEarned);
+
+            // Extract the top three earners
+            $topThreeMechanics = array_slice($mechanicsEarned, 0, 3);
+
+            // Extract names and total earned amounts for the top three mechanics
+            $topThreeNames = array_keys($topThreeMechanics);
+            $topThreeEarned = array_values($topThreeMechanics);
+
+            $topThreeChartData = [
+                'mechanics' => $topThreeNames,
+                'earned' => $topThreeEarned,
+            ];
+
+            return view('admin.dashboard', [
+                'data' => $chartData,
+                'totalCompletedRepairs' => $totalCompletedRepairs,
+                'totalAmount' => $totalAmounts,
+                'usersNum' => $usersNum,
+                'usersComparisonData' => $usersComparisonData,
+                'totalAmountLastWeek' => $totalAmountLastWeek,
+                'totalAmountLastMonth' => $totalAmountLastMonth,
+                'repairsDataForComparison' => $repairsDataForComparison,
+                'mechanicsNum' => $mechanicsNum,
+                'totalOrders' => $totalOrders,
+                'totalAmountComparison' => $totalAmountComparison,
+                'mechanicsDataForComparison' => $mechanicsDataForComparison,
+                'newOrdersDataForComparison' => $newOrdersDataForComparison,
+                'mechanicsTotalAmount' => $mechanicsTotalAmount,
+                'topThreeChartData' => $topThreeChartData,
+            ]);
+        } else {
+            // Retrieve data for regular user
+            $currentUser = Repair::with('invoices')->where('user_id', Auth::user()->id)->first(); // Use first() to retrieve a single instance
+            if ($currentUser) {
+                $status = $currentUser->status; // Assuming the status is directly stored in the user's model
+                $amountToPay = $currentUser->invoices->sum('totalAmount'); // Assuming the amount to pay is directly stored in the user's model
+        
+                // Retrieve invoices associated with the authenticated user
+                $userId = Auth::id();
+                $invoices = Invoice::with('repair', 'repair.user', 'repair.vehicle')
+                    ->whereHas('repair', function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    })
+                    ->get();
+        
+                // Fetch mechanic name, vehicle make, and registration for each invoice
+                $invoiceDetails = [];
+                foreach ($invoices as $invoice) {
+                    $mechanicName = $invoice->repair->mechanic->name;
+                    $vehicleMake = $invoice->repair->vehicle->make;
+                    $vehicleRegistration = $invoice->repair->vehicle->registration;
+        
+                    // Store the details in an array
+                    $invoiceDetails[] = [
+                        'mechanicName' => $mechanicName,
+                        'vehicleMake' => $vehicleMake,
+                        'vehicleRegistration' => $vehicleRegistration,
+                    ];
+                }
+        
+                // Return the view with user data
+                return view('admin.dashboard', [
+                    'status' => $status ?? null,
+                    'amountToPay' => $amountToPay ?? null,
+                    'invoiceDetails' => $invoiceDetails,
+                ]);
+            } else {
+                // Initialize invoiceDetails array if no invoices are found
+                $invoiceDetails = [];
+        
+                // Handle case where no record is found for the user
+                return view('admin.dashboard', [
+                    'status' => "---",
+                    'amountToPay' => "---",
+                    'invoiceDetails' => $invoiceDetails,
+                ])->with('error', 'User data not found.');
+            }
         }
-        $mechanicsEarned = [];
-
-        foreach ($mechanicsTotalAmount as $mechanicName => $mechanicData) {
-            $totalEarned = $mechanicData->totalEarned;
-            $mechanicsEarned[$mechanicName] = $totalEarned;
-        }
-
-
-        $topThreeMechanics = [];
-
-        // Sort mechanics by total earned amounts in descending order
-        arsort($mechanicsEarned);
-
-        // Extract the top three earners
-        $topThreeMechanics = array_slice($mechanicsEarned, 0, 3);
-
-        // Extract names and total earned amounts for the top three mechanics
-        $topThreeNames = array_keys($topThreeMechanics);
-        $topThreeEarned = array_values($topThreeMechanics);
-
-        $topThreeChartData = [
-            'mechanics' => $topThreeNames,
-            'earned' => $topThreeEarned,
-        ];
-
-
-        // dd($topThreeChartData);
-
-
-
-        return view('admin.dashboard', [
-            'data' => $chartData,
-            'totalCompletedRepairs' => $totalCompletedRepairs,
-            'totalAmount' => $totalAmounts,
-            'usersNum' => $usersNum,
-            'usersComparisonData' => $usersComparisonData,
-            'totalAmountLastWeek' => $totalAmountLastWeek,
-            'totalAmountLastMonth' => $totalAmountLastMonth,
-            'repairsDataForComparison' => $repairsDataForComparison,
-            'mechanicsNum' => $mechanicsNum,
-            'totalOrders' => $totalOrders,
-            'totalAmountComparison' => $totalAmountComparison,
-            'mechanicsDataForComparison' => $mechanicsDataForComparison,
-            'newOrdersDataForComparison' => $newOrdersDataForComparison,
-            'mechanicsTotalAmount' => $mechanicsTotalAmount,
-            'topThreeChartData' => $topThreeChartData,
-        ]);
+        
+        
     }
 }

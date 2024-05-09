@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
-    
     public function showVehicles()
     {
         $user = Auth::user();
@@ -23,8 +22,11 @@ class VehicleController extends Controller
             $vehicles = Vehicle::where('user_id', $user->id)->with('user')->get();
         }
     
-        return view('admin.management.vehicles-data', ['vehicles' => $vehicles]);
+        // Pass the $vehicles variable to the view
+        return view('admin.management.vehicles-data', ['vehicles' => $vehicles, 'vehicle' => $vehicles->first()]);
     }
+    
+    
     
     public function storeVehicle(Request $request)
     {

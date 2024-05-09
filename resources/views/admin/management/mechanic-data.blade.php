@@ -11,16 +11,20 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="card-title">{{ __('Mechanic List') }}</h4>
+                            @if(Auth::user()->role === 'admin')
+
+                            <th>{{ __('Action') }}</th>
+                            @endif
+                        </tr>
                             <p class="card-title-desc">
                             </p>
 
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                 <tr>
+                                    <th>{{ __('Avatar') }}</th>
                                     <th>{{ __('Name') }}</th>
-                                    <th>Email</th>
-                                    <th>{{ __('Address') }}</th>
+                                    <th>{{ __('Email') }}</th>
                                     <th>{{ __('Phone Number') }}</th>
                                     <th>{{ __('Start date') }}</th>
                                     @if(Auth::user()->role === 'admin')
@@ -32,41 +36,47 @@
 
 
                                 <tbody>
-                                    @foreach ($mechanics as $mechanic)
-                                            <tr data-client-id="{{$mechanic->id}}" id="row">
-                                                <td>{{ $mechanic->name }}</td> 
-                                                <td>{{$mechanic->email}}</td>
-                                                <td>{{$mechanic->address}}</td>
-                                                <td>{{$mechanic->phoneNumber}}</td>
-                                                <td>{{$mechanic->created_at}}</td>
+                                    @foreach ($mechanics as $client)
+                                            <tr data-client-id="{{$client->id}}" id="row">
                                                 <td>
-                                                    @if(Auth::user()->role === 'admin')
-                                                        <!-- Display buttons for admin -->
-                                                        <button type="button" class="btn edit-client" 
-                                                        data-client-id="{{$mechanic->id}}"
-                                                        data-client-name="{{$mechanic->name}}"
-                                                        data-client-email="{{$mechanic->email}}"
-                                                        data-client-address="{{$mechanic->address}}"
-                                                        data-client-phone="{{$mechanic->phoneNumber}}"
-                                                        >
-                                                        <i class="ri-edit-2-line"></i>
-                                                        </button>
-                                                        <button type="button" class="btn  delete-client" 
-                                                        data-client-id="{{$mechanic->id}}">
-                                                        <i class="ri-delete-bin-3-line"></i>
-                                                        </button>
-                                                        <button type="button" class="btn  show-mechanic"
-                                                        data-client-id="{{ $mechanic->id }}">
-                                                        <i class="ri-file-info-line"></i>
-                                                        </button>
+
+                                                    @if ($client->avatar)
+                                                        <img src="{{ asset('storage/' . $client->avatar) }}" class="avatar-sm rounded-circle" id="avatar-image">
+                                                    @else
+                                                        <!-- Default avatar image or placeholder -->
+                                                        <img src="https://i.pinimg.com/originals/06/3b/bf/063bbf0665eaf9c1730bccdc5c8af1b2.jpg" 
+                                                        alt="Default Avatar" class="avatar-sm rounded-circle" id="avatar-image">
                                                     @endif
+                                                </td>
+                                                <td>{{ $client->name }}</td> 
+                                                <td>{{$client->email}}</td>
+                                                <td>{{$client->phoneNumber}}</td>
+                                                <td>{{$client->created_at}}</td>
+                                                <td>
+                                                    <button type="button" class="btn edit-client" 
+                                                    data-client-id="{{$client->id}}"
+                                                    data-client-name="{{$client->name}}"
+                                                    data-client-email="{{$client->email}}"
+                                                    data-client-address="{{$client->address}}"
+                                                    data-client-phone="{{$client->phoneNumber}}"
+                                                >
+                                                <i class=" ri-edit-2-line "></i>
+    
+                                                </button>
+                                                <button type="button" class="btn  delete-client" 
+                                                data-client-id="{{$client->id}}">
+                                                <i class="r ri-delete-bin-3-line"></i>
+                                            </button>
+                                            <button type="button" class="btn  show-mechanic"
+                                            data-client-id="{{ $client->id }}">
+                                            <i class=" ri-file-info-line
+                                            "></i>
+                                            </button>
                                                 </td>
                                             </tr>
                                        
                                     @endforeach
-                                    @include('admin.layouts.components.users.confirm-modal')
-                                    @include('admin.layouts.components.users.edit-modal')
-                                    @include('admin.layouts.components.users.show-modal')
+                         
                                 </tbody>
                                 
                             </table>
@@ -94,5 +104,7 @@
     </footer>
     
 </div>
-
+@include('admin.layouts.components.users.confirm-modal')
+@include('admin.layouts.components.users.edit-modal')
+@include('admin.layouts.components.users.show-modal')
 @endsection

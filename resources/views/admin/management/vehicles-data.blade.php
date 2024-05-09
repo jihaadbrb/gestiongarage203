@@ -40,6 +40,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @if($vehicles) {
                                     @foreach ($vehicles as $vehicle)
                                             <tr data-vehicle-id="{{ $vehicle->vehicleId }}" id="row">
                                                 <td>{{ $vehicle->make }}</td>
@@ -54,6 +55,7 @@
                                                     </button>
                                                 </td>
                                                 <td>
+
                                                     <!-- Display edit and delete buttons for admin -->
                                                     @if(Auth::user()->role === 'admin')
                                                         <button type="button" class="btn edit-vehicle"
@@ -100,6 +102,7 @@
                                                 </td>
                                             </tr>
                                     @endforeach
+                                @endif
                                 </tbody>
                                 @include('admin.layouts.components.vehicles.edit-modal')
                                 @include('admin.layouts.components.vehicles.add-modal')
