@@ -490,8 +490,8 @@
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
-        
+           
+            
             <div class="row">
                 <div class="col-xl-3 col-md-6">
                     <div class="card">
@@ -499,7 +499,17 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-truncate font-size-14 mb-2">Amount To Pay</p>
-                                    <h4 class="mb-2 font-size-16">$ {{$amountToPay }}</h4>
+                                    <h4 class="mb-2 font-size-16">
+                                    
+                                       
+                                            @foreach ($invoiceDetails as $detail)
+                                                @if (isset($detail['amountToPay']))
+                                                    <h4 class="font-size-14 mb-2">{{ $detail['amountToPay'] }}</h4>
+                                                @endif
+                                            @endforeach    
+                                        </h4>
+                                        
+                                    </h4>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-primary rounded-3">
@@ -516,28 +526,43 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-truncate font-size-14 mb-2">Status</p>
-                                    <h4 class="mb-2 font-size-16">{{$status}}</h4>
+                                    <h4 class="mb-2 font-size-16">
+                                        @foreach ($invoiceDetails as $detail)
+                                            @if (isset($detail['status']))
+                                                <h4 class="font-size-14 mb-2">{{ $detail['status'] }}</h4>
+                                            @endif
+                                        @endforeach     
+                                    </h4>
                                 </div>
                                 <div class="avatar-sm">
-                                    @if($status === 'completed')
-                                        <span class="avatar-title bg-light text-success rounded-3">
-                                            <i class="ri-check-line font-size-24"></i>  
-                                        </span>
-                                    @elseif($status === 'pending')
-                                        <span class="avatar-title bg-light text-warning rounded-3">
-                                            <i class="ri-time-line font-size-24"></i>  
-                                        </span>
-                                    @elseif($status === 'in_progress')
-                                        <span class="avatar-title bg-light text-primary rounded-3">
-                                            <i class="ri-loader-line font-size-24"></i>  
-                                        </span>
-                                    @else
-                                        <span class="avatar-title bg-light text-danger rounded-3">
-                                            <i class="ri-close-line font-size-24"></i>  
-                                        </span>
-                                    @endif
+                                    @foreach ($invoiceDetails as $detail)
+                                        @if (isset($detail['status']))
+                                            @switch($detail['status'])
+                                                @case('completed')
+                                                    <span class="avatar-title bg-light text-success rounded-3">
+                                                        <i class="ri-check-line font-size-24"></i>  
+                                                    </span>
+                                                    @break
+                                                @case('pending')
+                                                    <span class="avatar-title bg-light text-warning rounded-3">
+                                                        <i class="ri-time-line font-size-24"></i>  
+                                                    </span>
+                                                    @break
+                                                @case('in_progress')
+                                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                                        <i class="ri-loader-line font-size-24"></i>  
+                                                    </span>
+                                                    @break
+                                                @default
+                                                    <span class="avatar-title bg-light text-danger rounded-3">
+                                                        <i class="ri-close-line font-size-24"></i>  
+                                                    </span>
+                                            @endswitch
+                                        @endif
+                                    @endforeach
                                 </div>
-                            </div>                                              
+                            </div>
+                                                                      
                         </div><!-- end cardbody -->
                     </div><!-- end card -->
                 </div><!-- end col -->
@@ -547,9 +572,12 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-truncate font-size-14 mb-2">Vehicle  </p>
-                                    @foreach ($invoiceDetails as $details)
-                                        <h4 class="font-size-14 mb-2">{{ $details['vehicleMake'] }} / {{ $details['vehicleRegistration'] }}</h4>
+                                    @foreach ($invoiceDetails as $detail)
+                                        @if (isset($detail['vehicleMake']) && isset($detail['vehicleRegistration']))
+                                            <h4 class="font-size-14 mb-2">{{ $detail['vehicleMake'] }} / {{ $detail['vehicleRegistration'] }}</h4>
+                                        @endif
                                     @endforeach
+
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-primary rounded-3">
@@ -566,9 +594,12 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-truncate font-size-14 mb-2">Mechanic</p>
-                                    @foreach ($invoiceDetails as $details)
-                                        <h4 class="font-size-14 mb-2">{{ $details['mechanicName'] }}</h4>
+                                    @foreach ($invoiceDetails as $detail)
+                                        @if (isset($detail['mechanicName']))
+                                            <h4 class="font-size-14 mb-2">{{ $detail['mechanicName'] }}</h4>
+                                        @endif
                                     @endforeach
+                                
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-success rounded-3">

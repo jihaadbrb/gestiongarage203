@@ -348,53 +348,46 @@ class ChartController extends Controller
             ]);
         } else {
             // Retrieve data for regular user
-            $currentUser = Repair::with('invoices')->where('user_id', Auth::user()->id)->first(); // Use first() to retrieve a single instance
-            if ($currentUser) {
-                $status = $currentUser->status; // Assuming the status is directly stored in the user's model
-                $amountToPay = $currentUser->invoices->sum('totalAmount'); // Assuming the amount to pay is directly stored in the user's model
+            $currentUser = Repair::with('invoices')->where('user_id', Auth::user()->id)->get();
+            $userVehicle = Auth::user()->vehicles;
+            $invoiceDetails = [];
         
-                // Retrieve invoices associated with the authenticated user
-                $userId = Auth::id();
-                $invoices = Invoice::with('repair', 'repair.user', 'repair.vehicle')
-                    ->whereHas('repair', function ($query) use ($userId) {
-                        $query->where('user_id', $userId);
-                    })
-                    ->get();
-        
-                // Fetch mechanic name, vehicle make, and registration for each invoice
-                $invoiceDetails = [];
-                foreach ($invoices as $invoice) {
-                    $mechanicName = $invoice->repair->mechanic->name;
-                    $vehicleMake = $invoice->repair->vehicle->make;
-                    $vehicleRegistration = $invoice->repair->vehicle->registration;
-        
-                    // Store the details in an array
+            if ($userVehicle) {
+                foreach ($userVehicle as $vehicle) {
                     $invoiceDetails[] = [
-                        'mechanicName' => $mechanicName,
-                        'vehicleMake' => $vehicleMake,
-                        'vehicleRegistration' => $vehicleRegistration,
+                        'vehicleMake' => $vehicle->make,
+                        'vehicleRegistration' => $vehicle->registration,
                     ];
                 }
-        
-                // Return the view with user data
-                return view('admin.dashboard', [
-                    'status' => $status ?? null,
-                    'amountToPay' => $amountToPay ?? null,
-                    'invoiceDetails' => $invoiceDetails,
-                ]);
-            } else {
-                // Initialize invoiceDetails array if no invoices are found
-                $invoiceDetails = [];
-        
-                // Handle case where no record is found for the user
-                return view('admin.dashboard', [
-                    'status' => "---",
-                    'amountToPay' => "---",
-                    'invoiceDetails' => $invoiceDetails,
-                ])->with('error', 'User data not found.');
             }
-        }
         
+            foreach ($currentUser as $user) {
+                $invoiceDetails[] = [
+                    'status' => $user->status ,
+                    'amountToPay' => $user->invoices->sum('totalAmount'),
+                ];
+            }
+        
+            // Retrieve invoices associated with the authenticated user
+            $userId = Auth::id();
+            $invoices = Invoice::with('repair', 'repair.user', 'repair.vehicle')
+                ->whereHas('repair', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->get();
+        
+            foreach ($invoices as $invoice) {
+                $mechanicName = $invoice->repair->mechanic->name;
+                $invoiceDetails[] = [
+                    'mechanicName' => $mechanicName,
+                ];
+            }
+        
+            // Return the view with user data
+            return view('admin.dashboard', [
+                'invoiceDetails' => $invoiceDetails,
+            ]);
+        }
         
     }
 }
