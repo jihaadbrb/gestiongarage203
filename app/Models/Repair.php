@@ -5,25 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Repair extends Model
-{
-    use HasFactory;
-
-    protected $fillable = [
-        'description',
-        'status',
-        'startDate',
-        'endDate',
-        'mechanicNotes',
-        'clientNotes',
-        'user_id',
-        'vehicle_id',
-        'mechanic_id',
-
-    ];
-    public function mechanic()
+    class Repair extends Model
     {
-        return $this->belongsTo(User::class, 'mechanic_id'); // Define relationship with mechanics (User model)
+        use HasFactory;
+
+        protected $fillable = [
+            'description',
+            'status',
+            'startDate',
+            'endDate',
+            'mechanicNotes',
+            'clientNotes',
+            'user_id',
+            'vehicle_id',
+            'mechanic_id',
+
+        ];
+        public function mechanic()
+        {
+            return $this->belongsTo(User::class, 'mechanic_id'); // Define relationship with mechanics (User model)
     }
     public function user()
     {

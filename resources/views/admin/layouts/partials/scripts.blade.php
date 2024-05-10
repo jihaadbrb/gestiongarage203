@@ -1075,55 +1075,167 @@ $(document).ready(function() {
 
 </script>
 
+
+
+<script>
+ axios.get('/api/notifications')
+.then(response => {
+    const notifications = response.data.notifications;
+    // Get the notifications container
+    const notificationsContainer = document.getElementById('notifications-container');
+
+    // // Filter notifications related to completed repairs
+    // const completedRepairNotifications = notifications.filter(notification => {
+    //     return notification.message.includes('marked as completed');
+    // });
+
+    // Check if notifications exist
+    if (notifications.length > 0) {
+        // Iterate over filtered notifications array and create HTML elements
+        notifications.forEach(notification => {
+
+            // Create elements
+            const notificationItem = document.createElement('a');
+            notificationItem.setAttribute('href', '#');
+            notificationItem.classList.add('text-reset', 'notification-item');
+
+            const notificationContent = document.createElement('div');
+            notificationContent.classList.add('d-flex');
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.classList.add('avatar-xs', 'me-3');
+
+            const avatarTitle = document.createElement('span');
+            avatarTitle.classList.add('avatar-title', 'bg-primary', 'rounded-circle', 'font-size-16');
+            avatarTitle.innerHTML = '<i class="ri-settings-cart-line"></i>';
+
+            const notificationDetails = document.createElement('div');
+            notificationDetails.classList.add('flex-1');
+
+            const notificationUserName = document.createElement('h6');
+            notificationUserName.classList.add('mb-1');
+            notificationUserName.textContent = notification.sender;
+
+            const notificationMessage = document.createElement('p');
+            notificationMessage.classList.add('mb-1');
+            notificationMessage.textContent = notification.message;
+
+
+                const notificationTime = document.createElement('p');
+                notificationTime.classList.add('mb-0');
+
+                // Parse the created_at timestamp
+                const createdAt = new Date(notification.created_at);
+                const month = createdAt.toLocaleString('default', { month: 'long' });
+                const hour = createdAt.getHours();
+                const minute = createdAt.getMinutes();
+
+                // Set the content of the notification time element
+                notificationTime.innerHTML = `<i class="mdi mdi-clock-outline"></i> ${month} ${hour}:${minute}`;
+            // Append elements
+            avatarDiv.appendChild(avatarTitle);
+            notificationContent.appendChild(avatarDiv);
+            notificationDetails.appendChild(notificationUserName);
+            notificationDetails.appendChild(notificationMessage);
+            notificationDetails.appendChild(notificationTime);
+            notificationContent.appendChild(notificationDetails);
+            notificationItem.appendChild(notificationContent);
+            notificationsContainer.appendChild(notificationItem);
+        });
+    } else {
+        // No notifications related to completed repairs found
+        notificationsContainer.innerHTML = '<p>No notifications found</p>';
+    }
+})
+.catch(error => {
+    console.error('Error fetching notifications:', error);
+});
+
+</script>
+
+{{-- <script>
+    // Make an Axios request to fetch notifications
+    axios.get('/api/notifications')
+    .then(response => {
+        console.log("good")
+        const notifications = response.data.notifications;
+        console.log(notifications);
+        const userSenders = response.data.user_senders;
+        console.log(userSenders);
+
+        // Get the notifications container
+        const notificationsContainer = document.getElementById('notifications-container');
+
+        // Check if notifications exist
+        if (notifications.length > 0) {
+            // Iterate over notifications array and create HTML elements
+            notifications.forEach(notification => {
+                // Parse the created_at timestamp
+                const createdAt = new Date(notification.created_at);
+                const month = createdAt.toLocaleString('default', { month: 'long' });
+                const day = createdAt.getDate();
+
+                // Get the sender's name from user_senders using notification id
+                const senderName = userSenders[notification.id] ? userSenders[notification.id].name : 'Unknown';
+
+                // Create elements
+                const notificationItem = document.createElement('a');
+                notificationItem.setAttribute('href', '#');
+                notificationItem.classList.add('text-reset', 'notification-item');
+
+                const notificationContent = document.createElement('div');
+                notificationContent.classList.add('d-flex');
+
+                const avatarDiv = document.createElement('div');
+                avatarDiv.classList.add('avatar-xs', 'me-3');
+
+                const avatarTitle = document.createElement('span');
+                avatarTitle.classList.add('avatar-title', 'bg-primary', 'rounded-circle', 'font-size-16');
+                avatarTitle.innerHTML = '<i class="ri-shopping-cart-line"></i>';
+
+                const notificationDetails = document.createElement('div');
+                notificationDetails.classList.add('flex-1');
+
+                const notificationUserName = document.createElement('h6');
+                notificationUserName.classList.add('mb-1');
+                notificationUserName.textContent = senderName; // Use sender's name here
+
+                const notificationMessage = document.createElement('p');
+                notificationMessage.classList.add('mb-1');
+                notificationMessage.textContent = notification.message;
+
+                const notificationTime = document.createElement('p');
+                notificationTime.classList.add('mb-0');
+                notificationTime.textContent = `${month} ${day}`;
+
+                // Append elements
+                avatarDiv.appendChild(avatarTitle);
+                notificationContent.appendChild(avatarDiv);
+                notificationDetails.appendChild(notificationUserName);
+                notificationDetails.appendChild(notificationMessage);
+                notificationDetails.appendChild(notificationTime);
+                notificationContent.appendChild(notificationDetails);
+                notificationItem.appendChild(notificationContent);
+                notificationsContainer.appendChild(notificationItem);
+            });
+        } else {
+            // No notifications found
+            notificationsContainer.innerHTML = '<p>No notifications found</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching notifications:', error);
+    });
+</script> --}}
+
+
+
+
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
 
 
     <!-- apexcharts -->
-   
-    
-    {{-- <script>
-    var areaChartData = {!! json_encode($areaChartData) !!};
-        // alert(areaChartData);
-        var options = {
-            
-                series: [
-                    { name: "series1", data: [0, 180, 60, 220, 85, 190, 70] },
-                    { name: "series2", data: [0, 15, 250, 21, 365, 120, 30] },
-                ],
-                chart: { toolbar: { show: !1 }, height: 350, type: "area" },
-                dataLabels: { enabled: !1 },
-                yaxis: {
-                    labels: {
-                        formatter: function (e) {
-                            return e + "k";
-                        },
-                    },
-                    tickAmount: 4,
-                    min: 0,
-                    max: 400,
-                },
-                stroke: { curve: "smooth", width: 2 },
-                grid: {
-                    show: !0,
-                    borderColor: "#90A4AE",
-                    strokeDashArray: 0,
-                    position: "back",
-                    xaxis: { lines: { show: !0 } },
-                    yaxis: { lines: { show: !0 } },
-                    row: { colors: void 0, opacity: 0.8 },
-                    column: { colors: void 0, opacity: 0.8 },
-                    padding: { top: 10, right: 0, bottom: 10, left: 10 },
-                },
-                legend: { show: !1 },
-                colors: ["#0f9cf3", "#6fd088"],
-                labels: ["2015", "2016", "2017", "2018", "2019", "2020", "2021"],
-            },
-            chart = new ApexCharts(document.querySelector("#area_chart"), options);
-        chart.render();
-</script> --}}
-
-
     <!-- jquery.vectormap map -->
     <script src="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
     <script src="assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js"></script>
@@ -1139,33 +1251,6 @@ $(document).ready(function() {
     <script src="assets/js/pages/dashboard.init.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-{{-- 
-    <script>
-        var ctx = document.getElementById('areaChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: @json($data['labels']),
-                datasets: [{
-                    label: 'Data',
-                    data: @json($data['data']),
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: true
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script> --}}
-
-
     <!-- JAVASCRIPT -->
     <script src="assets/libs/jquery/jquery.min.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

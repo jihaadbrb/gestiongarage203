@@ -58,7 +58,9 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::get('/lock-screen', [ClientController::class, 'lockScreen']);
     Route::post('/lock-screen', [ClientController::class, 'unlock'])->name('unlock');
 
-
+// notificiaotns
+Route::get('api/notifications',[RepairController::class,'showNotifications']);
+// Route::get('api/notifications',[AppointmentController::class,'showNotifications']);
 
     // Mechanics
     Route::get('/mechanics', [AdminController::class, 'showMechanics'])->name('admin.mechanics');
