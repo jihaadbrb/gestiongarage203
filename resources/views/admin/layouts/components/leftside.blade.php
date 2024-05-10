@@ -38,7 +38,7 @@
                     <a href="/" class="waves-effect">
                         <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
                         <span>{{ __('Dashboard') }}</span>
-                    </a>
+                </a>
                 </li>
                 <li>
                     @if (Auth::user()->role==="admin" || Auth::user()->role==="mechanic")
@@ -54,6 +54,7 @@
                             <li><a href="{{ route('admin.repairs') }}"> <i class="ri-hammer-fill"></i>  {{ __('Repairs') }}</a></li>
                             <li><a href="{{ route('admin.showSpares') }}"><i class="ri-tools-line"></i> {{ __('Spare Parts') }}</a></li>
                             <li><a href="{{ route('admin.Invoices') }}"><i class="ri-file-text-line"></i> {{ __('Invoices') }}</a></li>
+                            <li><a href="{{ route('user.appointments') }}"><i class="ri-calendar-line"></i> {{ __('Appointments') }}</a></li>
 
               
 

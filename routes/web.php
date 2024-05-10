@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ClientController;
@@ -27,8 +28,14 @@ Route::middleware(['auth', 'lang'])->group(function () {
             view('admin.dashboard');
     })->name('admin.dashboard');
 
-// routes/web.php
+    // routes/web.php
 
+    // appoitment
+
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('user.appointments');
+    Route::post('/appointments', [AppointmentController::class, 'store'])->name('store.appointments');
+    Route::post('/appointments/distroy', [AppointmentController::class, 'distroy'])->name('distroy.appointments');
+    Route::post('/update-appointment-status', [AppointmentController::class, 'updateAppointmentStatus'])->name('update.appointment.status');
 
     // import data 
     Route::post('/import-users', [ClientController::class, 'importUsers'])->name('import.users');

@@ -944,8 +944,136 @@ $(document).ready(function() {
     });
 </script> --}}
 
+{{-- add appointment --}}
 
 
+<script>
+    $(document).ready(function() {
+        console.log("Document ready");
+        // Show modal and populate fields when the edit button is clicked
+        $('.add-appointment').click(function() {
+            $('#addAppointmentModal').modal('show');
+        });
+
+        // Handle form submission via AJAX using Axios
+        $('.submitAppointment').click(function(event) {
+            event.preventDefault();
+        // console.log("Submit button clicked");
+        var formData = $('#addAppointmentForm').serialize();
+            // alert(formData);
+        // Axios request
+        axios({
+            method: 'post',
+            url: '/appointments/',
+            data: formData
+        })
+        .then(function(response) {
+            $('#addAppointmentModal').modal('hide');
+
+        })
+        .catch(function(error) {
+            // Log the error to the console
+            console.error(error);
+
+            // Display an error message to the user
+            // alert("Error updating user. Please try again later.");
+        });
+    });
+    });
+</script>
+
+{{-- // delete appointement --}}
+
+
+
+
+<script>
+    $(document).ready(function() {
+    // Handle deletion of appointment
+    $('.delete-appointment').click(function() {
+        var appointmentId = $(this).data('appointment-id');
+        $('#deleteAppointmentId').val(appointmentId);
+        $('#confirmDeleteModal').modal('show');
+    });
+
+    // Handle confirmation of deletion
+    $('.confirmDeleteBtnApp').click(function() {
+        console.log("dood")
+        var formData = $('#deleteForm').serialize(); // Serialize form data
+        console.log(formData)
+        axios.post('{{ route("distroy.appointments") }}', formData)
+            .then(function (response) {
+                if (response.data == "ok") {
+                    console.log("okkkk")
+                    $("#row").remove(); // Remove the deleted appointment row from the table
+                    $('#confirmDeleteModal').modal('hide');
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+                console.error("Response data:", error.response.data);
+            });
+    });
+
+    // Detach event handler for delete button after confirmation modal is closed
+    $('#confirmDeleteModal').on('hidden.bs.modal', function () {
+        // $('#confirmDeleteBtn').off('click');
+    });
+});
+
+</script>
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle updating appointment status
+        document.querySelectorAll('.update-appointment-status').forEach(function(select) {
+            select.addEventListener('change', function(event) {
+                var appointmentId = event.target.dataset.appointmentId;
+                var newStatus = event.target.value;
+
+                // Send Axios request to update appointment status
+                axios.post('{{ route("update.appointment.status") }}', {
+                    appointment_id: appointmentId,
+                    status: newStatus
+                })
+                .then(function (response) {
+                    console.log(response.data.message);
+                    // Update the status text in the user's dashboard
+                    document.getElementById('status-' + appointmentId).textContent = newStatus;
+                })
+                .catch(function (error) {
+                    console.error("Error occurred:", error);
+                    console.error("Response data:", error.response.data);
+                    // Handle error response if needed
+                });
+            });
+        });
+    });
+</script> --}}
+<script>
+    $(document).ready(function() {
+    // Handle updating appointment status
+    $('.update-appointment-status').change(function() {
+        var appointmentId = $(this).data('appointment-id');
+        var newStatus = $(this).val();
+
+        // Send Axios request to update appointment status
+        axios.post('{{ route("update.appointment.status") }}', {
+            appointment_id: appointmentId,
+            status: newStatus
+        })
+        .then(function(response) {
+            console.log(response.data.message);
+            // Optionally, update the UI to reflect the new status
+        })
+        .catch(function(error) {
+            console.error("Error occurred:", error);
+            console.error("Response data:", error.response.data);
+            // Handle error response if needed
+        });
+    });
+});
+
+</script>
 
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
