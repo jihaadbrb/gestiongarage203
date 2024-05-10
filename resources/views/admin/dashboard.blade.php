@@ -16,8 +16,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">reda</a></li>
-                                <li class="breadcrumb-item active">admin</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
+                                <li class="breadcrumb-item active">{{Auth::user()->role}}</li>
                             </ol>
                         </div>
 
@@ -474,7 +474,7 @@
             <!-- end row -->
         </div>
 
-        @else
+        @elseif(Auth::user()->role==="client")
         <div class="container-fluid">
             <!-- start page title -->
             <div class="row">
@@ -483,8 +483,8 @@
                         <h4 class="mb-sm-0">Dashboard</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">reda</a></li>
-                                <li class="breadcrumb-item active">admin</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
+                                <li class="breadcrumb-item active">{{Auth::user()->role}}</li>
                             </ol>
                         </div>
                     </div>
@@ -617,9 +617,139 @@
             
             <!-- End Invoice Cards -->
         </div>
+        @else
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Dashboard</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
+                                <li class="breadcrumb-item active">{{Auth::user()->role}}</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Total Gained</p>
+                                    <h4 class="mb-2 font-size-16">
+                                       $ {{ $totalGained }}
+                                    </h4>
+                                </div>
+                                <div class="avatar-sm">
+                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                        <i class="mdi mdi-currency-usd font-size-24"></i>  
+                                    </span>
+                                </div>
+                            </div>                                            
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Repairs Status</p>
+                                    <h4 class="mb-2 font-size-16">
+                                        @php
+                                        $allCompleted = true;
+                                        $allPending = true;
+                                        $allInProgress = true;
+                                    @endphp
+                                    @foreach($repairsStatus as $repairStatus)
+                                        <p>{{ $repairStatus['repair_id'] }}: {{ $repairStatus['status'] }}</p>
+                                        @if($repairStatus['status'] !== 'completed')
+                                            @php
+                                                $allCompleted = false;
+                                            @endphp
+                                        @endif
+                                        @if($repairStatus['status'] !== 'pending')
+                                            @php
+                                                $allPending = false;
+                                            @endphp
+                                        @endif
+                                        @if($repairStatus['status'] !== 'in_progress')
+                                            @php
+                                                $allInProgress = false;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    </h4>
+                                </div>
+                                <div class="avatar-sm">
+
+                                   
+                                    @if($allCompleted)
+                            <span class="avatar-title bg-light text-success rounded-3">
+                                <i class="ri-check-line font-size-24"></i>  
+                            </span>
+                            @elseif($allPending)
+                            <span class="avatar-title bg-light text-warning rounded-3">
+                                <i class="ri-time-line font-size-24"></i>  
+                            </span>
+                            @elseif($allInProgress)
+                            <span class="avatar-title bg-light text-primary rounded-3">
+                                <i class="ri-loader-line font-size-24"></i>  
+                            </span>
+                            @endif
+                                </div>
+                            </div>                                                                  
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Vehicles repaired</p>
+                                    @foreach($vehiclesRepairedBy as $vehicle)
+                                        <h4 class="font-size-14 mb-2">{{ $vehicle->make }} / {{ $vehicle->registration }}</h4>
+                                    @endforeach
+                                </div>
+                                <div class="avatar-sm">
+                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                        <i class="ri-car-line font-size-24"></i>  
+                                    </span>
+                                </div>
+                            </div>                                              
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Users worked with me</p>
+                                    @foreach($usersWorkedWith as $user)
+                                        <h4 class="font-size-14 mb-2">{{ $user['name'] }} - {{ $user['email'] }}</h4>
+                                    @endforeach
+                                </div>
+                                <div class="avatar-sm">
+                                    <span class="avatar-title bg-light text-success rounded-3">
+                                        <i class="ri-user-3-line font-size-24"></i>  
+                                    </span>
+                                </div>
+                            </div>                                              
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div>
+        @endif
         
-        
-       @endif  
     </div>
     <!-- End Page-content -->
    

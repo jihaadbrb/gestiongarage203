@@ -29,19 +29,19 @@
                         <label for="photos" class="form-label" >Photos</label>
                         <input type="file" id="photos" name="photos[]" accept="image/*" multiple>
                     </div>
-                    @if (Auth::user()->role === "client")
+                    @if (Auth::user()->role === "client"||Auth::user()->role === "mechanic")
                         
                     <div class="mb-3">
                         <label for="user_id" class="form-label">User ID</label>
-                        <input type="text" class="form-control" id="user_id" name="user_id" value="" disabled>
+                        <input type="text" class="form-control" id="user_id" name="user_id" value="" readonly>
                     </div>
                     @else
-                    div class="mb-3">
+                    <div class="mb-3">
                         <label for="user_id" class="form-label">User ID</label>
                         <input type="text" class="form-control" id="user_id" name="user_id" value="">
                     </div>
                     @endif
-                   
+                
                    
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

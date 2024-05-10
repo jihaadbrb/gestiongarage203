@@ -22,7 +22,12 @@ class RepairController extends Controller
         if ($user->role === 'admin') {
             // Admin can see all repairs
             $repairs = Repair::with('user', 'vehicle')->get();
-        } else {
+        }elseif($user->role === 'mechanic')
+        {
+            $repairs = Repair::where('mechanic_id', $user->id)
+            ->with('user', 'vehicle')
+            ->get();
+       }else {
             // User can only see their own repairs
             $repairs = Repair::where('user_id', $user->id)->with('user', 'vehicle')->get();
         }

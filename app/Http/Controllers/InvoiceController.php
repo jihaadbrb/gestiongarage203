@@ -46,6 +46,11 @@ class InvoiceController extends Controller
         if ($user->role === 'admin') {
             // Admin can see all invoices
             $invoices = Invoice::with('repair', 'repair.user', 'repair.vehicle')->get();
+        } elseif ($user->role === 'mechanic') {
+            // Mechanic can see invoices related to repairs they worked on
+            $invoices = Invoice::whereHas('repair', function ($query) use ($user) {
+                $query->where('mechanic_id', $user->id);
+            })->with('repair', 'repair.user', 'repair.vehicle')->get();
         } else {
             // User can only see their own invoices
             $invoices = Invoice::whereHas('repair', function ($query) use ($user) {
@@ -55,6 +60,7 @@ class InvoiceController extends Controller
     
         return view('admin.management.invoices-data', ['invoices' => $invoices]);
     }
+    
     
 
     public function showInvoiceModal(Request $request)

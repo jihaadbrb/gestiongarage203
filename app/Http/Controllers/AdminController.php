@@ -28,14 +28,20 @@ class AdminController extends Controller
     public function showUsers()
     {
         // Fetch all users for admin
-        if (Auth::user()->role === "admin" || Auth::user()->role === "mechanic") {
+        if (Auth::user()->role === "admin") {
             $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->get();
             $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
         } 
+        elseif(Auth::user()->role==="mechanic"){
+            $clients = User::orderBy('id', 'desc')->where('role', 'mechanic')->where('id',Auth::id())->get();
+            $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
+
+        }
         // Fetch only the authenticated user for regular users
         else {
             $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->where('id', Auth::id())->get();
             $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
+            
         }
     
         return view('admin.management.users-data', ['clients' => $clients, 'mechanics' => $mechanics]);

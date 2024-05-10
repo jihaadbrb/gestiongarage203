@@ -47,7 +47,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::get('/', [ChartController::class, 'showCharts'])->name('admin.dashboard');
 
 
-    Route::get('/admins', [AdminController::class, 'showAdmins'])->name('admin.admins');
+    Route::get('/admins', [AdminController::class, 'showAdmins'])->name('admin.admins')->middleware('admin');
 
     // Users
     Route::get('/users', [AdminController::class, 'showUsers'])->middleware(['auth', 'verified'])->name('admin.users');

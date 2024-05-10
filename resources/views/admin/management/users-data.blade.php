@@ -51,7 +51,7 @@
 
                                 <h4 class="card-title">{{ __('Client List') }}</h4>
                             @else
-                                <h4 class="card-title">{{ __('Client Profile') }}</h4>
+                                <h4 class="card-title">{{ __('Profile') }}</h4>
 
                             @endif
                                 @if(Auth::user()->role === 'admin')
@@ -138,7 +138,7 @@
                                   
 
                                 </tbody>
-                            </table>
+                        </table>
                             @else
                             <div class="col-lg-6">
                                 @foreach ($clients as $client)

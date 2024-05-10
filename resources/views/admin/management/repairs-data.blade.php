@@ -23,20 +23,24 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="add-new">
-                                <h4 class="card-title">{{ __('Repairs Management') }}</h4>
+                                @if(Auth::user()->role === "mechanic")
+                                    <h4 class="card-title">{{ __('My Assigned Repairs') }}</h4>
+                                @elseif(Auth::user()->role === "client")
+                                    <h4 class="card-title">{{ __('Scheduled Repairs') }}</h4>
+                                @else
+                                    <h4 class="card-title">{{ __('Repairs Management') }}</h4>
+                                @endif
                                 <p class="card-title-desc">
                                     <form method="GET" action="{{route('admin.sendAll')}}" >
-                                        @if(Auth::user()->role === 'admin')
-
-                                        <button type="submit" class="btn btn-primary">
-                                            Send Mail for All Completed Repairs
-                                        </button>
+                                        @if(Auth::user()->role === 'admin' || Auth::user()->role === "mechanic")
+                                            <button type="submit" class="btn btn-primary">
+                                                Send Mail for All Completed Repairs
+                                            </button>
                                         @endif
                                     </form>
-                                      
-
                                 </p>
-                            </div>  
+                            </div>
+                             
                             
 
                             <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="datatable_length">
@@ -53,7 +57,7 @@
                                         <th>{{ __('End Date') }}</th>
                                         <th>{{ __('user name') }}</th>
                                         <th>{{ __('vehicle regestration') }}</th>
-                                        @if(Auth::user()->role === 'admin')
+                                        @if(Auth::user()->role === 'admin' ||Auth::user()->role === 'mechanic')
 
                                         <th>{{ __('action') }}</th>
                                         @endif
@@ -63,60 +67,48 @@
 
                                 <tbody>
                                     @foreach ($repairs as $repair)
-
-                                    <tr data-client-id="{{ $repair->deleteId }}" id="row">
-                                        <td>{{ $repair->description }}</td>
-                                        <td>
-                                            
-                                            @if(Auth::user()->role === 'admin')
+                                        <tr data-client-id="{{ $repair->deleteId }}" id="row">
+                                            <td>{{ $repair->description }}</td>
+                                            <td>
+                                                @if (Auth::user()->role === 'admin' || Auth::user()->role === 'mechanic')
                                                     <select class="form-select repair-status" data-repair-id="{{ $repair->id }}">
                                                         <option value="pending" {{ $repair->status === 'pending' ? 'selected' : '' }}>Pending</option>
                                                         <option value="in_progress" {{ $repair->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
                                                         <option value="completed" {{ $repair->status === 'completed' ? 'selected' : '' }}>Completed</option>
                                                     </select>
                                                 @else
-                                                <span class="badge bg-{{ $repair->status === 'completed' ? 'success' : ($repair->status === 'in_progress' ? 'warning' : 'danger') }}" style="font-size: 15px; color: rgb(255, 255, 255);">{{ ucfirst($repair->status) }}</span>                                                @endif
-
+                                                    <span class="badge bg-{{ $repair->status === 'completed' ? 'success' : ($repair->status === 'in_progress' ? 'warning' : 'danger') }}" style="font-size: 15px; color: rgb(255, 255, 255);">{{ ucfirst($repair->status) }}</span>
+                                                @endif
+                                            </td>
                                             
-                                        </td>
-                                        <td>{{ $repair->startDate }}</td>
-                                        <td>{{ $repair->endDate }}</td>
-                                        <td>{{ $repair->user->name }}</td>
-                                        <td>{{ $repair->vehicle->registration }}</td>
-                                        
-                                        <td>
-                                            {{-- <button type="button" class="btn  edit-repair"
-                                                data-repair-id="{{ $repair->id }}"
-                                                data-repair-name="{{ $repair->name }}"
-                                                data-repair-email="{{ $repair->email }}"
-                                                data-repair-address="{{ $repair->address }}"
-                                                data-repair-phone="{{ $repair->phoneNumber }}">
-                                                <i class=" ri-edit-2-line "></i>
-                                            </button>--}}
-                                            @if($repair->status === 'completed' && Auth::user()->role === "admin")
-
-                                                <button type="button" class="btn  delete-repair"
-                                                    data-repair-id="{{ $repair->id }}">
-                                                    <i class="r ri-delete-bin-3-line"></i>
-                                                </button>
-                                                <button type="button" class="btn add-invoice" data-repairinvoice-id="{{ $repair->id }}">
-                                                    <i class="ri-printer-line"></i>
-                                                </button>
+                                            <td>{{ $repair->startDate }}</td>
+                                            <td>{{ $repair->endDate }}</td>
+                                            <td>{{ $repair->user->name }}</td>
+                                            <td>{{ $repair->vehicle->registration }}</td>
+                                            <td>
+                                                @if ($repair->status === 'completed' && Auth::user()->role === "admin")
+                                                    <button type="button" class="btn delete-repair" data-repair-id="{{ $repair->id }}">
+                                                        <i class="r ri-delete-bin-3-line"></i>
+                                                    </button>
+                                                    <button type="button" class="btn add-invoice" data-repairinvoice-id="{{ $repair->id }}">
+                                                        <i class="ri-printer-line"></i>
+                                                    </button>
+                                                @elseif($repair->status === 'completed' && Auth::user()->role === "mechanic")
                                                 <form action="/send-mail" method="GET" style="display: inline;">
                                                     @csrf
                                                     <input type="hidden" name="repair_id" value="{{ $repair->id }}">
                                                     <button type="submit" class="btn">Send Mail</button>
                                                 </form>
-                                            @endif
-                                                @if (Auth::user()->role==="admin")
-                                                     <button type="button" class="btn  add-spare-part"
-                                                        data-repair-id="{{ $repair->id }}">
-                                                        <i class=" ri-send-plane-line"></i>
-                                                        </button>  
                                                 @endif
-                                        </td>
-                                    </tr>
+                                                @if ($repair->status !== 'completed' && (Auth::user()->role === "admin" || Auth::user()->role === "mechanic"))
+                                                    <button type="button" class="btn add-spare-part" data-repair-id="{{ $repair->id }}">
+                                                        <i class="ri-send-plane-line"></i>
+                                                    </button>
+                                                @endif
+                                            </td>
+                                        </tr>
                                     @endforeach
+
 
                                     {{-- @include('admin.layouts.components.users.edit-modal')
                                     @include('admin.layouts.components.users.add-modal') --}}

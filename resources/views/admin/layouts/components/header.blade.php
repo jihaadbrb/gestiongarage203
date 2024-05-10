@@ -269,7 +269,7 @@
                                     <img src="assets/images/brands/slack.png" alt="slack">
                                     <span>Slack</span>
                                 </a>
-                            </div>
+                    </div>
                         </div>
                     </div>
                 </div>

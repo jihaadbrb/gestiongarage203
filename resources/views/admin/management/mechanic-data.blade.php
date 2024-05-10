@@ -52,6 +52,9 @@
                                                 <td>{{$client->email}}</td>
                                                 <td>{{$client->phoneNumber}}</td>
                                                 <td>{{$client->created_at}}</td>
+
+                                        @if(Auth::user()->role === 'admin' || Auth::user()->id === $client->id)
+
                                                 <td>
                                                     <button type="button" class="btn edit-client" 
                                                     data-client-id="{{$client->id}}"
@@ -67,6 +70,7 @@
                                                 data-client-id="{{$client->id}}">
                                                 <i class="r ri-delete-bin-3-line"></i>
                                             </button>
+
                                             <button type="button" class="btn  show-mechanic"
                                             data-client-id="{{ $client->id }}">
                                             <i class=" ri-file-info-line
@@ -75,6 +79,7 @@
                                                 </td>
                                             </tr>
                                        
+                                        @endif
                                     @endforeach
                          
                                 </tbody>

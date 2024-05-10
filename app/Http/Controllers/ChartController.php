@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\Repair;
 use App\Models\User;
+use App\Models\Vehicle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -346,7 +347,7 @@ class ChartController extends Controller
                 'mechanicsTotalAmount' => $mechanicsTotalAmount,
                 'topThreeChartData' => $topThreeChartData,
             ]);
-        } else {
+        } elseif(Auth::user()->role === 'client'){
             // Retrieve data for regular user
             $currentUser = Repair::with('invoices')->where('user_id', Auth::user()->id)->get();
             $userVehicle = Auth::user()->vehicles;
@@ -387,7 +388,50 @@ class ChartController extends Controller
             return view('admin.dashboard', [
                 'invoiceDetails' => $invoiceDetails,
             ]);
+        } else {
+            $currentUserRepairs = Repair::with('user')->where('mechanic_id', Auth::user()->id)->get()->all();
+            $usersWorkedWith = [];
+            $repairsStatus = [];
+        
+            foreach ($currentUserRepairs as $repair) {
+                $user = $repair->user;
+                // Check if the user is not already in the array to avoid duplicates
+                if (!in_array($user->id, array_column($usersWorkedWith, 'id'))) {
+                    $usersWorkedWith[] = [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                    ];
+                }
+        
+                // Include repair status
+                $repairsStatus[] = [
+                    'repair_id' => $repair->id,
+                    'status' => $repair->status,
+                ];
+            }
+        
+            $vehiclesRepairedBy = Vehicle::with('repairs')
+                ->whereHas('repairs', function ($query) {
+                    $query->where('mechanic_id', Auth::user()->id);
+                })
+                ->get();
+        
+            $totalGained = Invoice::whereHas('repair', function ($query) {
+                    $query->where('mechanic_id', Auth::user()->id);
+                })
+                ->sum('totalAmount');
+        
+            // Return the view with user, mechanic data, and repairs status
+            return view('admin.dashboard', [
+                'usersWorkedWith' => $usersWorkedWith,
+                'vehiclesRepairedBy' => $vehiclesRepairedBy,
+                'totalGained' => $totalGained,
+                'repairsStatus' => $repairsStatus,
+            ]);
         }
+        
+        
         
     }
 }

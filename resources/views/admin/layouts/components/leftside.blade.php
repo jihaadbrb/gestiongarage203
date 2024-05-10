@@ -41,7 +41,7 @@
                 </a>
                 </li>
                 <li>
-                    @if (Auth::user()->role==="admin" || Auth::user()->role==="mechanic")
+                    @if (Auth::user()->role==="admin")
                             <li><a href="{{ route('admin.users') }}"><i class="ri-user-line"></i> {{ __('Users') }}</a></li>
                             <li><a href="{{ route('admin.admins') }}"><i class="ri-admin-line"></i> {{ __('Admins') }}</a></li>
                         @else
