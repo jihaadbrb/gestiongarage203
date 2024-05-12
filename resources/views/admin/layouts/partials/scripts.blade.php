@@ -46,7 +46,7 @@
                 // Display success toast
             $('#editClientModal').modal('hide');
 
-                $('.toast-success .toast-message').text('User updated successfully');
+                $('.toast-success .toast-message').text('@lang("User updated successfully")');
                 $('.toast-success').fadeIn().delay(3000).fadeOut();
 
             })
@@ -131,7 +131,7 @@
             axios.post('{{ route("admin.destroy") }}', formData)
                 .then(function (response) {
                     if (response.data == "ok") {
-                        $('.toast-success .toast-message').text('User deleted successfully');
+                        $('.toast-success .toast-message').text('@lang("User deleted successfully")');
                         $('.toast-success').fadeIn().delay(3000).fadeOut();
                         $("#row").remove(); // Remove the deleted client row from the table
                         $('#cconfirmDeleteModal').modal('hide')
@@ -338,7 +338,8 @@
             data: formData
         })
         .then(function(response) {
-            $('.toast-success .toast-message').text('vehicle created successfully');
+            $('.toast-success .toast-message').text('@lang("vehicle created successfully")');
+
                 $('.toast-success').fadeIn().delay(3000).fadeOut();
             // You can perform additional actions here after successful update
         })
@@ -413,50 +414,6 @@
     });
 </script>
 
-  
-
-    {{-- <script>
-
-                        $(".show-pics").on("click", function() {
-                    var myId = $(this).attr("data-vehicle-id");
-                    var data = { 'id': myId };
-                    console.log(data);
-                    axios.post('/vehicles/showVehiclePics', data)
-                        .then(response => {
-                        console.log(response.data);
-
-                        // Extract image URLs and populate carousel
-                        var carouselHtml = "";
-                        var pictures = response.data.pictures;
-                        pictures.forEach(function(pictureString, index) {
-                        // Clean approach using regular expressions:
-                    var pictureUrl = pictureString.replace(/^["'\\]|["'\\]$/g, '');
-                            // (Optional) Remove leading/trailing backslashes if needed
-                            // alert(pictureUrl)
-                            var activeClass = index === 0 ? "active" : "";
-                            carouselHtml += '<div class="carousel-item ' + activeClass + '">';
-                            carouselHtml += '<img src="'+ pictureUrl + '" class="d-block w-100" alt="Vehicle Image ' + (index + 1) + '">';
-                            carouselHtml += '</div>';
-
-                        });
-                        $("#vehiclePicsCarousel .carousel-inner").html(carouselHtml);
-                        $("#showPicsModal").modal('show');
-
-                        // (Optional) Show the modal only if pictures are found (consider user experience)
-                        if (pictures.length > 0) {
-                            $("#showPicsModal").modal('show');
-                        } else {
-                            console.log("No pictures found for this vehicle");
-                        }
-                        })
-                        .catch(error => {
-                        console.error("errorrrr");
-                        });
-                    });
-
-
-    </script> --}}
-
 {{-- edit vehicle  --}}
 
 <script>
@@ -505,7 +462,8 @@
 
             axios.post('/vehicles/' + vehicleId, formData)
                 .then(function(response) {
-                    $('.toast-success .toast-message').text('Vehicle updated successfully');
+                    $('.toast-success .toast-message').text('@lang("Vehicle updated successfully")');
+                    
                     $('.toast-success').fadeIn().delay(3000).fadeOut();
                 })
                 .catch(function(error) {
@@ -543,7 +501,7 @@
         axios.post('{{ route("admin.destroyVehicle") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
-                    $('.toast-success .toast-message').text('vehicle deleted successfully');
+                    $('.toast-success .toast-message').text('@lang("Vehicle deleted successfully")');
                     $('.toast-success').fadeIn().delay(3000).fadeOut();
                     $("#row").remove(); // Remove the deleted client row from the table
                     $('#confirmDeleteModal').modal('hide')
@@ -581,16 +539,6 @@ $(document).ready(function() {
         // Get the vehicle_id from the data attribute of the clicked button
         var vehicleId = $(this).data('vehicle-id');
         $('#vehicle_id').val(vehicleId);
-
-        // var vehicleId = $(this).data('vehicle-id');
-        // $('#vehicle_id').val(vehicleId);
-
-
-        // Store the userId as a data attribute on the form
-        // $('#addRepairForm').data('user-id', userId);
-
-        // Check if userId is correctly assigned
-        // console.log($('#addRepairForm').data('user-id', userId());
     });
 
     // Handle form submission via AJAX using Axios
@@ -622,7 +570,8 @@ $(document).ready(function() {
         // Append the mechanic ID and user ID to the serialized form data
         axios.post('/repairs/store', formData)
             .then(function(response) {
-                $('.toast-success .toast-message').text('Repair added successfully');
+                $('.toast-success .toast-message').text('@lang("Repair added successfully")');
+                
                 $('.toast-success').fadeIn().delay(3000).fadeOut();
             })
             .catch(function(error) {
@@ -676,7 +625,7 @@ $(document).ready(function() {
         axios.post('{{ route("admin.destroyRepair") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
-                    $('.toast-success .toast-message').text('Repair deleted successfully');
+                    $('.toast-success .toast-message').text('@lang("Repair deleted successfully")');
                 $('.toast-success').fadeIn().delay(3000).fadeOut();
                     $("#row").remove(); // Remove the deleted client row from the table
                     $('#rconfirmDeleteModal').modal('hide')
@@ -711,7 +660,7 @@ $(document).ready(function() {
             })
             .then(function(response) {
 
-                $('.toast-success .toast-message').text('Status updated successfully');
+                $('.toast-success .toast-message').text('@lang("Status updated successfully")');
                 $('.toast-success').fadeIn().delay(3000).fadeOut();
 
             })
@@ -753,7 +702,7 @@ $(document).ready(function() {
             data: formData
         })
         .then(function(response) {
-            $('.toast-success .toast-message').text('Invoice added successfully');
+            $('.toast-success .toast-message').text('@lang("Invoice added successfully")');
                 $('.toast-success').fadeIn().delay(3000).fadeOut();
             $('#addInvoiceModal').modal('hide');
 
@@ -816,7 +765,7 @@ $(document).ready(function() {
         axios.post('{{ route("admin.destroyInvoice") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
-                    $('.toast-success .toast-message').text('Status deleted successfully');
+                    $('.toast-success .toast-message').text('@lang("invoice deleted successfully")');
                     $('.toast-success').fadeIn().delay(3000).fadeOut();
                     $("#row").remove(); // Remove the deleted client row from the table
                     $('#confirmDeleteModal').modal('hide')
@@ -877,7 +826,7 @@ $(document).ready(function() {
         // alert(formData)
         axios.post('/spare-parts/add', formData)
             .then(function(response) {
-                $('.toast-success .toast-message').text('Spare Part added successfully');
+                $('.toast-success .toast-message').text('@lang("Spare Part added successfully")');
                 $('.toast-success').fadeIn().delay(3000).fadeOut();
                 $('#addSparePartModal').modal('hide');
                 // Refresh or update spare parts list if needed
@@ -906,7 +855,7 @@ $(document).ready(function() {
             axios.post('{{ route("admin.destroySparePart") }}', formData)
                 .then(function (response) {
                     if (response.data == "ok") {
-                        $('.toast-success .toast-message').text('Record deleted successfully');
+                        $('.toast-success .toast-message').text('@lang("Record deleted successfully")');
                         $('.toast-success').fadeIn().delay(3000).fadeOut();
                         $("#row").remove(); // Remove the deleted spare part row from the table
                         $('#sconfirmDeleteModal').modal('hide');
@@ -938,7 +887,7 @@ $(document).ready(function() {
             console.log(formData);
             axios.post('/send-email', formData)
                 .then(function(response) {
-                    $('.toast-success .toast-message').text('Email sent successfully');
+                    $('.toast-success .toast-message').text('@lang("Email sent successfully")');
                         $('.toast-success').fadeIn().delay(3000).fadeOut();
                     $('#composemodal').modal('hide');
                 })
@@ -976,7 +925,7 @@ $(document).ready(function() {
             data: formData
         })
         .then(function(response) {
-            $('.toast-success .toast-message').text('appointment added successfully');
+            $('.toast-success .toast-message').text('@lang("appointment added successfully")');
             $('.toast-success').fadeIn().delay(3000).fadeOut();
             $('#addAppointmentModal').modal('hide');
 
@@ -1014,7 +963,7 @@ $(document).ready(function() {
         axios.post('{{ route("distroy.appointments") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
-                    $('.toast-success .toast-message').text('appointment deleted successfully');
+                    $('.toast-success .toast-message').text('@lang("appointment deleted successfully")');
                     $('.toast-success').fadeIn().delay(3000).fadeOut();
 
                     console.log("okkkk")
@@ -1049,7 +998,8 @@ $(document).ready(function() {
             status: newStatus
         })
         .then(function(response) {
-            $('.toast-success .toast-message').text('appointment status updated successfully');
+            $('.toast-success .toast-message').text('@lang("status updated successfully")');
+
                     $('.toast-success').fadeIn().delay(3000).fadeOut();
 
             console.log(response.data.message);

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Repair;
 use App\Models\SentEmail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class MailController extends Controller
@@ -17,7 +18,6 @@ class MailController extends Controller
     public function showMails()
     {
         $user = Auth::user();
-    
         // Check if the user is an admin
         if ($user->role === 'admin') {
             // Admin can see all emails
@@ -34,7 +34,7 @@ class MailController extends Controller
     {
 
         $repairId = $request->query('repair_id');
-
+        $locale = App::getLocale();
         $user = User::whereHas('repairs', function ($query) use ($repairId) {
             $query->where('id', $repairId)
                 ->where('status', 'completed');
@@ -49,7 +49,7 @@ class MailController extends Controller
                 'dateCompleted' => Carbon::parse($repair->endDate)->format('Y-m-d'),
             ];
 
-            Mail::to($user->email)->send(new DemoMail($mailData));
+            Mail::to($user->email)->send(new DemoMail($mailData,$locale));
 
             $sentEmail = new SentEmail([
                 'recipient' => $user->email,
@@ -70,6 +70,7 @@ class MailController extends Controller
         $users = User::with('repairs')->whereHas('repairs', function ($query) {
             $query->where('status', 'completed');
         })->get();
+        $locale = App::getLocale();
 
         foreach ($users as $user) {
             foreach ($user->repairs as $repair) {
@@ -79,7 +80,7 @@ class MailController extends Controller
                     'dateCompleted' => Carbon::parse($repair->endDate)->format('Y-m-d'),
                 ];
 
-                Mail::to($user->email)->send(new DemoMail($mailData));
+                Mail::to($user->email)->send(new DemoMail($mailData,$locale));
 
                 $sentEmail = new SentEmail([
                     'recipient' => $user->email,
@@ -91,26 +92,26 @@ class MailController extends Controller
                 $sentEmail->save();
             }
         }
-        return redirect()->back()->with('success', 'Emails have been sent successfully.');
+        return redirect()->back()->with('success',__('Emails have been sent successfully.'));
     }
 
 
     public function sendEmail(Request $request)
     {
+        // Get the current application locale
+        $locale = App::getLocale();
+
+        // Mail data from the request
         $mailData = [
             'title' => $request->input('title'),
             'subject' => $request->input('subject'),
             'message' => $request->input('message'),
         ];
 
-        // Check if it's an email for completed repair
-        if ($mailData['title'] === 'Repair Completed Notification') {
-            
-        } else {
-            // Process sending other types of emails
-            Mail::to($mailData['title'])->send(new DemoMail($mailData));
-        }
-        session()->flash('success', 'Mail sent successfully');
+        // Send the email using the appropriate language template
+        Mail::to($mailData['title'])->send(new DemoMail($mailData, $locale));
+
+        session()->flash('success', __('Mail sent successfully'));
 
         return response()->json(['message' => 'Email sent successfully']);
     }

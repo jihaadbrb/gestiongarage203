@@ -2,59 +2,59 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mechanicInfoModalLabel">Mechanic Information</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="mechanicInfoModalLabel">{{ __('Mechanic Information') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
             </div>
             <div class="modal-body">
                 <!-- Mechanic Information Section -->
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="mechanicInfoName" class="form-label">Name:</label>
+                        <label for="mechanicInfoName" class="form-label">{{ __('Name:') }}</label>
                         <input type="text" class="form-control" id="mechanicInfoName" readonly>
                     </div>
                     <div class="col-md-6">
-                        <label for="mechanicInfoRole" class="form-label">Role:</label>
+                        <label for="mechanicInfoRole" class="form-label">{{ __('Role:') }}</label>
                         <input type="text" class="form-control" id="mechanicInfoRole" readonly>
                     </div>
                 </div>
 
                 <!-- Assigned Repairs Section -->
                 <hr> <!-- Add a horizontal line for separation -->
-                <h5>Assigned Repairs</h5>
+                <h5>{{ __('Assigned Repairs') }}</h5>
                 <div id="assignedRepairs" class="mt-3">
                     <!-- Assigned repairs information will be dynamically populated here -->
                 </div>
 
                 <!-- Tasks and Responsibilities Section -->
                 <hr> <!-- Add a horizontal line for separation -->
-                <h5>Tasks and Responsibilities</h5>
+                <h5>{{ __('Tasks and Responsibilities') }}</h5>
                 <div id="tasksResponsibilities" class="mt-3">
                     <!-- Tasks and responsibilities information will be dynamically populated here -->
                 </div>
 
                 <!-- Spare Parts Usage Section -->
                 <hr> <!-- Add a horizontal line for separation -->
-                <h5>Spare Parts Usage</h5>
+                <h5>{{ __('Spare Parts Usage') }}</h5>
                 <div id="sparePartsUsage" class="mt-3">
                     <!-- Spare parts usage information will be dynamically populated here -->
                 </div>
 
                 <!-- Performance Metrics Section -->
                 <hr> <!-- Add a horizontal line for separation -->
-                <h5>Performance Metrics</h5>
+                <h5>{{ __('Performance Metrics') }}</h5>
                 <div id="performanceMetrics" class="mt-3">
                     <!-- Performance metrics information will be dynamically populated here -->
                 </div>
 
                 <!-- Additional Features Section (if applicable) -->
                 <hr> <!-- Add a horizontal line for separation -->
-                <h5>Additional Features</h5>
+                <h5>{{ __('Additional Features') }}</h5>
                 <div id="additionalFeatures" class="mt-3">
                     <!-- Additional features information will be dynamically populated here -->
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
             </div>
         </div>
     </div>

@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Dashboard</h4>
+                        <h4 class="mb-sm-0">{{ __('Dashboard') }}</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -44,11 +44,11 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Total Amounts</p>
+                                    <p class="text-truncate font-size-14 mb-2"> {{ __('Total Amounts') }}</p>
                                     <h4 class="mb-2">$ {{$totalAmount }}</h4>
                                     <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
                                         <i class="ri-arrow-right-up-line me-1 align-middle">
-                                        </i>{{$totalAmountComparison['percentageChange']}}%</span>from previous period</p>
+                                        </i>{{$totalAmountComparison['percentageChange']}}%</span>{{ __('From previous period') }}</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-primary rounded-3">
@@ -65,13 +65,13 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">New Orders</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('New Orders') }}</p>
                                     <h4 class="mb-2">
                                         {{$totalOrders}}
                                     </h4>
                                     <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
                                         <i class="ri-arrow-right-up-line me-1 align-middle"></i>
-                                        {{$newOrdersDataForComparison['percentageChange']}} %</span>from previous period</p>
+                                        {{$newOrdersDataForComparison['percentageChange']}} %</span>{{ __('From previous period') }}</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-success rounded-3">
@@ -88,11 +88,11 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Users</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Users') }}</p>
                                     <h4 class="mb-2">
                                         {{ $usersNum }}
                                     </h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{$usersComparisonData['percentageChange']}} %</span>from previous period</p>
+                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{$usersComparisonData['percentageChange']}} %</span>{{ __('From previous period') }}</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-primary rounded-3">
@@ -108,11 +108,11 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Mechanics</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Mechanics') }}</p>
                                     <h4 class="mb-2">{{$mechanicsNum}}</h4>
                                     <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
                                         <i class="ri-arrow-right-up-line me-1 align-middle">
-                                            </i>{{$mechanicsDataForComparison['percentageChange']}} %</span>from previous period</p>
+                                            </i>{{$mechanicsDataForComparison['percentageChange']}} %</span>{{ __('From previous period') }}</p>
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-success rounded-3">
@@ -133,7 +133,7 @@
                             <div class="float-end d-none d-md-inline-block">
                                
                             </div>
-                            <h4 class="card-title mb-4">Completed Repairs</h4>
+                            <h4 class="card-title mb-4">{{ __('Completed Repairs') }}</h4>
 
                             <div class="text-center pt-3">
                                 <div class="row">
@@ -143,7 +143,7 @@
                                             <div class="text-success font-size-12">
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Completed Repairs</p>
+                                        <p class="text-muted text-truncate mb-0">{{ __('Completed Repairs') }}</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4 mb-3 mb-sm-0">
                                         <div class="d-inline-flex">
@@ -152,7 +152,7 @@
                                                 <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Last Week</p>
+                                        <p class="text-muted text-truncate mb-0">{{ __('Last Week') }}</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4">
                                         <div class="d-inline-flex">
@@ -161,7 +161,7 @@
                                                 <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Last Month</p>
+                                        <p class="text-muted text-truncate mb-0">{{ __('Last Monthe') }} </p>
                                     </div><!-- end col -->
                                 </div><!-- end row -->
                             </div>
@@ -254,7 +254,7 @@
                             <div class="float-end d-none d-md-inline-block">
                                
                             </div>
-                            <h4 class="card-title mb-4">Revenue</h4>
+                            <h4 class="card-title mb-4">{{ __('Revenue') }}</h4>
 
                             <div class="text-center pt-3">
                                 <div class="row">
@@ -264,7 +264,7 @@
                                             <div class="text-success font-size-12">
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Completed Repairs</p>
+                                        <p class="text-muted text-truncate mb-0">{{ __('Completed Repairs') }}</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4 mb-3 mb-sm-0">
                                         <div class="d-inline-flex">
@@ -273,7 +273,7 @@
                                                 <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Last Week</p>
+                                        <p class="text-muted text-truncate mb-0">{{ __('Last Week') }}</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4">
                                         <div class="d-inline-flex">
@@ -282,7 +282,7 @@
                                                 <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Last Month</p>
+                                        <p class="text-muted text-truncate mb-0">{{ __('Last Monthe') }} </p>
                                     </div><!-- end col -->
                                 </div><!-- end row -->
                             </div>
@@ -362,7 +362,7 @@
                                 <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end">
+                                {{-- <div class="dropdown-menu dropdown-menu-end">
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
                                     <!-- item-->
@@ -371,21 +371,21 @@
                                     <a href="javascript:void(0);" class="dropdown-item">Profit</a>
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                </div>
+                                </div> --}}
                             </div>
 
-                            <h4 class="card-title mb-4">Latest Transactions</h4>
+                            <h4 class="card-title mb-4">{{ __('Latest Transactions') }}</h4>
 
                             <div class="table-responsive">
                                 <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Status</th>
-                                            <th>Email</th>
-                                            <th>Start date</th>
-                                            <th style="width: 120px;">Profit </th>
+                                            <th>{{ __('Name') }}</th>
+                                            <th>{{ __('Position') }}</th>
+                                            <th>{{ __('Status') }}</th>
+                                            <th>{{ __('Email') }}</th>
+                                            <th>{{ __('Start date') }}</th>
+                                            <th style="width: 120px;">{{ __('Profit') }} </th>
                                         </tr>
                                     </thead><!-- end thead -->
                                     <tbody>
@@ -424,7 +424,7 @@
                     <div class="card">
                         <div class="card-body">
                             
-                            <h4 class="card-title mb-4">Top Three Mechanics</h4>
+                            <h4 class="card-title mb-4">{{ __('Top Three Mechanics') }}</h4>
                             
                            
                             <!-- end row -->
@@ -492,7 +492,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Dashboard</h4>
+                        <h4 class="mb-sm-0">{{ __('Dashboard') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
@@ -510,7 +510,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Amount To Pay</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Amount To Pay') }}</p>
                                     <h4 class="mb-2 font-size-16">
                                     
                                        
@@ -537,7 +537,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Status</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Status') }}</p>
                                     <h4 class="mb-2 font-size-16">
                                         @foreach ($invoiceDetails as $detail)
                                             @if (isset($detail['status']))
@@ -583,7 +583,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Vehicle  </p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Vehicle') }}  </p>
                                     @foreach ($invoiceDetails as $detail)
                                         @if (isset($detail['vehicleMake']) && isset($detail['vehicleRegistration']))
                                             <h4 class="font-size-14 mb-2">{{ $detail['vehicleMake'] }} / {{ $detail['vehicleRegistration'] }}</h4>
@@ -605,7 +605,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Mechanic</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Mechanic') }}</p>
                                     @foreach ($invoiceDetails as $detail)
                                         @if (isset($detail['mechanicName']))
                                             <h4 class="font-size-14 mb-2">{{ $detail['mechanicName'] }}</h4>
@@ -635,7 +635,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Dashboard</h4>
+                        <h4 class="mb-sm-0">{{ __('Dashboard') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
@@ -652,7 +652,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Total Gained</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Total Gained') }}</p>
                                     <h4 class="mb-2 font-size-16">
                                        $ {{ $totalGained }}
                                     </h4>
@@ -671,7 +671,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Repairs Status</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Repairs Status') }}</p>
                                     <h4 class="mb-2 font-size-16">
                                         @php
                                         $allCompleted = true;
@@ -679,7 +679,17 @@
                                         $allInProgress = true;
                                     @endphp
                                     @foreach($repairsStatus as $repairStatus)
-                                        <p>{{ $repairStatus['repair_id'] }}: {{ $repairStatus['status'] }}</p>
+                                    <p>{{ $repairStatus['repair_id'] }}: 
+                                        @if($repairStatus['status'] == 'completed')
+                                            {{ __('Completed') }}
+                                        @elseif($repairStatus['status'] == 'pending')
+                                            {{ __('Pending') }}
+                                        @elseif($repairStatus['status'] == 'in_progress')
+                                            {{ __('In Progress') }}
+                                        @else
+                                            {{ __('Unknown') }}
+                                        @endif
+                                    </p>
                                         @if($repairStatus['status'] !== 'completed')
                                             @php
                                                 $allCompleted = false;
@@ -725,7 +735,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Vehicles repaired</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Vehicles repaired') }}</p>
                                     @foreach($vehiclesRepairedBy as $vehicle)
                                         <h4 class="font-size-14 mb-2">{{ $vehicle->make }} / {{ $vehicle->registration }}</h4>
                                     @endforeach
@@ -744,7 +754,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Users worked with me</p>
+                                    <p class="text-truncate font-size-14 mb-2">{{ __('Users worked with me') }}</p>
                                     @foreach($usersWorkedWith as $user)
                                         <h4 class="font-size-14 mb-2">{{ $user['name'] }} - {{ $user['email'] }}</h4>
                                     @endforeach
@@ -773,7 +783,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">
-                        Crafted with <i class="mdi mdi-heart text-danger"></i> by reda-elklie
+                        {{ __('Crafted with') }} <i class="mdi mdi-heart text-danger"></i> by reda-elklie
                     </div>
                 </div>
             </div>

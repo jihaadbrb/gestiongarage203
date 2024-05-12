@@ -64,7 +64,7 @@
                         <span>{{ __('Email') }}</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('admin.mails')}}">Inbox</a></li>
+                        <li><a href="{{route('admin.mails')}}">{{ __('Inbox') }}</a></li>
                         {{-- <li><a href="email-read.html">Read Email</a></li> --}}
                     </ul>
                 </li>

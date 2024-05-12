@@ -30,12 +30,12 @@
             <!-- App Search-->
             <form class="app-search d-none d-lg-block">
                 <div class="position-relative">
-                    <input type="text" class="form-control" placeholder="Search...">
+                    <input type="text" class="form-control" placeholder="{{ __('Search...') }}">
                     <span class="ri-search-line"></span>
                 </div>
             </form>
 
-            <div class="dropdown dropdown-mega d-none d-lg-block ms-2">
+            {{-- <div class="dropdown dropdown-mega d-none d-lg-block ms-2">
                 <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                     Mega Menu
                     <i class="mdi mdi-chevron-down"></i>
@@ -164,7 +164,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="d-flex">
@@ -292,10 +292,10 @@
                     <div class="p-3">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6 class="m-0"> Notifications </h6>
+                                <h6 class="m-0">{{ __('Notifications') }} </h6>
                             </div>
                             <div class="col-auto">
-                            <a href="{{route('admin.dashboard')}}" class="small"> View All</a>
+                            <a href="{{route('admin.dashboard')}}" class="small">{{ __('View All') }} </a>
                             </div>
                         </div>
                     </div>
@@ -326,7 +326,7 @@
                     <div class="p-2 border-top">
                         <div class="d-grid">
                             <a class="btn btn-sm btn-link font-size-14 text-center" href="{{route('admin.repairs')}}">
-                                <i class="mdi mdi-arrow-right-circle me-1"></i> View More..
+                                <i class="mdi mdi-arrow-right-circle me-1"></i>{{ __('View More..') }}
                             </a>
                         </div>
                     </div>
@@ -357,10 +357,10 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> Profile</a>
-                    <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle me-1"></i> My Wallet</a>
-                    <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
-                    <a class="dropdown-item" href="/lock-screen"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
+                    <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> {{ __('Profile') }}</a>
+                    <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle me-1"></i> {{ __('My Wallet') }}</a>
+                    <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i>{{ __('Settings') }}</a>
+                    <a class="dropdown-item" href="/lock-screen"><i class="ri-lock-unlock-line align-middle me-1"></i> {{ __('Lock screen') }}</a>
                     <div class="dropdown-divider"></div>
                     {{-- <a class="dropdown-item text-danger" href="#">
                         <i class="ri-shut-down-line align-middle me-1 text-danger">
@@ -369,7 +369,7 @@
                                 @csrf
                             </form>
                             <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout
+                                <i class="ri-shut-down-line align-middle me-1 text-danger"></i>{{ __('Logout') }}
                             </a>
 
                 </div>

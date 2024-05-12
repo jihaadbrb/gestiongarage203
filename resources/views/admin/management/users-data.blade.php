@@ -205,15 +205,16 @@
                                                 </label>
                                             </div>
 
+                                         
                                           
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ $client->name }}</h5>
-                                                <p class="card-text">Email: {{ $client->email }}</p>
-                                                <p class="card-text">Address: {{ $client->address }}</p>
-                                                <p class="card-text">Phone Number: {{ $client->phoneNumber }}</p>
-                                                <p class="card-text"><small class="text-muted">Start Date: {{ $client->created_at }}</small></p>
+                                                <p class="card-text">{{ __('Email') }}: {{ $client->email }}</p>
+                                                <p class="card-text">{{ __('Address') }}: {{ $client->address }}</p>
+                                                <p class="card-text">{{ __('Phone Number') }}: {{ $client->phoneNumber }}</p>
+                                                <p class="card-text"><small class="text-muted"{{ __('>Start Date') }}: {{ $client->created_at }}</small></p>
                                                 <button type="button" class="btn edit-client" data-client-id="{{ $client->id }}" data-client-name="{{ $client->name }}" data-client-email="{{ $client->email }}" data-client-address="{{ $client->address }}" data-client-phone="{{ $client->phoneNumber }}">
                                                     <i class="ri-edit-2-line"></i>
                                                 </button>

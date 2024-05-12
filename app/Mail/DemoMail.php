@@ -14,16 +14,20 @@ class DemoMail extends Mailable
     use Queueable, SerializesModels;
 
     public $mailData;
+    public $locale;
 
     /**
      * Create a new message instance.
      *
      * @param array $mailData
+     * @param string $locale
      */
-    public function __construct($mailData)
+    public function __construct($mailData, $locale)
     {
         $this->mailData = $mailData;
+        $this->locale = $locale;
     }
+
 
     /**
      * Get the message envelope.

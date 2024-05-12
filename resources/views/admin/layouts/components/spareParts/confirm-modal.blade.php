@@ -2,20 +2,20 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="sconfirmDeleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="sconfirmDeleteModalLabel">{{ __('Confirm Delete') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
             </div>
             <div class="modal-body">
                 <form id="sdeleteForm" method="post">
                     @csrf
                     <input type="hidden" id="sdeleteId" name="sdeleteId" value="" />
                 </form>
-                Are you sure you want to delete spare with ID: <span id="clientIdPlaceholder"></span> ?
+                {{ __('Are you sure you want to delete spare with ID:') }} <span id="clientIdPlaceholder"></span> ?
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="sconfirmDeleteBtn">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                <button type="button" class="btn btn-danger" id="sconfirmDeleteBtn">{{ __('Delete') }}</button>
             </div>
         </div>
     </div>

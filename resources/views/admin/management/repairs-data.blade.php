@@ -103,7 +103,7 @@
                                         @if(Auth::user()->role === 'admin' && $completedRepairsCount > 3)
                                             <button type="submit" class="btn btn-primary">
                                                 
-                                                Send Mail for All Completed Repairs
+                                                {{ __('Send Mail for All Completed Repairs') }}  
                                             </button>
                                         @endif
                                     </form>
@@ -125,7 +125,7 @@
                                         <th>{{ __('Start Date') }}</th>
                                         <th>{{ __('End Date') }}</th>
                                         <th>{{ __('user name') }}</th>
-                                        <th>{{ __('vehicle regestration') }}</th>
+                                        <th>{{ __('Vehicle registration') }}</th>
                                         @if(Auth::user()->role === 'admin' ||Auth::user()->role === 'mechanic')
 
                                         <th>{{ __('action') }}</th>
@@ -141,9 +141,9 @@
                                             <td>
                                                 @if (Auth::user()->role === 'admin' || Auth::user()->role === 'mechanic')
                                                     <select class="form-select repair-status" data-repair-id="{{ $repair->id }}">
-                                                        <option value="pending" {{ $repair->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                                        <option value="in_progress" {{ $repair->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                                        <option value="completed" {{ $repair->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                                                        <option value="pending" {{ $repair->status === 'pending' ? 'selected' : '' }}>{{ __('Pending') }} </option>
+                                                        <option value="in_progress" {{ $repair->status === 'in_progress' ? 'selected' : '' }}>{{ __('In Progress') }} </option>
+                                                        <option value="completed" {{ $repair->status === 'completed' ? 'selected' : '' }}>{{ __('Completed') }} </option>
                                                     </select>
                                                 @else
                                                     <span class="badge bg-{{ $repair->status === 'completed' ? 'success' : ($repair->status === 'in_progress' ? 'warning' : 'danger') }}" style="font-size: 15px; color: rgb(255, 255, 255);">{{ ucfirst($repair->status) }}</span>
@@ -165,13 +165,13 @@
                                                     <form action="/send-mail" method="GET" style="display: inline;">
                                                         @csrf
                                                         <input type="hidden" name="repair_id" value="{{ $repair->id }}">
-                                                        <button type="submit" class="btn">Send Mail</button>
+                                                        <button type="submit" class="btn">{{ __('Send Mail') }} </button>
                                                     </form>
                                                 @elseif($repair->status === 'completed' && Auth::user()->role === "admin" || Auth::user()->role === "mechanic")
                                                 <form action="/send-mail" method="GET" style="display: inline;">
                                                     @csrf
                                                     <input type="hidden" name="repair_id" value="{{ $repair->id }}">
-                                                    <button type="submit" class="btn">Send Mail</button>
+                                                    <button type="submit" class="btn">{{ __('Send Mail') }} </button>
                                                 </form>
                                                 @endif
                                                 @if ($repair->status !== 'completed' && (Auth::user()->role === "admin" || Auth::user()->role === "mechanic"))
@@ -182,12 +182,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
-
-                                    {{-- @include('admin.layouts.components.users.edit-modal')
-                                    @include('admin.layouts.components.users.add-modal') --}}
                                     @include('admin.layouts.components.repairs.confirm-modal')
-                                    {{-- @include('admin.layouts.components.users.show-modal') --}}
                                     @include('admin.layouts.components.invoices.add-modal')
                                     @include('admin.layouts.components.spareParts.add-modal')
 

@@ -106,10 +106,10 @@
                                             <td>
                                                 @if(Auth::user()->role === 'admin')
                                                     <select class="form-select update-appointment-status" data-appointment-id="{{ $appointment->id }}">
-                                                        <option value="pending" {{ $appointment->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                                        <option value="confirmed" {{ $appointment->status === 'confirmed' ? 'selected' : '' }}>Confirmed</option>
-                                                        <option value="completed" {{ $appointment->status === 'completed' ? 'selected' : '' }}>Completed</option>
-                                                        <option value="canceled" {{ $appointment->status === 'canceled' ? 'selected' : '' }}>Canceled</option>
+                                                        <option value="pending" {{ $appointment->status === 'pending' ? 'selected' : '' }}>{{ __('Pending') }}</option>
+                                                        <option value="confirmed" {{ $appointment->status === 'confirmed' ? 'selected' : '' }}>{{ __('Confirmed') }}</option>
+                                                        <option value="completed" {{ $appointment->status === 'completed' ? 'selected' : '' }}>{{ __('Completed') }}</option>
+                                                        <option value="canceled" {{ $appointment->status === 'canceled' ? 'selected' : '' }}>{{ __('Canceled') }}</option>
                                                     </select>
                                                 @else
                                                     {{ $appointment->status }}

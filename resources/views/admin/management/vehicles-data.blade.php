@@ -99,7 +99,7 @@
                                                 <td>{{ $vehicle->user->name }}</td>
                                                 <td>
                                                     <button type="button" class="btn show-pics" data-vehicle-id="{{ $vehicle->id }}">
-                                                        <i class="ri-eye-line"></i> Show Pictures
+                                                        <i class="ri-eye-line"></i>{{ __('Show Pictures') }}
                                                     </button>
                                                 </td>
                                                 <td>

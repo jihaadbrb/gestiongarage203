@@ -60,7 +60,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="add-new">
-                                <h4 class="card-title">{{ __('Repairs Management') }}</h4>
+                                <h4 class="card-title">{{ __('Invoices Management') }}</h4>
                                 <p class="card-title-desc">
 
                                 </p>

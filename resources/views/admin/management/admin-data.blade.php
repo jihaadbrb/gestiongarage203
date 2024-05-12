@@ -69,7 +69,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="card-title">Users List</h4>
+                            <h4 class="card-title">{{ __('Users List') }}</h4>
                             <p class="card-title-desc">
                             </p>
 

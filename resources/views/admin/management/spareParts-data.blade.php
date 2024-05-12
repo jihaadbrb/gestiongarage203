@@ -77,7 +77,7 @@
                               
                                 <thead>
                                     <tr role="row">
-                                        <th>{{ __('Descreption') }}</th>
+                                        <th>{{ __('Description') }}</th>
                                         <th>{{ __('Part Name') }}</th>
                                         <th>{{ __('Part Refrence') }}</th>
                                         <th>{{ __('Supplier') }}</th>

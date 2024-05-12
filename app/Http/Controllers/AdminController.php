@@ -49,7 +49,7 @@ class AdminController extends Controller
         // Check if $client exists before attempting to delete
         if ($client) {
             $client->delete();
-            session()->flash('success', 'User deleted successfully');
+            session()->flash('success', __('User deleted successfully'));
 
             return "ok";
         } else {
@@ -86,7 +86,8 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role
         ]);
-        session()->flash('success', 'User created successfully');
+        session()->flash('success', __('User created successfully'));
+
         return
             redirect()->back();
     }
@@ -109,7 +110,7 @@ class AdminController extends Controller
             $client->update($validationData);
     
             // Redirect back to the previous page or any desired route
-            return redirect()->back()->with('success', 'User updated successfully');
+            return redirect()->back()->with('success', __('User updated successfully'));
     
         } catch (ModelNotFoundException $e) {
             // Handle the case where the client is not found

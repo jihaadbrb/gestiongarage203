@@ -9,12 +9,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Inbox</h4>
+                        <h4 class="mb-sm-0">{{ __('Inbox') }}</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Email</a></li>
-                                <li class="breadcrumb-item active">Inbox</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">{{ __('Email') }}</a></li>
+                                <li class="breadcrumb-item active">{{ __('Inbox') }}</li>
                             </ol>
                         </div>
 
@@ -29,10 +29,10 @@
                     <div class="email-leftbar card">
                         <div class="d-grid">
                             <button type="button" class="btn btn-danger waves-effect waves-light compose-email" data-bs-toggle="modal" data-bs-target="#composemodal">
-                                Compose
+                                {{ __('Compose new Email') }}  
                             </button>
                         </div>
-                        <h6 class="mt-4">Chat</h6>
+                        <h6 class="mt-4">{{ __('Chat') }}</h6>
 
                         <div class="mt-2">
                             <?php $displayedUsers = []; ?>
@@ -68,7 +68,7 @@
                         
                         <div class="card">
                             <div class="btn-toolbar p-3" role="toolbar">
-                                sent mails
+                                {{ __('sent mails') }}
                             </div>
                             <ul class="message-list">
                                 <?php $displayedRecipients = []; ?>
@@ -129,27 +129,27 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="composemodalTitle">New Message</h5>
+                <h5 class="modal-title" id="composemodalTitle">{{ __('New Message') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="composeForm" action="{{route('admin.sendEmail')}} method="POST" ">
                     @csrf
                     <div class="mb-3">
-                        <input type="email" class="form-control" name="title" placeholder="To">
+                        <input type="email" class="form-control" name="title" placeholder="{{ __('To') }}">
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" class="form-control" name="subject" placeholder="Subject">
+                        <input type="text" class="form-control" name="subject" placeholder="{{ __('Subject') }}">
                     </div>
                     <div class="mb-3">
-                        <textarea class="form-control" name="message" placeholder="Message"></textarea>
+                        <textarea class="form-control" name="message" placeholder="{{ __('Message') }}"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sendEmailBtn">Send <i class="fab fa-telegram-plane ms-1"></i></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                <button type="button" class="btn btn-primary" id="sendEmailBtn">{{ __('Send') }} <i class="fab fa-telegram-plane ms-1"></i></button>
             </div>
         </div>
     </div>
@@ -160,11 +160,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © Upcube.
+                    <script>document.write(new Date().getFullYear())</script> © reda-elklie.
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">
-                        Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign
+                        Crafted with <i class="mdi mdi-heart text-danger"></i> by reda elklie
                     </div>
                 </div>
             </div>

@@ -59,7 +59,7 @@
 
                             @if(Auth::user()->role === 'admin')
 
-                            <th>{{ __('Action') }}</th>
+                            <th>{{ __('Mechanic') }}</th>
                             @endif
                         </tr>
                             <p class="card-title-desc">
