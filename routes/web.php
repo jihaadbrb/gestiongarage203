@@ -51,9 +51,10 @@ Route::middleware(['auth', 'lang'])->group(function () {
 
     // Users
     Route::get('/users', [AdminController::class, 'showUsers'])->middleware(['auth', 'verified'])->name('admin.users');
-    Route::put('/users/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::post('/users/store', [AdminController::class, 'store'])->name('admin.store');
+    Route::put('/users/{clientId}', [AdminController::class, 'update'])->name('admin.update');
     Route::post('/users/showModal', [AdminController::class, 'showModal'])->name('users.showModal');
-    Route::delete('/users/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
+    Route::post('/users/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     Route::get('/lock-screen', [ClientController::class, 'lockScreen']);
     Route::post('/lock-screen', [ClientController::class, 'unlock'])->name('unlock');
@@ -72,7 +73,7 @@ Route::get('api/notifications',[RepairController::class,'showNotifications']);
     Route::get('/vehicles', [VehicleController::class, 'showVehicles'])->name('admin.vehicles');
     Route::post('/vehicle/store', [VehicleController::class, 'storeVehicle'])->name('admin.storeVehicle');
     Route::post('/vehicles/showVehiclePics', [VehicleController::class, 'showVehiclePics']);
-    Route::put('/vehicles/{id}', [VehicleController::class, 'updateVehicle'])->name('admin.updateVehicle');
+    Route::put('/vehicles/{vehicleId}', [VehicleController::class, 'updateVehicle'])->name('admin.updateVehicle');
     Route::post('/vehicles/destroy', [VehicleController::class, 'destroyVehicle'])->name('admin.destroyVehicle');
 
 
@@ -98,7 +99,7 @@ Route::get('api/notifications',[RepairController::class,'showNotifications']);
     Route::post('/spare-parts/add', [SparePartController::class, 'addSparePart'])->name('admin.storeSparePart');
     Route::post('/spare-parts/delete', [SparePartController::class, 'destroySparePart'])->name('admin.destroySparePart');
 
-    Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
+    // Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/changeLocale/{locale}', function ($locale) {
         session()->put('locale', $locale);

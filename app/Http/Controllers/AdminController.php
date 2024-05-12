@@ -2,25 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
-use App\Models\Invoice;
-use App\Models\Repair;
-use App\Models\SparePart;
 use App\Models\User;
-use App\Models\Vehicle;
-use Doctrine\Inflector\Rules\English\Rules;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
-use Illuminate\Validation\Rules\Exists;
-use PDO;
-use Symfony\Component\CssSelector\Node\FunctionNode;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
-use function PHPUnit\Framework\returnSelf;
 
 class AdminController extends Controller
 {
@@ -31,22 +18,19 @@ class AdminController extends Controller
         if (Auth::user()->role === "admin") {
             $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->get();
             $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
-        } 
-        elseif(Auth::user()->role==="mechanic"){
-            $clients = User::orderBy('id', 'desc')->where('role', 'mechanic')->where('id',Auth::id())->get();
+        } elseif (Auth::user()->role === "mechanic") {
+            $clients = User::orderBy('id', 'desc')->where('role', 'mechanic')->where('id', Auth::id())->get();
             $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
-
         }
         // Fetch only the authenticated user for regular users
         else {
             $clients = User::with('repairs')->orderBy('id', 'desc')->where('role', 'client')->where('id', Auth::id())->get();
             $mechanics = User::orderBy('id', 'desc')->where('role', 'mechanic')->get();
-            
         }
-    
+
         return view('admin.management.users-data', ['clients' => $clients, 'mechanics' => $mechanics]);
     }
-    
+
 
     public function showMechanics()
     {
@@ -61,10 +45,12 @@ class AdminController extends Controller
 
     public function destroy(Request $request)
     {
-        $client = User::find($request->deleteId);
+        $client = User::find($request->cdeleteId);
         // Check if $client exists before attempting to delete
         if ($client) {
             $client->delete();
+            session()->flash('success', 'User deleted successfully');
+
             return "ok";
         } else {
             // Handle the case where $client is null
@@ -75,30 +61,7 @@ class AdminController extends Controller
     {
         return view('admin.users.edit-data', compact('client'));
     }
-    public function update(Request $request, $id)
-    {
-        try {
-            // Fetch the client using the provided ID
-            $client = User::findOrFail($id);
 
-            // Validate the incoming request data
-            $validationData = $request->validate([
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email,' . $client->id,
-                'address' => 'required',
-                'phoneNumber' => 'required|string'
-            ]);
-
-            // Update the client's information with the validated data
-            $client->update($validationData);
-
-            // Redirect back to the previous page or any desired route
-            return redirect()->back();
-        } catch (QueryException $e) {
-            // Handle the unique constraint violation exception
-            return back()->withError('Email already exists.')->withInput();
-        }
-    }
 
     public function create()
     {
@@ -123,10 +86,46 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role
         ]);
-
+        session()->flash('success', 'User created successfully');
         return
             redirect()->back();
     }
+
+    public function update(Request $request, $clientId)
+    {
+        try {
+            // Fetch the client using the provided ID
+            $client = User::findOrFail($clientId);
+    
+            // Validate the incoming request data
+            $validationData = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,' . $client->id,
+                'address' => 'required',
+                'phoneNumber' => 'required|string'
+            ]);
+    
+            // Update the client's information with the validated data
+            $client->update($validationData);
+    
+            // Redirect back to the previous page or any desired route
+            return redirect()->back()->with('success', 'User updated successfully');
+    
+        } catch (ModelNotFoundException $e) {
+            // Handle the case where the client is not found
+            return redirect(route('admin.dashboard'))->with("success", "User not found");
+    
+        } catch (QueryException $e) {
+            // Handle the unique constraint violation exception
+            return back()->withError('Email already exists.')->withInput();
+        }
+    }
+    
+
+
+
+
+
     public function showModal(Request $request)
     {
         // Retrieve the user ID from the request data
@@ -144,6 +143,4 @@ class AdminController extends Controller
             return response()->json(['error' => 'User not found.'], 404);
         }
     }
-
-   
 }

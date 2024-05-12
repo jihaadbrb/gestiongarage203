@@ -40,10 +40,19 @@ class ClientController extends Controller
 
     public function importUsers(Request $request)
     {
-        Excel::import(new UsersImport, $request->file('file'));
-
+        try {
+            Excel::import(new UsersImport, $request->file('file'));
+        } catch (\Exception $e) {
+            // Catch any exceptions that occur during the import process
+            session()->flash('error', 'Error importing users: ' . $e->getMessage());
+            return redirect()->back();
+        }
+    
+        // If the import is successful, redirect to the admins page
+        session()->flash('success', 'Users imported successfully');
         return redirect(route('admin.admins'));
     }
+    
 
 
 

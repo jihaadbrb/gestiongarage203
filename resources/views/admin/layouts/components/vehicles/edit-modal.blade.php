@@ -1,3 +1,5 @@
+@if(isset($vehicle))
+
 <div class="modal fade" id="editVehicleModal" tabindex="-1" role="dialog" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -9,13 +11,13 @@
         </div>
         <div class="modal-body">
          
-          <form id="editVehicleForm" method="post" action="{{ route('admin.update', $vehicle ? $vehicle->id : '') }}" enctype="multipart/form-data">
+          <form id="editVehicleForm" method="put" action="{{ route('admin.updateVehicle',$vehicle->id ) }}" enctype="multipart/form-data">
               @csrf
               @method('put')
               <div class="form-group">
                 <label for="vehicleId">ID</label>
                 {{-- <input type="text" class="form-control" id="vehicleId" name="id" > --}}
-                <input type="hidden" id="vehicleId" name="vehicle_id" value="{{ $vehicle ? $vehicle->id : '' }}">
+                <input type="hidden" id="vehicleId" name="vehicleId" value="{{$vehicle->id  }}">
               </div>
               <div class="form-group">
                 <label for="vehicleMake">Make</label>
@@ -41,7 +43,7 @@
               @if (Auth::user()->role === "client")
                 <div class="form-group">
                   <label for="vehicleUserId">User ID</label>
-                  <input type="text" class="form-control" id="vehicleUserId" name="user_id" disabled >
+                  <input type="text" class="form-control" id="vehicleUserId" name="user_id" readonly >
                 </div>
               @else
                 <div class="form-group">
@@ -56,3 +58,4 @@
       </div>
     </div>
   </div>
+@endif

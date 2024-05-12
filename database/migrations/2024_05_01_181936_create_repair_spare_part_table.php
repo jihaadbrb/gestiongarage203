@@ -13,8 +13,8 @@ class CreateRepairSparePartTable extends Migration
     public function up()
     {
         Schema::create('repair_spare_part', function (Blueprint $table) {
-            $table->foreignId('repair_id')->constrained('repairs') ;//->onDelete('cascade');
-            $table->foreignId('spare_part_id')->constrained('spare_parts') ;//->onDelete('cascade');
+            $table->foreignId('repair_id')->constrained('repairs')->onDelete('cascade');
+            $table->foreignId('spare_part_id')->constrained('spare_parts')->onDelete('cascade');
             $table->timestamps();
         });
     }

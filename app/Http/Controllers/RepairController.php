@@ -31,8 +31,8 @@ class RepairController extends Controller
             // User can only see their own repairs
             $repairs = Repair::where('user_id', $user->id)->with('user', 'vehicle')->get();
         }
-
-        return view('admin.management.repairs-data', ['repairs' => $repairs]);
+        $completedRepairsCount = Repair::where('status', 'completed')->count();
+        return view('admin.management.repairs-data', ['repairs' => $repairs,'completedRepairsCount'=>$completedRepairsCount]);
     }
 
 
@@ -85,7 +85,7 @@ class RepairController extends Controller
 
     public function destroyRepair(Request $request)
     {
-        $repair = Repair::find($request->deleteId);
+        $repair = Repair::find($request->rdeleteId);
         // Check if $client exists before attempting to delete
         if ($repair) {
             $repair->delete();
@@ -94,6 +94,9 @@ class RepairController extends Controller
             // Handle the case where $client is null
             return response()->json(['message' => 'repair not found'], 404);
         }
+
+        
+
     }
 
 

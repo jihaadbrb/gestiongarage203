@@ -33,14 +33,54 @@
   border-radius: 5px; /* Add rounded corners */
   cursor: pointer; /* Indicate clickable element */
 }
+/* CSS */
+.toast {
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    position: absolute;
+    top: 10px;
+    right: 07px;
+}
+
+.toast-close-button {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.toast-message {
+    margin-top: 5px;
+}
 
     </style>
     <div class="page-content">
         <div class="container-fluid">
 
+         
 
             <div class="row">
-
+                <div class="toast toast-success" aria-live="polite" style="display: none;">
+                    <div class="toast-progress" style="width: 0%;"></div>
+                    <button type="button" class="toast-close-button" role="button">×</button>
+                    <div class="toast-message"></div>
+                </div>
+                
+                <div class="toast toast-danger" aria-live="polite" style="display: none;">
+                    <div class="toast-progress" style="width: 0%;"></div>
+                    <button type="button" class="toast-close-button" role="button">×</button>
+                    <div class="toast-message"></div>
+                </div>
+                
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -75,6 +115,9 @@
                                 </p>
                             </div>
                         @if (Auth::user()->role === "admin")
+                        {{--  --}}
+                
+                         
                             <table id="datatable-buttons"
                                 class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -219,5 +262,9 @@
 @include('admin.layouts.components.users.import-modal')
 @include('admin.layouts.components.users.confirm-modal')
 @include('admin.layouts.components.users.show-modal')
+
+
+
+
 <!-- Modal for editing client -->
 @endsection

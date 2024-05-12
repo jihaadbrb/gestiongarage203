@@ -110,6 +110,7 @@ class MailController extends Controller
             // Process sending other types of emails
             Mail::to($mailData['title'])->send(new DemoMail($mailData));
         }
+        session()->flash('success', 'Mail sent successfully');
 
         return response()->json(['message' => 'Email sent successfully']);
     }

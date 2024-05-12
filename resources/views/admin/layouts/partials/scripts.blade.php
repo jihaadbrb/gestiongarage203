@@ -2,9 +2,13 @@
     <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 {{-- edit client --}}
-    <script>
-        $(document).ready(function() {
+   
+
+
+<script>
+    $(document).ready(function() {
         console.log("Document ready");
+
         // Show modal and populate fields when the edit button is clicked
         $('.edit-client').click(function() {
             var clientId = $(this).data('client-id');
@@ -13,6 +17,7 @@
             var clientAddress = $(this).data('client-address');
             var clientPhone = $(this).data('client-phone');
             console.log(clientId);
+
             // Populate modal fields with client data
             $('#editClientId').val(clientId);
             $('#name').val(clientName);
@@ -25,77 +30,72 @@
         });
 
         // Handle form submission via AJAX using Axios
-        $('#submitEditClientForm').click(function() {
-       alert("Submit button clicked");
-        var clientId = $('#editClientId').val();
-        var formData = $('#editClientForm').serialize();
-        //    alert(formData)
-        // Axios request
-        axios({
-            method: 'put',
-            url: '/users/' + clientId,
-            data: formData
-        })
-        .then(function(response) {
-            alert("Update successful");
-            alert(response)
-            // You can perform additional actions here after successful update
-        })
-        .catch(function(error) {
-            // Log the error to the console
-                console.error(error);
+        $('#editClientForm').submit(function(event) {
+            event.preventDefault();
 
-                // Display an error message to the user
-                // alert("Error updating user. Please try again later.");
+        var clientId = $('#editClientId').val();
+            var formData = $(this).serialize();
+
+            // Axios request
+            axios({
+                method: 'post',
+                url: '/users/' + clientId,
+                data: formData
+            })
+            .then(function(response) {
+                // Display success toast
+            $('#editClientModal').modal('hide');
+
+                $('.toast-success .toast-message').text('User updated successfully');
+                $('.toast-success').fadeIn().delay(3000).fadeOut();
+
+            })
+            .catch(function(error) {
+                if (error.response && error.response.status === 422 && error.response.data.errors.email) {
+                    // Display email already taken toast
+                    $('.toast-danger .toast-message').text(error.response.data.errors.email[0]);
+                    $('.toast-danger').fadeIn().delay(3000).fadeOut();
+                } else {
+                    // Log other errors to console
+                    console.error("Error occurred:", error);
+                }
+            });
         });
-        });
-        });
-    </script>
+    });
+</script>
+
+
 
 
   {{-- add Client  --}}
-    <script>
-            $(document).ready(function() {
-                console.log("Document ready");
-                // Show modal and populate fields when the edit button is clicked
-                $('.add-client').click(function() {
+  <script>
+    $(document).ready(function() {
+        // Show modal when the "Add New Client" button is clicked
+        $('.add-client').click(function() {
+            $('#addClientModal').modal('show');
+        });
 
-                    // Show the modal
-                    $('#addClientModal').modal('show');
-                });
+        // Handle form submission via AJAX using Axios
+        $('#submitAddClientForm').click(function() {
+            var formData = $('#addClientForm').serialize();
 
-                // Handle form submission via AJAX using Axios
-                $('#submitEditClientForm').click(function() {
-                console.log("Submit button clicked");
-                var clientId = $('#editClientId').val();
-                var formData = $('#editClientForm').serialize();
-
-                console(formData);
-                    alert("good")
-                // Axios request    
-                axios({
-                    method: 'put',
-                    url: '/users/' + clientId,
-                    data: formData
-                })
+            // Axios request    
+            axios.post('{{ route("admin.store") }}', formData)
                 .then(function(response) {
-                    alert("Update successful");
-                    alert(response)
-                    // You can perform additional actions here after successful update
+                    // If successful, show success message and close modal
+                    alert("Client added successfully");
+                    $('#addClientModal').modal('hide');
+                    // You can perform additional actions here after successful addition
                 })
                 .catch(function(error) {
                     // Log the error to the console
                     console.error(error);
-
                     // Display an error message to the user
-                    // alert("Error updating user. Please try again later.");
+                    alert("Error adding client. Please try again later.");
                 });
-            });
-            });
-
-
-    </script>
-
+        });
+    });
+</script>
 
 {{-- import client  --}}
 
@@ -119,20 +119,22 @@
         // Handle deletion of client
         $('.delete-client').click(function() {
             var clientId = $(this).data('client-id'); // Retrieve the client ID
-            $('#deleteId').val(clientId); // Populate the deleteId input field with the client ID
+            $('#cdeleteId').val(clientId); // Populate the deleteId input field with the client ID
             $('#clientIdPlaceholder').text(clientId); // Populate the client ID placeholder in the modal body
-            $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
+            $('#cconfirmDeleteModal').modal('show'); // Show the confirmation modal
         });
 
         // Handle confirmation of deletion
-        $('#confirmDeleteBtn').click(function() {
-            var formData = $('#deleteForm').serialize(); // Serialize form data
+        $('#cconfirmDeleteBtn').on('click',function() {
+            var formData = $('#cdeleteForm').serialize(); // Serialize form data
             // Axios DELETE request
-            axios.delete('{{ route("admin.destroy") }}', formData)
+            axios.post('{{ route("admin.destroy") }}', formData)
                 .then(function (response) {
                     if (response.data == "ok") {
+                        $('.toast-success .toast-message').text('User deleted successfully');
+                        $('.toast-success').fadeIn().delay(3000).fadeOut();
                         $("#row").remove(); // Remove the deleted client row from the table
-                        $('#confirmDeleteModal').modal('hide')
+                        $('#cconfirmDeleteModal').modal('hide')
                     }
                 })
                 .catch(function (error) {
@@ -336,8 +338,8 @@
             data: formData
         })
         .then(function(response) {
-            alert("added successful");
-            alert(response)
+            $('.toast-success .toast-message').text('vehicle created successfully');
+                $('.toast-success').fadeIn().delay(3000).fadeOut();
             // You can perform additional actions here after successful update
         })
         .catch(function(error) {
@@ -352,16 +354,73 @@
 
 
 </script>
+{{-- Show pics vehicles --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const showPicsButtons = document.querySelectorAll('.show-pics');
+        
+        showPicsButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var myId = $(this).attr("data-vehicle-id");
+                var data = { 'id': myId };
+                
+                // Send an Axios request to fetch vehicle pictures
+                axios.post('/vehicles/showVehiclePics', data)
+                .then(function(response) {
+                    // Clear existing carousel inner HTML
+                    const carouselInner = document.querySelector('#vehiclePicsCarousel .carousel-inner');
+                    carouselInner.innerHTML = '';
 
+                    // Iterate over the received image URLs and extract the filename
+                    response.data.pictures.forEach(function(imageUrl, index) {
+                        // Extract just the filename from the image URL
+                        const filename = imageUrl.split('/').pop();
+                        
+                        const imageElement = document.createElement('div');
+                        imageElement.classList.add('carousel-item');
+                        if (index === 0) {
+                            imageElement.classList.add('active');
+                        }
+                        
+                        // Update the image source to point to the correct location in the public folder
+                        imageElement.innerHTML = '<img src="{{ asset("storage/vehicle_photos") }}/' + filename + '" class="d-block w-100" alt="Vehicle Picture">';
+                        carouselInner.appendChild(imageElement);
+                    });
 
-{{-- show pics vehicles --}}
+                    // Show the modal with the updated carousel
+                    const modal = new bootstrap.Modal(document.getElementById('showPicsModal'));
+                    modal.show();
+                })
+                .catch(function(error) {
+                    // Handle errors if any
+                    console.error(error);
+                    alert('Failed to fetch vehicle pictures. Please try again later.');
+                });
+            });
+        });
 
+        // Initialize the carousel
+        $('#vehiclePicsCarousel').carousel();
 
-    <script>
+        // Handle carousel control clicks
+        $('.carousel-control-prev').click(function() {
+            $('#vehiclePicsCarousel').carousel('prev');
+        });
+
+        $('.carousel-control-next').click(function() {
+            $('#vehiclePicsCarousel').carousel('next');
+        });
+    });
+</script>
+
+  
+
+    {{-- <script>
 
                         $(".show-pics").on("click", function() {
-                    var myId = $(this).attr("data-client-id");
+                    var myId = $(this).attr("data-vehicle-id");
                     var data = { 'id': myId };
+                    console.log(data);
                     axios.post('/vehicles/showVehiclePics', data)
                         .then(response => {
                         console.log(response.data);
@@ -370,7 +429,7 @@
                         var carouselHtml = "";
                         var pictures = response.data.pictures;
                         pictures.forEach(function(pictureString, index) {
-        // Clean approach using regular expressions:
+                        // Clean approach using regular expressions:
                     var pictureUrl = pictureString.replace(/^["'\\]|["'\\]$/g, '');
                             // (Optional) Remove leading/trailing backslashes if needed
                             // alert(pictureUrl)
@@ -391,71 +450,77 @@
                         }
                         })
                         .catch(error => {
-                        console.error(error);
+                        console.error("errorrrr");
                         });
                     });
 
 
-    </script>
+    </script> --}}
 
 {{-- edit vehicle  --}}
 
-    <script>
-        $(document).ready(function() {
-            console.log("Document ready");
+<script>
+    $(document).ready(function() {
+        console.log("Document vehicle ready");
 
-            // Show modal and populate fields when the edit button is clicked
-            $(document).on('click', '.edit-vehicle', function() {
-                var vehicleMake = $(this).data('vehicle-make');
-                var vehicleModel = $(this).data('vehicle-model');
-                var vehicleFuelType = $(this).data('vehicle-fueltype');
-                var vehicleRegistration = $(this).data('vehicle-registration');
-                var vehiclePhotos = $(this).data('vehicle-photos');
-                var vehicleUserId = $(this).data('vehicle-userid');
+        // Show modal and populate fields when the edit button is clicked
+        $(document).on('click', '.edit-vehicle', function() {
+            var vehicleMake = $(this).data('vehicle-make');
+            var vehicleModel = $(this).data('vehicle-model');
+            var vehicleFuelType = $(this).data('vehicle-fueltype');
+            var vehicleRegistration = $(this).data('vehicle-registration');
+            var vehiclePhotos = $(this).data('vehicle-photos');
+            var vehicleUserId = $(this).data('vehicle-userid');
+            var vehicleId = $(this).data('vehicles-id');
 
-                // alert(vehiclePhotos)
+            // Populate modal fields with vehicle data
+            $('#vehicleMake').val(vehicleMake);
+            $('#vehicleModel').val(vehicleModel);
+            $('#vehicleFuelType').val(vehicleFuelType);
+            $('#vehicleRegistration').val(vehicleRegistration);
+            $('#vehiclePhotos').val(vehiclePhotos);
+            $('#vehicleUserId').val(vehicleUserId);
+            $('#vehicleId').val(vehicleId);
 
-                // Populate modal fields with client data
-                $('#vehicleMake').val(vehicleMake);
-                $('#vehicleModel').val(vehicleModel);
-                $('#vehicleFuelType').val(vehicleFuelType);
-                $('#vehicleRegistration').val(vehicleRegistration);
-                $('#vehiclePhotos').val(vehiclePhotos);
-                $('#vehicleUserId').val(vehicleUserId);
+            // Show the modal
+            $('#editVehicleModal').modal('show');
+        });
 
-                // Show the modal
-                $('#editVehicleModal').modal('show');
-            });
-
-            // Handle form submission via AJAX using Axios
-                    $(document).on('click', '.submitVehicle', function() {
+        // Handle form submission via AJAX using Axios
+        // Handle form submission via AJAX using Axios
+        $('#editVehicleForm').submit(function(event) {
+            event.preventDefault();
             console.log("Submit button clicked");
-            var vehicleId = $('#vehicleId').val();
+
+            // Fetch the vehicleId from the hidden input field
+            var vehicleId = $('#vehicleId').val(); // Assuming you have an input field with id="vehicleId" containing the vehicle ID
+
             var formData = new FormData($('#editVehicleForm')[0]);
 
-            // Append the photos to the form data
-            var vehiclePhotos = $('#vehiclePhotos')[0].files;
+            var vehiclePhotos = $('#photos')[0].files; // Make sure this matches the ID of your file input field
             for (var i = 0; i < vehiclePhotos.length; i++) {
                 formData.append('photos', vehiclePhotos[i]);
             }
 
-            axios.put('/vehicles/' + vehicleId, formData)
+
+            axios.post('/vehicles/' + vehicleId, formData)
                 .then(function(response) {
-                    alert("Update successful");
-                    console.log(response);
-                    // You can perform additional actions here after successful update
+                    $('.toast-success .toast-message').text('Vehicle updated successfully');
+                    $('.toast-success').fadeIn().delay(3000).fadeOut();
                 })
                 .catch(function(error) {
                     // Log the error to the console
-                    console.error(error);
-
+                    $('.toast-danger .toast-message').text(error);
+                    $('.toast-danger').fadeIn().delay(3000).fadeOut();
                     // Display an error message to the user
                     // alert("Error updating user. Please try again later.");
                 });
         });
 
-                });
-    </script>
+
+    });
+</script>
+
 
 
 
@@ -466,18 +531,20 @@
     // Handle deletion of client
     $('.delete-vehicle').click(function() {
         var vehicleId = $(this).data('vehicle-id'); // Retrieve the client ID
-        $('#deleteId').val(vehicleId); // Populate the deleteId input field with the client ID
-        $('#clientIdPlaceholder').text(vehicleId); // Populate the client ID placeholder in the modal body
-        $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
+        $('#vdeleteId').val(vehicleId); // Populate the deleteId input field with the client ID
+        $('#vclientIdPlaceholder').text(vehicleId); // Populate the client ID placeholder in the modal body
+        $('#vconfirmDeleteModal').modal('show'); // Show the confirmation modal
     });
 
     // Handle confirmation of deletion
-    $('#confirmDeleteBtn').click(function() {
-        var formData = $('#deleteForm').serialize(); // Serialize form data
+    $('#vconfirmDeleteBtn').on('click',function() {
+        var formData = $('#vdeleteForm').serialize(); // Serialize form data
         // Axios DELETE request
         axios.post('{{ route("admin.destroyVehicle") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
+                    $('.toast-success .toast-message').text('vehicle deleted successfully');
+                    $('.toast-success').fadeIn().delay(3000).fadeOut();
                     $("#row").remove(); // Remove the deleted client row from the table
                     $('#confirmDeleteModal').modal('hide')
                 }
@@ -555,72 +622,18 @@ $(document).ready(function() {
         // Append the mechanic ID and user ID to the serialized form data
         axios.post('/repairs/store', formData)
             .then(function(response) {
-                // alert("Added successfully");
-                console.log(response);
+                $('.toast-success .toast-message').text('Repair added successfully');
+                $('.toast-success').fadeIn().delay(3000).fadeOut();
             })
             .catch(function(error) {
-                console.error(error);
+                $('.toast-danger .toast-message').text(error);
+                $('.toast-danger').fadeIn().delay(3000).fadeOut();
             });
     });
 });
 
 </script>
-{{-- <script>
-  $(document).ready(function() {
-    var vehicleId; // Declare vehicleId outside of the event handlers
 
-    console.log("Document ready");
-
-    // Show modal and populate fields when the edit button is clicked
-    $('.add-repair').click(function() {
-        vehicleId = $(this).data('vehicle-id'); // Assign value to vehicleId
-        $('#addRepairModal').modal('show');
-
-        // No need to update URL since vehicle ID will be in form data
-
-        // Add a hidden form field to store vehicle ID (if not already present)
-        if (!$('#vehicle_id').length) { // Check if field exists
-            $('#addRepairForm').append($('<input type="hidden" name="vehicle_id" id="vehicle_id" value="' + vehicleId + '">'));
-        }
-    });
-
-    // Handle form submission via AJAX using Axios
-    $('.submitRepair').click(function() {
-        console.log("Submit button clicked");
-        var formData = new FormData($('#addRepairForm')[0]); // Use FormData for potential file uploads
-            alert(formData)
-        // Get selected mechanic ID (assuming hidden form field)
-        var mechanicId = $('#mechanic_id').val(); // Modify selector as needed
-        formData.append('mechanic_id', mechanicId); // Add mechanic ID to FormData
-
-        // Axios request (no need to specify URL since form action is likely defined)
-        axios({
-            method: 'post',
-            url: '/repairs/store',
-            data: formData
-        })
-        .then(function(response) {
-            alert("Repair added successfully!");
-            $('#addRepairModal').modal('hide'); // Hide modal on success
-            // ... other actions after successful update
-        })
-        .catch(function(error) {
-            console.error(error);
-            if (error.response && error.response.data) {
-                var errors = error.response.data.errors; // Assuming error format
-                var errorMessage = "";
-                for (var key in errors) {
-                    errorMessage += errors[key][0] + "\n"; // Build error message
-                }
-                alert(errorMessage);
-            } else {
-                alert("Error adding repair. Please try again later.");
-            }
-        });
-    });
-});
-
-</script> --}}
 
 {{-- // fetch mechanic --}}
 
@@ -651,20 +664,22 @@ $(document).ready(function() {
     // Handle deletion of client
     $('.delete-repair').click(function() {
         var repairId = $(this).data('repair-id'); // Retrieve the client ID
-        $('#deleteId').val(repairId); // Populate the deleteId input field with the client ID
-        $('#clientIdPlaceholder').text(repairId); // Populate the client ID placeholder in the modal body
-        $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
+        $('#rdeleteId').val(repairId); // Populate the deleteId input field with the client ID
+        $('#rclientIdPlaceholder').text(repairId); // Populate the client ID placeholder in the modal body
+        $('#rconfirmDeleteModal').modal('show'); // Show the confirmation modal
     });
 
     // Handle confirmation of deletion
-    $('#confirmDeleteBtn').click(function() {
-        var formData = $('#deleteForm').serialize(); // Serialize form data
+    $('#rconfirmDeleteBtn').click(function() {
+        var formData = $('#rdeleteForm').serialize(); // Serialize form data
         // Axios DELETE request
         axios.post('{{ route("admin.destroyRepair") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
+                    $('.toast-success .toast-message').text('Repair deleted successfully');
+                $('.toast-success').fadeIn().delay(3000).fadeOut();
                     $("#row").remove(); // Remove the deleted client row from the table
-                    $('#confirmDeleteModal').modal('hide')
+                    $('#rconfirmDeleteModal').modal('hide')
                 }
             })
             .catch(function (error) {
@@ -695,7 +710,10 @@ $(document).ready(function() {
                 status: newStatus
             })
             .then(function(response) {
-                window.location.reload();
+
+                $('.toast-success .toast-message').text('Status updated successfully');
+                $('.toast-success').fadeIn().delay(3000).fadeOut();
+
             })
             .catch(function(error) {
                 // Handle error response
@@ -735,6 +753,8 @@ $(document).ready(function() {
             data: formData
         })
         .then(function(response) {
+            $('.toast-success .toast-message').text('Invoice added successfully');
+                $('.toast-success').fadeIn().delay(3000).fadeOut();
             $('#addInvoiceModal').modal('hide');
 
         })
@@ -796,6 +816,8 @@ $(document).ready(function() {
         axios.post('{{ route("admin.destroyInvoice") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
+                    $('.toast-success .toast-message').text('Status deleted successfully');
+                    $('.toast-success').fadeIn().delay(3000).fadeOut();
                     $("#row").remove(); // Remove the deleted client row from the table
                     $('#confirmDeleteModal').modal('hide')
                 }
@@ -855,6 +877,8 @@ $(document).ready(function() {
         // alert(formData)
         axios.post('/spare-parts/add', formData)
             .then(function(response) {
+                $('.toast-success .toast-message').text('Spare Part added successfully');
+                $('.toast-success').fadeIn().delay(3000).fadeOut();
                 $('#addSparePartModal').modal('hide');
                 // Refresh or update spare parts list if needed
             })
@@ -871,19 +895,21 @@ $(document).ready(function() {
         // Handle deletion of spare part
         $('.delete-spare').click(function() {
             var spareId = $(this).data('spare-id'); // Retrieve the spare part ID
-            $('#deleteId').val(spareId); // Populate the deleteId input field with the spare part ID
-            $('#confirmDeleteModal').modal('show'); // Show the confirmation modal
+            $('#sdeleteId').val(spareId); // Populate the deleteId input field with the spare part ID
+            $('#sconfirmDeleteModal').modal('show'); // Show the confirmation modal
         });
 
         // Handle confirmation of deletion
-        $('#confirmDeleteBtn').click(function() {
-            var formData = $('#deleteForm').serialize(); // Serialize form data
+        $('#sconfirmDeleteBtn').on('click',function() {
+            var formData = $('#sdeleteForm').serialize(); // Serialize form data
             // Axios DELETE request
             axios.post('{{ route("admin.destroySparePart") }}', formData)
                 .then(function (response) {
                     if (response.data == "ok") {
+                        $('.toast-success .toast-message').text('Record deleted successfully');
+                        $('.toast-success').fadeIn().delay(3000).fadeOut();
                         $("#row").remove(); // Remove the deleted spare part row from the table
-                        $('#confirmDeleteModal').modal('hide');
+                        $('#sconfirmDeleteModal').modal('hide');
                     }
                 })
                 .catch(function (error) {
@@ -912,6 +938,8 @@ $(document).ready(function() {
             console.log(formData);
             axios.post('/send-email', formData)
                 .then(function(response) {
+                    $('.toast-success .toast-message').text('Email sent successfully');
+                        $('.toast-success').fadeIn().delay(3000).fadeOut();
                     $('#composemodal').modal('hide');
                 })
                 .catch(function(error) {
@@ -922,27 +950,7 @@ $(document).ready(function() {
 </script>  
 
 
-{{-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const sendEmailBtn = document.getElementById('sendEmailBtn');
-        sendEmailBtn.addEventListener('click', function () {
-            const formData = new FormData(document.getElementById('composeForm'));
-            console.log(formData);
-            alert(formData);
-            axios.post('/send-email', formData)
-                .then(response => {
-                    console.log(response.data);
-            alert(response.data);
 
-                    // Close the modal
-                    $('#composemodal').modal('hide');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    });
-</script> --}}
 
 {{-- add appointment --}}
 
@@ -968,8 +976,9 @@ $(document).ready(function() {
             data: formData
         })
         .then(function(response) {
+            $('.toast-success .toast-message').text('appointment added successfully');
+            $('.toast-success').fadeIn().delay(3000).fadeOut();
             $('#addAppointmentModal').modal('hide');
-            window.location.reload()
 
         })
         .catch(function(error) {
@@ -1005,6 +1014,9 @@ $(document).ready(function() {
         axios.post('{{ route("distroy.appointments") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
+                    $('.toast-success .toast-message').text('appointment deleted successfully');
+                    $('.toast-success').fadeIn().delay(3000).fadeOut();
+
                     console.log("okkkk")
                     $("#row").remove(); // Remove the deleted appointment row from the table
                     $('#confirmDeleteModal').modal('hide');
@@ -1023,33 +1035,7 @@ $(document).ready(function() {
 });
 
 </script>
-{{-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Handle updating appointment status
-        document.querySelectorAll('.update-appointment-status').forEach(function(select) {
-            select.addEventListener('change', function(event) {
-                var appointmentId = event.target.dataset.appointmentId;
-                var newStatus = event.target.value;
 
-                // Send Axios request to update appointment status
-                axios.post('{{ route("update.appointment.status") }}', {
-                    appointment_id: appointmentId,
-                    status: newStatus
-                })
-                .then(function (response) {
-                    console.log(response.data.message);
-                    // Update the status text in the user's dashboard
-                    document.getElementById('status-' + appointmentId).textContent = newStatus;
-                })
-                .catch(function (error) {
-                    console.error("Error occurred:", error);
-                    console.error("Response data:", error.response.data);
-                    // Handle error response if needed
-                });
-            });
-        });
-    });
-</script> --}}
 <script>
     $(document).ready(function() {
     // Handle updating appointment status
@@ -1063,6 +1049,9 @@ $(document).ready(function() {
             status: newStatus
         })
         .then(function(response) {
+            $('.toast-success .toast-message').text('appointment status updated successfully');
+                    $('.toast-success').fadeIn().delay(3000).fadeOut();
+
             console.log(response.data.message);
             // Optionally, update the UI to reflect the new status
         })
@@ -1094,7 +1083,7 @@ $(document).ready(function() {
     if (notifications.length > 0) {
         // Iterate over filtered notifications array and create HTML elements
         notifications.forEach(notification => {
-
+            
             // Create elements
             const notificationItem = document.createElement('a');
             notificationItem.setAttribute('href', '#');
@@ -1143,6 +1132,8 @@ $(document).ready(function() {
             notificationItem.appendChild(notificationContent);
             notificationsContainer.appendChild(notificationItem);
         });
+        
+
     } else {
         // No notifications related to completed repairs found
         notificationsContainer.innerHTML = '<p>No notifications found</p>';
@@ -1154,83 +1145,31 @@ $(document).ready(function() {
 
 </script>
 
-{{-- <script>
-    // Make an Axios request to fetch notifications
-    axios.get('/api/notifications')
-    .then(response => {
-        console.log("good")
-        const notifications = response.data.notifications;
-        console.log(notifications);
-        const userSenders = response.data.user_senders;
-        console.log(userSenders);
 
-        // Get the notifications container
-        const notificationsContainer = document.getElementById('notifications-container');
 
-        // Check if notifications exist
-        if (notifications.length > 0) {
-            // Iterate over notifications array and create HTML elements
-            notifications.forEach(notification => {
-                // Parse the created_at timestamp
-                const createdAt = new Date(notification.created_at);
-                const month = createdAt.toLocaleString('default', { month: 'long' });
-                const day = createdAt.getDate();
 
-                // Get the sender's name from user_senders using notification id
-                const senderName = userSenders[notification.id] ? userSenders[notification.id].name : 'Unknown';
+<script>
+    // JavaScript code to handle toast messages
+    document.addEventListener('DOMContentLoaded', function () {
+        // Find all toast elements
+        var toasts = document.querySelectorAll('.toast');
 
-                // Create elements
-                const notificationItem = document.createElement('a');
-                notificationItem.setAttribute('href', '#');
-                notificationItem.classList.add('text-reset', 'notification-item');
-
-                const notificationContent = document.createElement('div');
-                notificationContent.classList.add('d-flex');
-
-                const avatarDiv = document.createElement('div');
-                avatarDiv.classList.add('avatar-xs', 'me-3');
-
-                const avatarTitle = document.createElement('span');
-                avatarTitle.classList.add('avatar-title', 'bg-primary', 'rounded-circle', 'font-size-16');
-                avatarTitle.innerHTML = '<i class="ri-shopping-cart-line"></i>';
-
-                const notificationDetails = document.createElement('div');
-                notificationDetails.classList.add('flex-1');
-
-                const notificationUserName = document.createElement('h6');
-                notificationUserName.classList.add('mb-1');
-                notificationUserName.textContent = senderName; // Use sender's name here
-
-                const notificationMessage = document.createElement('p');
-                notificationMessage.classList.add('mb-1');
-                notificationMessage.textContent = notification.message;
-
-                const notificationTime = document.createElement('p');
-                notificationTime.classList.add('mb-0');
-                notificationTime.textContent = `${month} ${day}`;
-
-                // Append elements
-                avatarDiv.appendChild(avatarTitle);
-                notificationContent.appendChild(avatarDiv);
-                notificationDetails.appendChild(notificationUserName);
-                notificationDetails.appendChild(notificationMessage);
-                notificationDetails.appendChild(notificationTime);
-                notificationContent.appendChild(notificationDetails);
-                notificationItem.appendChild(notificationContent);
-                notificationsContainer.appendChild(notificationItem);
+        // Loop through each toast element
+        toasts.forEach(function (toast) {
+            // Add click event listener to close button
+            var closeButton = toast.querySelector('.toast-close-button');
+            closeButton.addEventListener('click', function () {
+                // Hide the toast when close button is clicked
+                toast.style.display = 'none';
             });
-        } else {
-            // No notifications found
-            notificationsContainer.innerHTML = '<p>No notifications found</p>';
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching notifications:', error);
+
+            // Set timeout to automatically hide the toast after a certain duration
+            setTimeout(function () {
+                toast.style.display = 'none';
+            }, 5000); // Adjust the duration (in milliseconds) as needed
+        });
     });
-</script> --}}
-
-
-
+</script>
 
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>

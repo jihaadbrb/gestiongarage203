@@ -62,7 +62,7 @@ class SparePartController extends Controller
     public function destroySparePart(Request $request)
     {
         // Get the spare part ID from the request
-        $sparePartId = $request->input('spare_part_id');
+        $sparePartId = $request->input('sdeleteId');
 
         // Find the spare part by ID
         $sparePart = SparePart::find($sparePartId);
@@ -73,6 +73,7 @@ class SparePartController extends Controller
 
         // Delete the spare part
         $sparePart->delete();
+        return "ok";
 
         return response()->json(['message' => 'Spare part deleted successfully'], 200);
     }

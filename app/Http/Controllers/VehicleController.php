@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class VehicleController extends Controller
 {
@@ -51,16 +52,16 @@ class VehicleController extends Controller
             'registration' => ['required', 'string', 'max:255', 'unique:vehicles'],
             'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow multiple image uploads
         ]);
-
+    
         // Initialize vehicleData array
         $vehicleData = [
             'make' => $request->make,
             'model' => $request->model,
             'fuelType' => $request->fuelType,
             'registration' => $request->registration,
-            'user_id' => $request->user_id ?? auth()->id(), // Use provided user_id or fallback to authenticated user's ID
+            'user_id' => $request->user_id ?? auth()->user()->id, // Use provided user_id or fallback to authenticated user's ID
         ];
-
+    
         // Check if user exists (alternative approach)
         if ($request->has('user_id')) {
             $user = User::find($request->user_id);
@@ -68,31 +69,31 @@ class VehicleController extends Controller
                 return back()->withErrors(['user_id' => 'Invalid user ID.']);
             }
         }
-
+    
         // Handle image uploads and add paths to vehicleData
         if ($request->hasFile('photos')) {
             $imagePaths = [];
             foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('vehicle_photos'); // Assuming 'vehicle_photos' is your disk configuration for storing images
-                $imagePaths[] = $path;
+                // Store the image in the public folder
+                $path = $photo->store('public/vehicle_photos');
+    
+                // Get the path relative to the public folder
+                $imagePaths[] = Storage::url($path);
             }
             $vehicleData['photos'] = json_encode($imagePaths); // Encode paths as JSON
         }
-
+    
         // Create vehicle instance with all data
         $vehicle = Vehicle::create($vehicleData);
-
+    
         return redirect()->back(); // Or your desired redirection logic
     }
+    
 
 
     public function showVehiclePics(Request $request)
     {
-        $userId = $request->get('id');
-
-        // Retrieve vehicle information for the user
-        $vehicle = User::find($userId)->vehicles()->first(); // Assuming a 'vehicles' relationship
-
+        $vehicle = Vehicle::findOrFail($request->id);
         if (!$vehicle) {
             return response()->json([], 404); // Not Found response if no vehicle found
         }
@@ -116,54 +117,61 @@ class VehicleController extends Controller
         return response()->json(['pictures' => $imageUrls]);
     }
 
-
-    public function updateVehicle(Request $request, $id)
+    public function updateVehicle(Request $request, $vehicleId)
     {
-        $vehicle = Vehicle::findOrFail($id);
+        $vehicle = Vehicle::findOrFail($vehicleId);
+    
         if (!$vehicle) {
-            // If the vehicle doesn't exist, display an error message
-            echo "The vehicle does not exist.";
-            // You can also redirect the user back to the form with an error message if needed
-            // return redirect()->back()->with('error', 'The vehicle does not exist.');
-        } else {
-            $request->validate([
-                'make' => ['required', 'string', 'max:255'],
-                'model' => ['required', 'string', 'max:255'],
-                'fuelType' => ['required', 'string', 'max:255'],
-                'registration' => ['required', 'string', 'max:255', 'unique:vehicles'],
-                'user_id' => ['required', 'integer', 'exists:users,id'], // Check if user exists
-                'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow multiple image uploads
-            ]);
-
-            $vehicleData = [
-                'make' => $request->make,
-                'model' => $request->model,
-                'fuelType' => $request->fuelType,
-                'registration' => $request->registration,
-                'user_id' => $request->user_id,
-            ];
-
-            // Check if user exists
-            $user = User::find($request->user_id);
-
-
-            if ($request->hasFile('photos')) {
-                $imagePaths = [];
-                foreach ($request->file('photos') as $photo) {
-                    $path = $photo->store('vehicle_photos');
-                    $imagePaths[] = $path;
-                }
-                $vehicleData['photos'] = json_encode($imagePaths);
-            }
-
-            $vehicle->update($vehicleData);
+            // If the vehicle doesn't exist, return an error message
+            return "The vehicle does not exist.";
         }
+    
+        $request->validate([
+            'make' => ['required', 'string', 'max:255'],
+            'model' => ['required', 'string', 'max:255'],
+            'fuelType' => ['required', 'string', 'max:255'],
+            'registration' => ['required', 'string', 'max:255'],
+            'user_id' => ['required', 'integer', 'exists:users,id'], // Check if user exists
+            'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow multiple image uploads
+        ]);
+    
+        // Create an array to hold updated vehicle data
+        $vehicleData = [
+            'make' => $request->make,
+            'model' => $request->model,
+            'fuelType' => $request->fuelType,
+            'registration' => $request->registration,
+            'user_id' => $request->user_id ?? Auth::user()->id,
+        ];
+    
+        // Check if photos are provided in the request
+        if ($request->hasFile('photos')) {
+            // If photos are provided, upload and store them
+            $imagePaths = [];
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('vehicle_photos');
+                $imagePaths[] = $path;
+            }
+            // Update the 'photos' field in the vehicle data
+            $vehicleData['photos'] = json_encode($imagePaths);
+        } else {
+            // If no photos are provided, retain the existing photos
+            $vehicleData['photos'] = $vehicle->photos;
+        }
+    
+        // Update the vehicle with the updated data
+        $vehicle->update($vehicleData);
+    
+        // Return a success message or redirect back to the form
+        return "Vehicle updated successfully.";
     }
+    
+    
 
 
     public function destroyVehicle(Request $request)
     {
-        $vehicle = Vehicle::find($request->deleteId);
+        $vehicle = Vehicle::find($request->vdeleteId);
         // Check if $client exists before attempting to delete
         if ($vehicle) {
             $vehicle->delete();

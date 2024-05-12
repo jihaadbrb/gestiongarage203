@@ -14,6 +14,6 @@ class AdminMiddleware
         } 
         
         // If the user is not an admin, you might want to redirect them or return an error response
-        return redirect()->route('welcome')->with('error', 'You do not have permission to access this page.');
+        return redirect(route('admin.dashboard'))->with('error', 'You do not have permission to access this page.');
     }
 }
