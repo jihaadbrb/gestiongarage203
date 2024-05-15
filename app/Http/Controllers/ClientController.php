@@ -49,7 +49,7 @@ class ClientController extends Controller
         }
     
         // If the import is successful, redirect to the admins page
-        session()->flash('success', 'Users imported successfully');
+        session()->flash('success', '__(Users imported successfully)');
         return redirect(route('admin.admins'));
     }
     
