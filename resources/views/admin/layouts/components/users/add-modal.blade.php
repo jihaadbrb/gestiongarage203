@@ -37,8 +37,8 @@
                     <div class="mb-3">
                         <label for="role" class="form-label">{{ __('Role') }}</label>
                         <select class="form-select" id="role" name="role">
-                            <option value="client">{{ __('Client') }}</option>
-                            <option value="mechanic">{{ __('Mechanic') }}</option>
+                            <option value="client" style="color:black;">{{ __('Client') }}</option>
+                            <option value="mechanic" style="color:black;">{{ __('Mechanic') }}</option>
                         </select>
                     </div>
                     <div class="modal-footer">

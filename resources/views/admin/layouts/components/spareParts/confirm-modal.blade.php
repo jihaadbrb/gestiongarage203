@@ -10,7 +10,7 @@
                     @csrf
                     <input type="hidden" id="sdeleteId" name="sdeleteId" value="" />
                 </form>
-                {{ __('Are you sure you want to delete spare with ID:') }} <span id="clientIdPlaceholder"></span> ?
+                {{ __('Are you sure you want to delete This Spare Part ?') }} 
             </div>
 
             <div class="modal-footer">

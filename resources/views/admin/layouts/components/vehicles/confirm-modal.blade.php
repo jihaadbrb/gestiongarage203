@@ -1,5 +1,5 @@
 <div class="modal fade" id="vconfirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog  modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="vconfirmDeleteModalLabel">@lang('Confirm Delete')</h5>
@@ -10,7 +10,7 @@
                     @csrf
                     <input type="hidden" id="vdeleteId" name="vdeleteId" value="" />
                 </form>
-                @lang('Are you sure you want to delete vehicle with ID: ') <span id="vclientIdPlaceholder"></span> ?
+                @lang('Are you sure you want to delete This Vehicle ? ') 
             </div>
 
             <div class="modal-footer">

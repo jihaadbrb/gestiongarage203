@@ -5,12 +5,12 @@
                 <h5 class="modal-title" id="cconfirmDeleteModalLabel">{{ __('Confirm Delete') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="color:black;">
                 <form id="cdeleteForm" method="post">
                     @csrf
                     <input type="hidden" id="cdeleteId" name="cdeleteId" value="" />
                 </form>
-                {{ __('Are you sure you want to delete client with ID:') }} <span id="clientIdPlaceholder"></span> ?
+                {{ __('Do You Really Want To Delete This User') }}  ?
             </div>
 
             <div class="modal-footer">

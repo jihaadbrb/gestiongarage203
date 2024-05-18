@@ -239,12 +239,7 @@
     </script>
 
 
-<script>
-    // When the file input changes, submit the form
-    document.getElementById('avatar-input').addEventListener('change', function() {
-        document.getElementById('avatar-upload-form').submit();
-    });
-</script>
+
 
     <script>
       $(".show-mechanic").on("click", function() {

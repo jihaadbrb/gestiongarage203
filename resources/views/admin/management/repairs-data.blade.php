@@ -13,6 +13,9 @@
             border-radius: 5px;
             padding: 8px 19px;
         }
+        th{
+            font-weight:bold;
+        }
 
 #importButton {
   background-color: #007bff; /* Adjust button color */
@@ -50,6 +53,64 @@
 .toast-message {
     margin-top: 5px;
 }
+.add-invoice{
+            background-color:#1a4d2e;
+            color:white;
+        }
+        .add-invoice:hover{
+            background-color:#1a4d2e;
+            color:white;
+        }
+.textup{
+    display: flex;
+    width:100%;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+
+}
+
+.textupbutton{
+    background-color:#1a4d2e;
+    border:none;
+}
+.textupbutton:hover{
+    background-color:#436850;
+    border:none;
+}
+
+.textupbutton:focus{
+    background-color:#436850;
+    border:none;
+}
+
+
+.add-spare-part{
+    background-color:#e1c134;
+            color:white;
+}
+.add-spare-part:hover{
+    background-color:#e1c134;
+            color:white;
+}
+.table-bordered tr, .table-bordered th, .table-bordered td{
+    border-color: #436850 !important;
+}
+thead{
+    background-color:#436850;
+    color:white;
+}
+th{
+    color:#f7e300;
+}
+        .delete-repair{
+            background-color:red;
+            color:white;
+        }
+        .delete-repair:hover{
+            background-color:red;
+            color:white;
+        }
 
     </style>
     <div class="page-content">
@@ -91,40 +152,39 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="add-new">
+                                <div class="textup">
                                 @if(Auth::user()->role === "mechanic")
-                                    <h4 class="card-title">{{ __('My Assigned Repairs') }}</h4>
+                                    <h4 >{{ __('My Assigned Repairs') }}</h4>
                                 @elseif(Auth::user()->role === "client")
-                                    <h4 class="card-title">{{ __('Scheduled Repairs') }}</h4>
+                                    <h4 >{{ __('Scheduled Repairs') }}</h4>
                                 @else
-                                    <h4 class="card-title">{{ __('Repairs Management') }}</h4>
+                                    <h4 >{{ __('Repairs Management') }}</h4>
                                 @endif
                                 <p class="card-title-desc">
                                     <form method="GET" action="{{route('admin.sendAll')}}" >
                                         @if(Auth::user()->role === 'admin' && $completedRepairsCount > 3)
-                                            <button type="submit" class="btn btn-primary">
+                                            <button type="submit" class="btn btn-primary textupbutton">
                                                 
-                                                {{ __('Send Mail for All Completed Repairs') }}  
+                                                {{ __('Send Mail To Clients With Repairs Completed') }}  
                                             </button>
                                         @endif
                                     </form>
                                 </p>
                             </div>
+                            </div>
                              
                             
-
-                            <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="datatable_length">
-                               
-                            </div></div><div class="col-sm-12 col-md-6"><div id="datatable_filter" class="dataTables_filter">
-                                </div></div></div><div class="row"><div class="col-sm-12">
-                                <table id="datatable" class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" style="border-collapse: collapse; border-spacing: 0px; width: 100%;" role="grid" aria-describedby="datatable_info">
-                              
+                           
+                            <table id="datatable-buttons"
+                                class="table table-striped table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%; margin-top:0;">                              
                                 <thead>
                                     <tr role="row">
                                         <th>{{ __('Description') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Start Date') }}</th>
                                         <th>{{ __('End Date') }}</th>
-                                        <th>{{ __('user name') }}</th>
+                                        <th>{{ __('Owner') }}</th>
                                         <th>{{ __('Vehicle registration') }}</th>
                                         @if(Auth::user()->role === 'admin' ||Auth::user()->role === 'mechanic')
 
@@ -157,26 +217,26 @@
                                             <td>
                                                 @if ($repair->status === 'completed' && Auth::user()->role === "admin")
                                                     <button type="button" class="btn delete-repair" data-repair-id="{{ $repair->id }}">
-                                                        <i class="r ri-delete-bin-3-line"></i>
+                                                        Delete
                                                     </button>
                                                     <button type="button" class="btn add-invoice" data-repairinvoice-id="{{ $repair->id }}">
-                                                        <i class="ri-printer-line"></i>
+                                                        Invoice
                                                     </button>
-                                                    <form action="/send-mail" method="GET" style="display: inline;">
+                                                    <!-- <form action="/send-mail" method="GET" style="display: inline;">
                                                         @csrf
                                                         <input type="hidden" name="repair_id" value="{{ $repair->id }}">
                                                         <button type="submit" class="btn">{{ __('Send Mail') }} </button>
-                                                    </form>
+                                                    </form> -->
                                                 @elseif($repair->status === 'completed' && Auth::user()->role === "admin" || Auth::user()->role === "mechanic")
-                                                <form action="/send-mail" method="GET" style="display: inline;">
+                                                <!-- <form action="/send-mail" method="GET" style="display: inline;">
                                                     @csrf
                                                     <input type="hidden" name="repair_id" value="{{ $repair->id }}">
                                                     <button type="submit" class="btn">{{ __('Send Mail') }} </button>
-                                                </form>
+                                                </form> -->
                                                 @endif
                                                 @if ($repair->status !== 'completed' && (Auth::user()->role === "admin" || Auth::user()->role === "mechanic"))
                                                     <button type="button" class="btn add-spare-part" data-repair-id="{{ $repair->id }}">
-                                                        <i class="ri-send-plane-line"></i>
+                                                        Add Spare
                                                     </button>
                                                 @endif
                                             </td>
@@ -210,20 +270,14 @@
     </div>
     <!-- End Page-content -->
 
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © elklie.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        {{ __('crafted_with_love') }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <footer class="bg-body-tertiary text-center mt-30" style="bottom:0;position:fixed;left:150px;right:0;" >
+
+<div class="text-center p-3" style="background-color:#e4dcc7; display:flex;align-items:center;justify-content:center;">
+     
+   <a class="text-body" href="https://mdbootstrap.com/">  © 2024 Garagiste.com  | Jihad Bourbab</a>
+</div>
+
+</footer>
 
 </div>
 

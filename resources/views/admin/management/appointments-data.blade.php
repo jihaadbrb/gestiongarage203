@@ -37,7 +37,49 @@
     right: 10px;
     transform: translateY(-50%);
 }
+.textup{
+    display: flex;
+    width:100%;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    height:100px;
 
+}
+.delete-appointment{
+            background-color:red;
+            color:white;
+        }
+        .delete-appointment:hover{
+            background-color:red;
+            color:white;
+        }
+
+.textupbutton{
+    background-color:#1a4d2e;
+    border:none;
+}
+.textupbutton:hover{
+    background-color:#436850;
+    border:none;
+}
+
+.textupbutton:focus{
+    background-color:#436850;
+    border:none;
+}
+
+
+.table-bordered tr, .table-bordered th, .table-bordered td{
+    border-color: #436850 !important;
+}
+thead{
+    background-color:#436850;
+    color:white;
+}
+th{
+    color:#f7e300;
+}
 .toast-message {
     margin-top: 5px;
 }
@@ -57,33 +99,32 @@
                     <div class="toast-progress" style="width: 0%;"></div>
                     <button type="button" class="toast-close-button" role="button">×</button>
                     <div class="toast-message"></div>
-                </div
+</div>
                         <div class="card">
                             <div class="card-body">
                                 <div class="add-new">
-
+                                <div class="textup">
                                     @if(Auth::user()->role === 'admin')
 
-                                    <h4 class="card-title">{{ __('Appointment List') }}</h4>
+                                    <h4 >{{ __('Appointment List') }}</h4>
                                 @else
-                                    <h4 class="card-title">{{ __('Your Appointment') }}</h4>
+                                    <h4 >{{ __('Your Appointment') }}</h4>
 
                                 @endif
-                                <button class="btn-primary add-appointment">{{ __('Add New Appointment') }}</button>
+                                <button class="btn-primary add-appointment textupbutton">{{ __('Add New Appointment') }}</button>
                                         
                                     
                                     <p class="card-title-desc">
 
                                     </p>
                                 </div>
-                                
+                                </div>  
 
-                                <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="datatable_length">
-                                
-                                </div></div><div class="col-sm-12 col-md-6"><div id="datatable_filter" class="dataTables_filter">
-                                    </div></div></div><div class="row"><div class="col-sm-12">
-                                    <table id="datatable" class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" style="border-collapse: collapse; border-spacing: 0px; width: 100%;" role="grid" aria-describedby="datatable_info">
-                                
+                        
+                    
+                                <table id="datatable-buttons"
+                                class="table table-striped table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%; margin-top:0;">                                 
                                     <thead>
                                         <tr role="row">
                                             <th>{{ __('Description') }}</th>
@@ -119,7 +160,7 @@
                                             <td>
                                                 <button type="button" class="btn delete-appointment"
                                                     data-appointment-id="{{ $appointment->id }}">
-                                                    <i class="r ri-delete-bin-3-line"></i>
+                                                    Delete
                                                 </button>
                                             </td>
                                         </tr>
@@ -154,20 +195,14 @@
         </div>
         <!-- End Page-content -->
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <script>document.write(new Date().getFullYear())</script> © elklie.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-end d-none d-sm-block">
-                            {{ __('crafted_with_love') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <footer class="bg-body-tertiary text-center mt-30" style="bottom:0;position:fixed;left:150px;right:0;" >
+
+<div class="text-center p-3" style="background-color:#e4dcc7; display:flex;align-items:center;justify-content:center;">
+     
+   <a class="text-body" href="https://mdbootstrap.com/">  © 2024 Garagiste.com  | Jihad Bourbab</a>
+</div>
+
+</footer>
 
     </div>
 

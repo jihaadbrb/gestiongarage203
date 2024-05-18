@@ -16,6 +16,39 @@
     top: 10px;
     right: 07px;
 }
+.table-bordered tr, .table-bordered th, .table-bordered td{
+    border-color: #436850 !important;
+}
+thead{
+    background-color:#436850;
+    color:white;
+}
+th{
+    color:#f7e300;
+}
+.textup{
+        width:100%;
+        display: flex;
+        align-items:center;
+        justify-content:center;
+        height:100px;
+    }
+    .edit-client{
+            background-color:#1a4d2e;
+            color:white;
+        }
+        .edit-client:hover{
+            background-color:#1a4d2e;
+            color:white;
+        }
+        .delete-client{
+            background-color:red;
+            color:white;
+        }
+        .delete-client:hover{
+            background-color:red;
+            color:white;
+        }
 
 .toast-close-button {
     background: transparent;
@@ -58,17 +91,17 @@
                         <div class="card-body">
 
                             @if(Auth::user()->role === 'admin')
-
-                            <th>{{ __('Mechanic') }}</th>
+                            <div class="textup">
+                            <h4>{{ __('Mechanics List') }}</h4>
                             @endif
-                        </tr>
+</div>
                             <p class="card-title-desc">
                             </p>
 
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                 <tr>
-                                    <th>{{ __('Avatar') }}</th>
+                                
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     <th>{{ __('Phone Number') }}</th>
@@ -84,16 +117,7 @@
                                 <tbody>
                                     @foreach ($mechanics as $client)
                                             <tr data-client-id="{{$client->id}}" id="row">
-                                                <td>
-
-                                                    @if ($client->avatar)
-                                                        <img src="{{ asset('storage/' . $client->avatar) }}" class="avatar-sm rounded-circle" id="avatar-image">
-                                                    @else
-                                                        <!-- Default avatar image or placeholder -->
-                                                        <img src="https://i.pinimg.com/originals/06/3b/bf/063bbf0665eaf9c1730bccdc5c8af1b2.jpg" 
-                                                        alt="Default Avatar" class="avatar-sm rounded-circle" id="avatar-image">
-                                                    @endif
-                                                </td>
+                                              
                                                 <td>{{ $client->name }}</td> 
                                                 <td>{{$client->email}}</td>
                                                 <td>{{$client->phoneNumber}}</td>
@@ -109,19 +133,15 @@
                                                     data-client-address="{{$client->address}}"
                                                     data-client-phone="{{$client->phoneNumber}}"
                                                 >
-                                                <i class=" ri-edit-2-line "></i>
+                                                Edit
     
                                                 </button>
                                                 <button type="button" class="btn  delete-client" 
                                                 data-client-id="{{$client->id}}">
-                                                <i class="r ri-delete-bin-3-line"></i>
+                                                Delete
                                             </button>
 
-                                            <button type="button" class="btn  show-mechanic"
-                                            data-client-id="{{ $client->id }}">
-                                            <i class=" ri-file-info-line
-                                            "></i>
-                                            </button>
+                                    
                                                 </td>
                                             </tr>
                                        
@@ -139,20 +159,14 @@
     </div>
     <!-- End Page-content -->
     
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © elklie.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        {{ __('Crafted with') }} <i class="mdi mdi-heart text-danger"></i> {{ __('by reda-elklie') }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <footer class="bg-body-tertiary text-center mt-30" style="bottom:0;position:fixed;left:150px;right:0;" >
+
+<div class="text-center p-3" style="background-color:#e4dcc7; display:flex;align-items:center;justify-content:center;">
+      
+   <a class="text-body" href="https://mdbootstrap.com/"> © 2024 Garagiste.com  | Jihad Bourbab</a>
+</div>
+
+</footer>
     
 </div>
 @include('admin.layouts.components.users.confirm-modal')

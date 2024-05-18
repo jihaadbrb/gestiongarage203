@@ -10,7 +10,7 @@
                     @csrf
                     <input type="hidden" id="deleteAppointmentId" name="deleteId" value="" />
                 </form>
-                Are you sure you want to delete appointment with ID: <span id="appointmentIdPlaceholder"></span> ?
+                Are you sure you want to delete This Appointement ?
             </div>
 
             <div class="modal-footer">

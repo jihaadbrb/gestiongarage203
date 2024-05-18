@@ -2,7 +2,7 @@
 @section('content')
 <div class="main-content">
 
-    <div class="page-content">
+
         <style>
         
     
@@ -18,7 +18,32 @@
         top: 10px;
         right: 07px;
     }
-    
+    .table-bordered tr, .table-bordered th, .table-bordered td{
+    border-color: #436850 !important;
+}
+thead{
+    background-color:#436850;
+    color:white;
+}
+th{
+    color:#f7e300;
+}
+    .textup{
+        width:100%;
+        display: flex;
+        align-items:center;
+        height:100px;
+        justify-content:center;
+    }
+
+    .edit-client{
+        background-color:#1a4d2e;
+        border:none;
+    }
+    .edit-client:hover{
+        background-color:#436850;
+        border:none;
+    }
     .toast-close-button {
         background: transparent;
         border: none;
@@ -30,7 +55,8 @@
         right: 10px;
         transform: translateY(-50%);
     }
-    
+
+
     .toast-message {
         margin-top: 5px;
     }
@@ -68,12 +94,13 @@
                 <div class="row">
                     <div class="card">
                         <div class="card-body">
-
-                            <h4 class="card-title">{{ __('Users List') }}</h4>
+                            <div class="textup">
+                            <h4 >{{ __('Admins List') }}</h4>
                             <p class="card-title-desc">
                             </p>
+</div>
 
-                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table  class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>{{ __('Name') }}</th>
@@ -122,20 +149,15 @@
     </div>
     <!-- End Page-content -->
 
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © elklie.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Crafted with <i class="mdi mdi-heart text-danger"></i> by reda-elklie
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <footer class="bg-body-tertiary text-center mt-30" style="bottom:0;position:fixed;left:150px;right:0;" >
+
+    <div class="text-center p-3" style="background-color:#e4dcc7; display:flex;align-items:center;justify-content:center;">
+      
+   <a class="text-body" href="https://mdbootstrap.com/"> © 2024 Garagiste.com  | Jihad Bourbab</a>
+</div>
+
+</footer>
+</div>
 
 </div>
 

@@ -6,7 +6,7 @@
       <div id="preloader">
         <div id="status">
             <div class="spinner">
-                <i class="ri-loader-line spin-icon"></i>
+            <i class="ri-drag-move-2-fill spin-icon" style="color:#1a4d2e;"></i>
             </div>
         </div>
     </div>

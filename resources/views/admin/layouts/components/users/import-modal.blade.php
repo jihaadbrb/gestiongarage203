@@ -1,3 +1,5 @@
+
+
 <div class="modal fade" id="importUsersModal" tabindex="-1" aria-labelledby="importUsersModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -15,8 +17,8 @@
                             {{ __('Supported file formats: .xlsx, .xls (older Excel versions)') }}
                         </div>
                     </div>
-                    <div class="alert alert-info" role="alert">
-                        <p>{{ __('Your Excel file should have columns for name, email (must be unique), password (hashed), role (optional: defaults to "client"), address (required), and phone number (required).') }}</p>
+                    <div style="background-color:#436850;color:#e8dfca; padding:5px;display:flex;align-items:start;border-radius:8px;" role="alert">
+                        <p>{{ __('Your Excel file should include columns for name, email (which must be unique), password (hashed), role (optional, defaults to "client"), address (required), and phone number (required).') }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>

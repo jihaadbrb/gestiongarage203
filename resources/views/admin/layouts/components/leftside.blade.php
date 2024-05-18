@@ -5,27 +5,20 @@
         <!-- User details -->
         <div class="user-profile text-center mt-3">
             <div class="">
-                <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data" id="avatar-upload-form">
-                    @csrf
-                    <input type="file" name="avatar" id="avatar-input" style="display: none;">
-                </form>
+                
+                    
                 <label for="avatar-input">
-                    @if (Auth::user()->avatar)
-                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="avatar-md rounded-circle" id="avatar-image">
-                    @else
+                   
                         <!-- Default avatar image or placeholder -->
-                        <img src="https://i.pinimg.com/originals/06/3b/bf/063bbf0665eaf9c1730bccdc5c8af1b2.jpg" 
-                        alt="Default Avatar" class="avatar-md rounded-circle" id="avatar-image">
-                    @endif
+                        <img src="https://thumbs.dreamstime.com/z/mechanic-avatar-character-icon-vector-illustration-design-85859548.jpg"
+                        alt="Default Avatar" class="avatar-md rounded-circle">
+            
                 </label>
             </div>
             
             
             
-            <div class="mt-3">
-                <h4 class="font-size-16 mb-1">{{ Auth::user()->name}}</h4>
-                <span class="text-muted"><i class="ri-record-circle-line align-middle font-size-14 text-success"></i> {{Auth::user()->role}}</span>
-            </div>
+
         </div>
 
         <!--- Sidemenu -->
@@ -36,14 +29,26 @@
 
                 <li>
                     <a href="/" class="waves-effect">
-                        <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
+                        <i class="ri-dashboard-line"></i>
                         <span>{{ __('Dashboard') }}</span>
                 </a>
                 </li>
                 <li>
                     @if (Auth::user()->role==="admin")
-                            <li><a href="{{ route('admin.users') }}"><i class="ri-user-line"></i> {{ __('Users') }}</a></li>
+                    
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                    <i class="ri-user-line"></i>
+                        <span>{{ __('Users Management') }}</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="{{ route('admin.users') }}"><i class="ri-user-line"></i> {{ __('Clients') }}</a></li>
                             <li><a href="{{ route('admin.admins') }}"><i class="ri-admin-line"></i> {{ __('Admins') }}</a></li>
+        
+                    </ul>
+                </li>
+
+                            
                         @else
                             <li><a href="{{ route('admin.users') }}"><i class="ri-user-line"></i> {{ __('Profile') }}</a></li>
                         @endif
@@ -57,17 +62,6 @@
                             <li><a href="{{ route('user.appointments') }}"><i class="ri-calendar-line"></i> {{ __('Appointments') }}</a></li>
 
               
-
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="ri-mail-send-line"></i>
-                        <span>{{ __('Email') }}</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('admin.mails')}}">{{ __('Inbox') }}</a></li>
-                        {{-- <li><a href="email-read.html">Read Email</a></li> --}}
-                    </ul>
-                </li>
 
                
 

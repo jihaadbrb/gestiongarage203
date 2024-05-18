@@ -10,9 +10,8 @@
                     @csrf
                     <input type="hidden" id="deleteId" name="deleteId" value="" />
                 </form>
-                {{ __('Are you sure you want to delete invoice with ID:') }} <span id="clientIdPlaceholder"></span> ?
+                {{ __('Are you sure you want to delete this invoice?') }} 
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                 <button type="button" class="btn btn-danger" id="confirmDeleteBtn">{{ __('Delete') }}</button>

@@ -110,7 +110,7 @@ class AdminController extends Controller
             $client->update($validationData);
     
             // Redirect back to the previous page or any desired route
-            return redirect()->back()->with('success', __('User updated successfully'));
+            return redirect()->back();
     
         } catch (ModelNotFoundException $e) {
             // Handle the case where the client is not found

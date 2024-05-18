@@ -3,18 +3,6 @@
 <div class="main-content">
 
     <div class="page-content">
-        <div class="container-fluid">
-            @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
         @if (Auth::user()->role==="admin")
             
        
@@ -24,14 +12,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ __('Dashboard') }}</h4>
+                        <h4 class="mb-sm-0">Dashboard</h4>
 
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
-                                <li class="breadcrumb-item active">{{Auth::user()->role}}</li>
-                            </ol>
-                        </div>
 
                     </div>
                 </div>
@@ -39,222 +21,81 @@
             <!-- end page title -->
 
             <div class="row">
-                <div class="col-xl-3 col-md-6">
+                <div class="col-5">
+                <div class="col-xl-12 col-md-7">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2"> {{ __('Total Amounts') }}</p>
+                                <div class="flex-grow-1 text-center">
+                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">Total Amounts</h4>
                                     <h4 class="mb-2">$ {{$totalAmount }}</h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
-                                        <i class="ri-arrow-right-up-line me-1 align-middle">
-                                        </i>{{$totalAmountComparison['percentageChange']}}%</span>{{ __('From previous period') }}</p>
+                                 
                                 </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                        <i class="mdi mdi-currency-usd font-size-24"></i>  
 
-                                    </span>
-                                </div>
                             </div>                                            
                         </div><!-- end cardbody -->
                     </div><!-- end card -->
                 </div><!-- end col -->
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-12 col-md-7">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('New Orders') }}</p>
+                                <div class="flex-grow-1 text-center">
+                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">New Orders</h4>
                                     <h4 class="mb-2">
                                         {{$totalOrders}}
                                     </h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
-                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>
-                                        {{$newOrdersDataForComparison['percentageChange']}} %</span>{{ __('From previous period') }}</p>
+                                    
                                 </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-success rounded-3">
-                                        <i class="ri-shopping-cart-2-line font-size-24"></i>  
-
-                                    </span>
-                                </div>
+                             
                             </div>                                              
                         </div><!-- end cardbody -->
                     </div><!-- end card -->
                 </div><!-- end col -->
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-12 col-md-7">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Users') }}</p>
+                                <div class="flex-grow-1 text-center">
+                                    <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">Users</h4>
                                     <h4 class="mb-2">
                                         {{ $usersNum }}
                                     </h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{$usersComparisonData['percentageChange']}} %</span>{{ __('From previous period') }}</p>
                                 </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                        <i class="ri-user-3-line font-size-24"></i>  
-                                    </span>
-                                </div>
-                            </div>                                              
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Mechanics') }}</p>
-                                    <h4 class="mb-2">{{$mechanicsNum}}</h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2">
-                                        <i class="ri-arrow-right-up-line me-1 align-middle">
-                                            </i>{{$mechanicsDataForComparison['percentageChange']}} %</span>{{ __('From previous period') }}</p>
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-success rounded-3">
-                                        <i class="mdi mdi-currency-btc font-size-24"></i>  
-                                    </span>
-                                </div>
-                            </div>                                              
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-            </div><!-- end row -->
-
-            <div class="row">
-                <div class="col-xl-6">
-
-                    <div class="card">
-                        <div class="card-body pb-0">
-                            <div class="float-end d-none d-md-inline-block">
                                
-                            </div>
-                            <h4 class="card-title mb-4">{{ __('Completed Repairs') }}</h4>
-
-                            <div class="text-center pt-3">
-                                <div class="row">
-                                    <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <div class="d-inline-flex">
-                                            <h5 class="me-2">{{$totalCompletedRepairs}}</h5>
-                                            <div class="text-success font-size-12">
-                                            </div>
-                                        </div>
-                                        <p class="text-muted text-truncate mb-0">{{ __('Completed Repairs') }}</p>
-                                    </div><!-- end col -->
-                                    <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <div class="d-inline-flex">
-                                            <h5 class="me-2">$ {{$totalAmountLastWeek}}</h5>
-                                            <div class="text-success font-size-12">
-                                                <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
-                                            </div>
-                                        </div>
-                                        <p class="text-muted text-truncate mb-0">{{ __('Last Week') }}</p>
-                                    </div><!-- end col -->
-                                    <div class="col-sm-4">
-                                        <div class="d-inline-flex">
-                                            <h5 class="me-2">$ {{$totalAmountLastMonth}}</h5>
-                                            <div class="text-success font-size-12">
-                                                <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
-                                            </div>
-                                        </div>
-                                        <p class="text-muted text-truncate mb-0">{{ __('Last Monthe') }} </p>
-                                    </div><!-- end col -->
-                                </div><!-- end row -->
-                            </div>
-                        </div>
-                        <div class="card-body py-0 px-2">
-                            {{-- <div id="area_chart" class="apex-charts" dir="ltr"></div> --}}
-                            <div id="areaChart" style="width: 80%; margin: auto;">
-                                {{-- <canvas id="areaChart"></canvas> --}}
-                            </div>
-                            <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
-                            <script>
-                                // Define common color options
-                                var commonColors = ['#0f9cf3', '#6fd088', '#ffbb44'];
-                            
-                                // Define common options for all charts
-                                var commonOptions = {
-                                    chart: {
-                                        toolbar: {
-                                            show: false
-                                        },
-                                        height: 350
-                                    },
-                                    dataLabels: {
-                                        enabled: false
-                                    },
-                                    grid: {
-                                        show: true,
-                                        borderColor: '#90A4AE',
-                                        strokeDashArray: 0,
-                                        position: 'back',
-                                        xaxis: {
-                                            lines: {
-                                                show: true
-                                            }
-                                        },
-                                        yaxis: {
-                                            lines: {
-                                                show: true
-                                            }
-                                        },
-                                        row: {
-                                            colors: undefined,
-                                            opacity: 0.8
-                                        },
-                                        column: {
-                                            colors: undefined,
-                                            opacity: 0.8
-                                        },
-                                        padding: {
-                                            top: 10,
-                                            right: 0,
-                                            bottom: 10,
-                                            left: 10
-                                        }
-                                    },
-                                    legend: {
-                                        show: false
-                                    }
-                                };
-                            
-                                // Define options for the area chart
-                                var areaOptions = {
-                                    series: [{
-                                        name: 'Completed Repairs',
-                                        data: {!! json_encode($data['completed_repairs']) !!}
-                                    }],
-                                    colors: [commonColors[0]],
-                                    stroke: {
-                                        curve: 'smooth',
-                                        width: 2
-                                    },
-                                    xaxis: {
-                                        categories: {!! json_encode($data['labels']) !!}
-                                    }
-                                };
-                            
-                                // Create area chart
-                                var areaChart = new ApexCharts(document.querySelector("#areaChart"), Object.assign({}, commonOptions, areaOptions));
-                                areaChart.render();
-                            </script>
-                            
-
-                        </div>
+                            </div>                                              
+                        </div><!-- end cardbody -->
                     </div><!-- end card -->
                 </div>
                 <!-- end col -->
-                <div class="col-xl-6">
+                <div class="col-xl-12 col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1 text-center">
+                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">Mechanics</h4>
+                                    <h4 class="mb-2">{{$mechanicsNum}}</h4>
+                                    
+                                </div>
+                                
+                            </div>                                              
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div>
+                </div><!-- end col -->
+            <!-- end row -->
+
+            <div class="col-7" >
+                <div class="row">
+ 
+                <!-- end col -->
+                <div class="col-xl-12">
                    <div class="card">
                         <div class="card-body pb-0">
                             <div class="float-end d-none d-md-inline-block">
                                
                             </div>
-                            <h4 class="card-title mb-4">{{ __('Revenue') }}</h4>
+                            <h4 class="card-title mb-4" style="color:#D8AE7E;">Revenue</h4>
 
                             <div class="text-center pt-3">
                                 <div class="row">
@@ -264,7 +105,7 @@
                                             <div class="text-success font-size-12">
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">{{ __('Completed Repairs') }}</p>
+                                        <p class="text-muted text-truncate mb-0">Completed Repairs</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4 mb-3 mb-sm-0">
                                         <div class="d-inline-flex">
@@ -273,7 +114,7 @@
                                                 <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">{{ __('Last Week') }}</p>
+                                        <p class="text-muted text-truncate mb-0">Last Week</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4">
                                         <div class="d-inline-flex">
@@ -282,7 +123,7 @@
                                                 <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">{{ __('Last Monthe') }} </p>
+                                        <p class="text-muted text-truncate mb-0">Last Month</p>
                                     </div><!-- end col -->
                                 </div><!-- end row -->
                             </div>
@@ -350,139 +191,14 @@
                         
                     </div><!-- end card -->
                 </div>
+                            </div>
                 <!-- end col -->
+            </div>
             </div>
             <!-- end row -->
 
-            <div class="row">
-                <div class="col-xl-8">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="dropdown float-end">
-                                <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="mdi mdi-dots-vertical"></i>
-                                </a>
-                                {{-- <div class="dropdown-menu dropdown-menu-end">
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                </div> --}}
-                            </div>
 
-                            <h4 class="card-title mb-4">{{ __('Latest Transactions') }}</h4>
-
-                            <div class="table-responsive">
-                                <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>{{ __('Name') }}</th>
-                                            <th>{{ __('Position') }}</th>
-                                            <th>{{ __('Status') }}</th>
-                                            <th>{{ __('Email') }}</th>
-                                            <th>{{ __('Start date') }}</th>
-                                            <th style="width: 120px;">{{ __('Profit') }} </th>
-                                        </tr>
-                                    </thead><!-- end thead -->
-                                    <tbody>
-
-                                        @foreach($mechanicsTotalAmount as $mechanic)
-                                        <tr>
-                                            <td><h6 class="mb-0">{{ $mechanic->name }}</h6></td>
-                                            <td>{{ $mechanic->role }}</td>
-                                            <td>
-                                                <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-{{ $mechanic->totalEarned > 0 ? 'success' : 'danger' }} align-middle me-2"></i>{{ $mechanic->totalEarned > 0 ? 'Active' : 'Inactive' }}</div>
-                                            </td>
-                                            <td>{{ $mechanic->email }}</td>
-                                            <td>{{ $mechanic->created_at }}</td>
-                                            <td>
-                                                {{-- Calculate total amount for mechanic's repairs --}}
-                                                @php
-                                                    $totalAmount = $mechanic->totalEarned ?? 0;
-                                                @endphp
-                                                ${{ $totalAmount }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    
-                                    
-
-
-
-                                    </tbody><!-- end tbody -->
-                                </table> <!-- end table -->
-                            </div>
-                        </div><!-- end card -->
-                    </div><!-- end card -->
-                </div>
-                <!-- end col -->
-                <div class="col-xl-4">
-                    <div class="card">
-                        <div class="card-body">
-                            
-                            <h4 class="card-title mb-4">{{ __('Top Three Mechanics') }}</h4>
-                            
-                           
-                            <!-- end row -->
-
-                            <div class="mt-4">
-                                {{-- <div id="mechanics_monthly_revenue_chart"></div> --}}
-                                <canvas id="topThreeChart" width="400" height="350"></canvas>
-
-                            </div>
-                            
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-                            <script>
-                                var topThreeData = @json($topThreeChartData);
-                                var mechanics = topThreeData.mechanics;
-                                console.log(mechanics);
-
-                                var earned = topThreeData.earned;
-
-                               
-                            
-                                var ctx = document.getElementById('topThreeChart').getContext('2d');
-                                var myChart = new Chart(ctx, {
-                                    type: 'bar',
-                                    data: {
-                                        labels: mechanics,
-                                        datasets: [{
-                                            label: 'Total Earned',
-                                            data: earned,
-                                            backgroundColor: [
-                                                'rgba(255, 99, 132, 0.2)',
-                                                'rgba(54, 162, 235, 0.2)',
-                                                'rgba(255, 206, 86, 0.2)'
-                                            ],
-                                            borderColor: [
-                                                'rgba(255, 99, 132, 1)',
-                                                'rgba(54, 162, 235, 1)',
-                                                'rgba(255, 206, 86, 1)'
-                                            ],
-                                            borderWidth: 1
-                                        }]
-                                    },
-                                    options: {
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true
-                                            }
-                                        }
-                                    }
-                                });
-                            </script>
-                            
-                            
-                                                        
-                        </div>
-                    </div><!-- end card -->
-                </div><!-- end col -->
-            </div>
+           
             <!-- end row -->
         </div>
 
@@ -492,7 +208,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ __('Dashboard') }}</h4>
+                        <h4 class="mb-sm-0">Dashboard</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
@@ -510,7 +226,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Amount To Pay') }}</p>
+                                    <p class="text-truncate font-size-14 mb-2">Amount To Pay</p>
                                     <h4 class="mb-2 font-size-16">
                                     
                                        
@@ -537,7 +253,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Status') }}</p>
+                                    <p class="text-truncate font-size-14 mb-2">Status</p>
                                     <h4 class="mb-2 font-size-16">
                                         @foreach ($invoiceDetails as $detail)
                                             @if (isset($detail['status']))
@@ -551,7 +267,7 @@
                                         @if (isset($detail['status']))
                                             @switch($detail['status'])
                                                 @case('completed')
-                                                    <span class="avatar-title bg-light text-success rounded-3">
+                                                    <span class="avatar-title  text-success rounded-3" style="background-color:#4F6F52">
                                                         <i class="ri-check-line font-size-24"></i>  
                                                     </span>
                                                     @break
@@ -583,7 +299,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Vehicle') }}  </p>
+                                    <p class="text-truncate font-size-14 mb-2">Vehicle  </p>
                                     @foreach ($invoiceDetails as $detail)
                                         @if (isset($detail['vehicleMake']) && isset($detail['vehicleRegistration']))
                                             <h4 class="font-size-14 mb-2">{{ $detail['vehicleMake'] }} / {{ $detail['vehicleRegistration'] }}</h4>
@@ -605,7 +321,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Mechanic') }}</p>
+                                    <p class="text-truncate font-size-14 mb-2">Mechanic</p>
                                     @foreach ($invoiceDetails as $detail)
                                         @if (isset($detail['mechanicName']))
                                             <h4 class="font-size-14 mb-2">{{ $detail['mechanicName'] }}</h4>
@@ -614,7 +330,7 @@
                                 
                                 </div>
                                 <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-success rounded-3">
+                                    <span class="avatar-title  text-success rounded-3" style="background-color:#4F6F52">
                                         <i class="ri-user-3-line font-size-24"></i>  
 
                                     </span>
@@ -635,7 +351,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ __('Dashboard') }}</h4>
+                        <h4 class="mb-sm-0">Dashboard</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
@@ -652,7 +368,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Total Gained') }}</p>
+                                    <p class="text-truncate font-size-14 mb-2">Total Gained</p>
                                     <h4 class="mb-2 font-size-16">
                                        $ {{ $totalGained }}
                                     </h4>
@@ -671,7 +387,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Repairs Status') }}</p>
+                                    <p class="text-truncate font-size-14 mb-2">Repairs Status</p>
                                     <h4 class="mb-2 font-size-16">
                                         @php
                                         $allCompleted = true;
@@ -679,17 +395,7 @@
                                         $allInProgress = true;
                                     @endphp
                                     @foreach($repairsStatus as $repairStatus)
-                                    <p>{{ $repairStatus['repair_id'] }}: 
-                                        @if($repairStatus['status'] == 'completed')
-                                            {{ __('Completed') }}
-                                        @elseif($repairStatus['status'] == 'pending')
-                                            {{ __('Pending') }}
-                                        @elseif($repairStatus['status'] == 'in_progress')
-                                            {{ __('In Progress') }}
-                                        @else
-                                            {{ __('Unknown') }}
-                                        @endif
-                                    </p>
+                                        <p>{{ $repairStatus['repair_id'] }}: {{ $repairStatus['status'] }}</p>
                                         @if($repairStatus['status'] !== 'completed')
                                             @php
                                                 $allCompleted = false;
@@ -712,7 +418,7 @@
 
                                    
                                     @if($allCompleted)
-                            <span class="avatar-title bg-light text-success rounded-3">
+                            <span class="avatar-title  text-success rounded-3" style="background-color:#4F6F52">
                                 <i class="ri-check-line font-size-24"></i>  
                             </span>
                             @elseif($allPending)
@@ -730,37 +436,19 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
                 
+              
                 <div class="col-xl-3 col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Vehicles repaired') }}</p>
-                                    @foreach($vehiclesRepairedBy as $vehicle)
-                                        <h4 class="font-size-14 mb-2">{{ $vehicle->make }} / {{ $vehicle->registration }}</h4>
-                                    @endforeach
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                        <i class="ri-car-line font-size-24"></i>  
-                                    </span>
-                                </div>
-                            </div>                                              
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">{{ __('Users worked with me') }}</p>
+                                    <p class="text-truncate font-size-14 mb-2">Users worked with me</p>
                                     @foreach($usersWorkedWith as $user)
                                         <h4 class="font-size-14 mb-2">{{ $user['name'] }} - {{ $user['email'] }}</h4>
                                     @endforeach
                                 </div>
                                 <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-success rounded-3">
+                                    <span class="avatar-title  text-success rounded-3" style="background-color:#4F6F52">
                                         <i class="ri-user-3-line font-size-24"></i>  
                                     </span>
                                 </div>
@@ -775,20 +463,15 @@
     </div>
     <!-- End Page-content -->
    
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © elklie.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        {{ __('Crafted with') }} <i class="mdi mdi-heart text-danger"></i> by reda-elklie
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+
     
 </div>
+<footer class="bg-body-tertiary text-center mt-30" style="bottom:0;position:fixed;left:150px;right:0;" >
+
+<div class="text-center p-3" style="background-color:#e4dcc7; display:flex;align-items:center;justify-content:center;">
+      
+   <a class="text-body" href="https://mdbootstrap.com/"> © 2024 Garagiste.com  | Jihad Bourbab</a>
+</div>
+
+</footer>
 @endsection

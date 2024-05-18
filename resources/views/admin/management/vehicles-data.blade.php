@@ -5,13 +5,51 @@
         .add-new {
             display: flex;
             width: 100%;
-            justify-content: space-between;
+            flex-direction:column;
+            gap:10px;
+            align-items:center;
+            justify-content:center;
         }
-
+        .add-new button{
+            background-color:#1a4d2e;
+        }
         .add-vehicle {
             border: 0;
             border-radius: 5px;
             padding: 8px 19px;
+        }
+
+.table-bordered tr, .table-bordered th, .table-bordered td{
+    border-color: #436850 !important;
+}
+
+thead{
+    background-color:#436850;
+    color:white;
+}
+th{
+    color:#f7e300;
+}
+
+.edit-vehicle{
+            background-color:#1a4d2e;
+            color:white;
+        }
+        .edit-vehicle:hover{
+            background-color:#1a4d2e;
+            color:white;
+        }
+        .delete-vehicle{
+            background-color:red;
+            color:white;
+        }
+        .add-repair{
+            background-color:#e1c134;
+            color:white;
+        }
+        .delete-vehicle:hover{
+            background-color:red;
+            color:white;
         }
 
 #importButton {
@@ -70,8 +108,10 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="add-new">
-                                <h4 class="card-title">{{ __('Vehicles') }}</h4>
+                                <h4 >{{ __('Vehicles List') }}</h4>
+                                <div>
                                 <button class="btn-primary add-vehicle">{{ __('add new vehicle') }}</button>
+                                </div>
                                 <p class="card-title-desc"></p>
                             </div>  
                             <table id="datatable-buttons"
@@ -83,7 +123,7 @@
                                         <th>{{ __('Model') }}</th>
                                         <th>{{ __('Fuel Type') }}</th>
                                         <th>{{ __('Registration') }}</th>
-                                        <th>{{ __('User') }}</th>
+                                        <th>{{ __('Owner') }}</th>
                                         <th>{{ __('Photos') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
@@ -99,7 +139,7 @@
                                                 <td>{{ $vehicle->user->name }}</td>
                                                 <td>
                                                     <button type="button" class="btn show-pics" data-vehicle-id="{{ $vehicle->id }}">
-                                                        <i class="ri-eye-line"></i>{{ __('Show Pictures') }}
+                                                        </i>{{ __('Show Pictures') }}
                                                     </button>
                                                 </td>
                                                 <td>
@@ -114,16 +154,16 @@
                                                             data-vehicle-registration="{{ $vehicle->registration }}"
                                                             data-vehicle-photos="{{ $vehicle->photos }}"
                                                             data-vehicle-userid="{{ $vehicle->user_id }}">
-                                                            <i class="ri-edit-2-line"></i>
+                                                            Edit
                                                         </button>
                                                         <button type="button" class="btn delete-vehicle"
                                                             data-vehicle-id="{{ $vehicle->id }}">
-                                                            <i class="ri-delete-bin-3-line"></i>
+                                                            Delete
                                                         </button>
                                                         <button type="button" class="btn add-repair"
                                                             data-vehicle-id="{{ $vehicle->id }}"
                                                             data-vehicle-iduser="{{ $vehicle->user_id }}">
-                                                            <i class="ri-tools-fill"></i>
+                                                            Repair
                                                         </button>
                                                     <!-- Display edit and delete buttons for vehicle owner -->
                                                     @elseif(Auth::id() === $vehicle->user_id)
@@ -135,11 +175,11 @@
                                                             data-vehicle-registration="{{ $vehicle->registration }}"
                                                             data-vehicle-photos="{{ $vehicle->photos }}"
                                                             data-vehicle-userid="{{ $vehicle->user_id }}">
-                                                            <i class="ri-edit-2-line"></i>
+                                                            Edit
                                                         </button>
                                                         <button type="button" class="btn delete-vehicle"
                                                             data-vehicle-id="{{ $vehicle->id }}">
-                                                            <i class="ri-delete-bin-3-line"></i>
+                                                            Delete
                                                         </button>
                                                         <button type="button" class="btn add-repair"
                                                             data-vehicle-id="{{ $vehicle->id }}"
@@ -169,20 +209,14 @@
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © elklie.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        {{ __('crafted_with_love') }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <footer class="bg-body-tertiary text-center mt-30" style="bottom:0;position:fixed;left:150px;right:0;" >
+
+<div class="text-center p-3" style="background-color:#e4dcc7; display:flex;align-items:center;justify-content:center;">
+     
+   <a class="text-body" href="https://mdbootstrap.com/">  © 2024 Garagiste.com  | Jihad Bourbab</a>
+</div>
+
+</footer>
 </div>
 <!-- Modal for editing client -->
 @endsection
