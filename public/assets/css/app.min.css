@@ -98,6 +98,16 @@ primary:focus {
 .logo-light {
     display: none;
 }
+.modal-tall {
+    max-height: 80vh; 
+    display: flex;
+    align-items: center;
+}
+
+.modal-tall .modal-content {
+    height: 100%;
+    overflow-y: auto;
+}
 .app-search {
     padding: calc(32px / 2) 0;
 }

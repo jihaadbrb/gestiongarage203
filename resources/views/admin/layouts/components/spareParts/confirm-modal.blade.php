@@ -1,5 +1,5 @@
 <div class="modal fade" id="sconfirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="sconfirmDeleteModalLabel">{{ __('Confirm Delete') }}</h5>
@@ -20,3 +20,37 @@
         </div>
     </div>
 </div>
+
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('.delete-spare').click(function() {
+            var spareId = $(this).data('spare-id'); 
+            $('#sdeleteId').val(spareId); 
+            $('#sconfirmDeleteModal').modal('show'); 
+        });
+
+        $('#sconfirmDeleteBtn').on('click',function() {
+            var formData = $('#sdeleteForm').serialize(); 
+            axios.post('{{ route("admin.destroySparePart") }}', formData)
+                .then(function (response) {
+                    if (response.data == "ok") {
+                       
+                        $("#row").remove();
+                        $('#sconfirmDeleteModal').modal('hide');
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error occurred:", error);
+                    console.error("Response data:", error.response.data);
+                });
+        });
+
+    
+    });
+</script>

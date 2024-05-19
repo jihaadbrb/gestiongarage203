@@ -284,4 +284,27 @@ th{
 <!-- Modal for editing repair -->
 
 
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.querySelectorAll('.repair-status').forEach(function(select) {
+        select.addEventListener('change', function() {
+            var repairId = this.dataset.repairId;
+            var newStatus = this.value;
+
+            axios.post('/repairs/update-status', {
+                repair_id: repairId,
+                status: newStatus
+            })
+            .then(function(response) {
+                location.reload();
+
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+        });
+    });
+</script>
 @endsection

@@ -103,7 +103,7 @@ th{
                     <div class="toast-progress" style="width: 0%;"></div>
                     <button type="button" class="toast-close-button" role="button">×</button>
                     <div class="toast-message"></div>
-                </div
+</div>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -196,7 +196,6 @@ th{
                                 @include('admin.layouts.components.vehicles.add-modal')
                                 @include('admin.layouts.components.repairs.add-modal')
                                 @include('admin.layouts.components.vehicles.confirm-modal')
-                                @include('admin.layouts.components.users.show-modal')
                                 @include('admin.layouts.components.vehicles.show-pics')
                             </table>
                         </div>

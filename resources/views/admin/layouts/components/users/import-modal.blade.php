@@ -29,3 +29,20 @@
         </div>
     </div>
 </div>
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        console.log("Document ready");
+        $('.import-clients').click(function() {
+            $('#importUsersModal').modal('show');
+        });
+
+    });
+
+
+
+</script>

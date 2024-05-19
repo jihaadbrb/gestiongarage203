@@ -192,6 +192,13 @@ class ChartController extends Controller
     }
 
 
+    
+    public function showAdmins()
+    {
+        $admins = User::orderBy('id', 'desc')->where('role', 'admin')->get();
+        return view('admin.management.admin-data', ['admins' => $admins]);
+    }
+
 
     public function getUsersDataForComparison($previousPeriod = 'month')
     {

@@ -286,7 +286,6 @@ th{
 @include('admin.layouts.components.users.add-modal')
 @include('admin.layouts.components.users.import-modal')
 @include('admin.layouts.components.users.confirm-modal')
-@include('admin.layouts.components.users.show-modal')
 
 
 

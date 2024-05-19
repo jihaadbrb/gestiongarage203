@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
             </div>
             <div class="modal-body">
-                <form id="addAppointmentForm" method="post" action="{{ route('store.appointments') }}">
+                <form id="addAppointmentForm" method="post" action="{{ route('store.appointements') }}">
                     @csrf
                     <!-- Form fields for adding a new appointment -->
                     <div class="mb-3">
@@ -23,12 +23,12 @@
                     </div>
                     @if (Auth::user()->role === "admin")
                        <div class="mb-3">
-                        <label for="appointment_date" class="form-label">{{ __('User ID') }}</label>
+                        <label for="appointment_date" class="form-label">{{ __('Customer') }}</label>
                         <input type="text" class="form-control" id="user_id" name="user_id">
                     </div> 
                     @else
                     <div class="mb-3">
-                        <label for="appointment_date" class="form-label">{{ __('User ID') }}</label>
+                        <label for="appointment_date" class="form-label">{{ __('Customer') }}</label>
                         <input type="text" class="form-control" id="user_id" name="user_id" readonly>
                     </div> 
                     @endif
@@ -43,3 +43,39 @@
         </div>
     </div>
 </div>
+
+
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        console.log("Document ready");
+        $('.add-appointement').click(function() {
+            $('#addAppointmentModal').modal('show');
+        });
+
+        $('.submitAppointment').click(function(event) {
+            event.preventDefault();
+        var formData = $('#addAppointmentForm').serialize();
+
+        axios({
+            method: 'post',
+            url: '/appointments/create',
+            data: formData
+        })
+        .then(function(response) {
+         
+            location.reload();
+
+        })
+        .catch(function(error) {
+            console.error(error);
+
+        });
+    });
+    });
+</script>

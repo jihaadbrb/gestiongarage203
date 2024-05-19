@@ -42,7 +42,7 @@
                         <span>{{ __('Users Management') }}</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                    <li><a href="{{ route('admin.users') }}"><i class="ri-user-line"></i> {{ __('Clients') }}</a></li>
+                    <li><a href="{{ route('user.users') }}"><i class="ri-user-line"></i> {{ __('Clients') }}</a></li>
                             <li><a href="{{ route('admin.admins') }}"><i class="ri-admin-line"></i> {{ __('Admins') }}</a></li>
         
                     </ul>
@@ -59,7 +59,7 @@
                             <li><a href="{{ route('admin.repairs') }}"> <i class="ri-hammer-fill"></i>  {{ __('Repairs') }}</a></li>
                             <li><a href="{{ route('admin.showSpares') }}"><i class="ri-tools-line"></i> {{ __('Spare Parts') }}</a></li>
                             <li><a href="{{ route('admin.Invoices') }}"><i class="ri-file-text-line"></i> {{ __('Invoices') }}</a></li>
-                            <li><a href="{{ route('user.appointments') }}"><i class="ri-calendar-line"></i> {{ __('Appointments') }}</a></li>
+                            <li><a href="{{ route('user.appointements') }}"><i class="ri-calendar-line"></i> {{ __('Appointments') }}</a></li>
 
               
 

@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
             </div>
             <div class="modal-body">
-                <form id="addClientForm" method="post" action="{{ route('admin.store') }}">
+                <form id="addClientForm" method="post" action="{{ route('user.store') }}">
                     @csrf
                     <!-- Form fields for adding a new client -->
                     <div class="mb-3">
@@ -50,3 +50,28 @@
         </div>
     </div>
 </div>
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.add-client').click(function() {
+            $('#addClientModal').modal('show');
+        });
+
+        $('#submitAddClientForm').click(function() {
+            var formData = $('#addClientForm').serialize();
+            // Axios request    
+            axios.post('{{ route("user.store") }}', formData)
+                .then(function(response) {
+                 
+                    $('#addClientModal').modal('hide');
+                })
+                .catch(function(error) {
+                   
+                    console.error(error);
+                    
+                });
+        });
+    });
+</script>

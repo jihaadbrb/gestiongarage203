@@ -20,3 +20,37 @@
         </div>
     </div>
 </div>
+
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+    $('.delete-repair').click(function() {
+        var repairId = $(this).data('repair-id'); 
+        $('#rdeleteId').val(repairId); 
+        $('#rconfirmDeleteModal').modal('show');
+    });
+
+    $('#rconfirmDeleteBtn').click(function() {
+        var formData = $('#rdeleteForm').serialize(); 
+
+        axios.post('{{ route("admin.destroyRepair") }}', formData)
+            .then(function (response) {
+                if (response.data == "ok") {
+                 
+                    $("#row").remove(); 
+                    $('#rconfirmDeleteModal').modal('hide')
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+                console.error("Response data:", error.response.data);
+            });
+    });
+
+
+    });
+</script>

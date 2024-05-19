@@ -30,3 +30,46 @@
         </div>
     </div>
 </div>
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function() {
+        console.log("Document ready");
+        var repairInvoiceId;
+        $('.add-invoice').click(function() {
+            $('#addInvoiceModal').modal('show');
+            var repairInvoiceId = $(this).data('repairinvoice-id');
+
+            $('#invoicerepair_id').val(repairInvoiceId);
+
+        });
+        $('.submitInvoice').click(function() {
+        console.log("Submit button clicked");
+        var formData = $('#addInvoiceForm').serialize();
+            console.log(formData)
+        if (repairInvoiceId && !formData.includes('repair_id=')) {
+            formData += '&repair_id=' + repairInvoiceId;
+        }
+        axios({
+            method: 'post',
+            url: '/invoices/add',
+            data: formData
+        })
+        .then(function(response) {
+        
+            location.reload();
+
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+    });
+    });
+
+
+</script>

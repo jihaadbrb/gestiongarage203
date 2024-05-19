@@ -1,5 +1,5 @@
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmDeleteModalLabel">{{ __('Confirm Delete') }}</h5>
@@ -19,3 +19,34 @@
         </div>
     </div>
 </div>
+
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+    $('.delete-invoice').click(function() {
+        var invoiceId = $(this).data('invoice-id'); 
+        $('#deleteId').val(invoiceId);
+        $('#confirmDeleteModal').modal('show'); 
+    });
+
+    $('#confirmDeleteBtn').click(function() {
+        var formData = $('#deleteForm').serialize();
+        axios.post('{{ route("admin.destroyInvoice") }}', formData)
+            .then(function (response) {
+                if (response.data == "ok") {
+                    $("#row").remove(); 
+                    $('#confirmDeleteModal').modal('hide')
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+                console.error("Response data:", error.response.data);
+            });
+    });
+
+    });
+</script>

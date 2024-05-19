@@ -9,7 +9,7 @@
                 justify-content: space-between;
             }
 
-            .add-appointment{
+            .add-appointement{
                 border: 0;
                 border-radius: 5px;
                 padding: 8px 19px;
@@ -106,12 +106,12 @@ th{
                                 <div class="textup">
                                     @if(Auth::user()->role === 'admin')
 
-                                    <h4 >{{ __('Appointment List') }}</h4>
+                                    <h4 >{{ __('Appointments List') }}</h4>
                                 @else
                                     <h4 >{{ __('Your Appointment') }}</h4>
 
                                 @endif
-                                <button class="btn-primary add-appointment textupbutton">{{ __('Add New Appointment') }}</button>
+                                <button class="btn-primary add-appointement textupbutton">{{ __('Add New Appointment') }}</button>
                                         
                                     
                                     <p class="card-title-desc">
@@ -209,4 +209,35 @@ th{
     <!-- Modal for editing repair -->
 
 
-    @endsection
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+    <script>
+    $(document).ready(function() {
+    $('.update-appointment-status').change(function() {
+        var appointmentId = $(this).data('appointment-id');
+        var newStatus = $(this).val();
+
+        axios.post('{{ route("edit.status") }}', {
+            appointment_id: appointmentId,
+            status: newStatus
+        })
+        .then(function(response) {
+      
+
+            location.reload();           
+        })
+        .catch(function(error) {
+            console.error("Error occurred:", error);
+            console.error("Response data:", error.response.data);
+          
+        });
+    });
+});
+
+</script>
+ @endsection

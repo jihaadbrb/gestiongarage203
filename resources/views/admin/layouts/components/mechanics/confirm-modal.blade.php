@@ -26,9 +26,9 @@
 
     <script>
         $(document).ready(function() {
-        $('.delete-client').click(function() {
-            var clientId = $(this).data('client-id'); 
-            $('#cdeleteId').val(clientId); 
+        $('.delete-mechanic').click(function() {
+            var mechanicId = $(this).data('mechanic-id'); 
+            $('#cdeleteId').val(mechanicId); 
            
             $('#cconfirmDeleteModal').modal('show'); 
         });

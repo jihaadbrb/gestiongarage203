@@ -20,3 +20,37 @@
         </div>
     </div>
 </div>
+
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+    $('.delete-vehicle').click(function() {
+        var vehicleId = $(this).data('vehicle-id'); 
+        $('#vdeleteId').val(vehicleId); 
+        $('#vconfirmDeleteModal').modal('show'); 
+    });
+
+    $('#vconfirmDeleteBtn').on('click',function() {
+        var formData = $('#vdeleteForm').serialize(); 
+        axios.post('{{ route("admin.destroyVehicle") }}', formData)
+            .then(function (response) {
+                if (response.data == "ok") {
+                    $('#vconfirmDeleteModal').modal('hide');
+                    $("#row").remove();
+                
+                    
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+                console.error("Response data:", error.response.data);
+            });
+    });
+
+    });
+</script>

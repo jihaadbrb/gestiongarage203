@@ -56,11 +56,11 @@ th{
     right: 10px;
     transform: translateY(-50%);
 }
-.edit-client{
+.print-invoice{
             background-color:#1a4d2e;
             color:white;
         }
-        .edit-client:hover{
+        .print-invoice:hover{
             background-color:#1a4d2e;
             color:white;
         }
@@ -110,12 +110,9 @@ th{
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%; margin-top:0;">                                           
                                 <thead>
                                     <tr role="row">
-                                        <th>{{ __('Name') }}</th>
-                                        <th>{{ __('Mechanic Name') }}</th>
-                                        <th>{{ __('Make') }}</th>
+                                        <th>{{ __('Owner') }}</th>
+                                        <th>{{ __('Mechanic ') }}</th>
                                         <th>{{ __('Registration') }}</th>
-                
-                                        <th>{{ __('Additional Charges') }}</th>
                                         <th>{{ __('TotalAmount') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
@@ -127,34 +124,30 @@ th{
                                     <tr data-invoice-id="{{ $invoice->deleteId }}" id="row">
                                         <td>{{ $invoice->repair->user->name }}</td>
                                         <td>{{ $invoice->repair->mechanic->name }}</td>
-                                        <td>{{ $invoice->repair->vehicle->make }}</td>
                                         <td>{{ $invoice->repair->vehicle->registration }}</td>
                                
-                                        <td>{{ $invoice->additionalCharges }}</td>
                                         <td>{{ $invoice->totalAmount }}</td>
                                         <td>
-                                            {{-- <button type="button" class="btn  edit-client"
-                                                data-client-id="{{ $client->id }}"
-                                                data-client-name="{{ $client->name }}"
-                                                data-client-email="{{ $client->email }}"
-                                                data-client-address="{{ $client->address }}"
-                                                data-client-phone="{{ $client->phoneNumber }}">
-                                                Edit
-                                            </button>--}}
                                             <button type="button" class="btn  delete-invoice"
                                                 data-invoice-id="{{ $invoice->id }}">
                                                 Delete
                                             </button>
 
-                                            </button> 
+                                            <button type="button" class="btn  print-invoice"
+                                                data-invoice-id="{{ $invoice->id }}">
+                                                Print
+                                                
+                                            </button>
+                                            <input type="hidden" id="inputInvoiceId">
+
+                                           
                                         </td>
                                     </tr>
                                     @endforeach
 
-                                    {{-- @include('admin.layouts.components.users.edit-modal')
-                                    @include('admin.layouts.components.users.add-modal')--}}
+
                                     @include('admin.layouts.components.invoices.confirm-modal') 
-                                    @include('admin.layouts.components.invoices.show-modal')
+                                    @include('admin.layouts.components.invoices.print-invoice') 
 
                                 </tbody>
                                
@@ -191,7 +184,6 @@ th{
 
 </div>
 
-<!-- Modal for editing repair -->
 
 
 @endsection

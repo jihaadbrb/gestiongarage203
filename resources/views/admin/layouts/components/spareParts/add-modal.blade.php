@@ -35,3 +35,31 @@
         </div>
     </div>
 </div>
+
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+<script>
+   $(document).ready(function() {
+    $('.add-spare-part').click(function() {
+        $('#addSparePartModal').modal('show');
+        var repairId = $(this).data('repair-id');
+        $('#sparePartRepairId').val(repairId);
+    });
+
+    $('.submitSparePart').click(function() {
+        var formData = $('#addSparePartForm').serialize();
+        axios.post('/spare-parts/add', formData)
+            .then(function(response) {
+
+                location.reload();
+                // Refresh or update spare parts list if needed
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+    });
+});
+</script>  

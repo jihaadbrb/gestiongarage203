@@ -14,13 +14,11 @@ use App\Models\Notification;
 class RepairController extends Controller
 {
 
-    public function showRepairs()
+    public function getRepairs()
     {
         $user = Auth::user();
 
-        // Check if the user is an admin
         if ($user->role === 'admin') {
-            // Admin can see all repairs
             $repairs = Repair::with('user', 'vehicle')->get();
         }elseif($user->role === 'mechanic')
         {
@@ -28,7 +26,6 @@ class RepairController extends Controller
             ->with('user', 'vehicle')
             ->get();
        }else {
-            // User can only see their own repairs
             $repairs = Repair::where('user_id', $user->id)->with('user', 'vehicle')->get();
         }
         $completedRepairsCount = Repair::where('status', 'completed')->count();
@@ -37,7 +34,7 @@ class RepairController extends Controller
 
 
 
-    public function storeRepair(Request $request)
+    public function CreateRepair(Request $request)
     {
         $request->validate([
             'description' => 'required',
@@ -47,13 +44,10 @@ class RepairController extends Controller
             'mechanic_id' => 'required'
         ]);
 
-        // Set default status if not provided in the request
         $status = $request->input('status', 'pending');
 
-        // Set startDate to current date
         $startDate = Carbon::now()->toDateString();
 
-        // Set endDate if status is 'complete'
         $endDate = null;
         if ($status === 'complete') {
             $endDate = Carbon::now()->toDateString();
@@ -74,7 +68,7 @@ class RepairController extends Controller
 
 
 
-    public function fetchMechanics()
+    public function hMechanicsList()
     {
         $mechanics = User::where('role', 'mechanic')->get();
 
@@ -83,15 +77,13 @@ class RepairController extends Controller
         ]);
     }
 
-    public function destroyRepair(Request $request)
+    public function DeleteRepair(Request $request)
     {
         $repair = Repair::find($request->rdeleteId);
-        // Check if $client exists before attempting to delete
         if ($repair) {
             $repair->delete();
             return "ok";
         } else {
-            // Handle the case where $client is null
             return response()->json(['message' => 'repair not found'], 404);
         }
 
@@ -100,126 +92,34 @@ class RepairController extends Controller
     }
 
 
-    public function updateRepairStatus(Request $request)
+    public function RepairStatus(Request $request)
     {
-        // Validate the incoming request data
         $request->validate([
             'repair_id' => 'required|exists:repairs,id',
             'status' => 'required|in:pending,in_progress,completed',
         ]);
     
-        // Find the repair by ID
         $repair = Repair::findOrFail($request->repair_id);
     
-        // Update the status of the repair
         $repair->status = $request->status;
         $repair->save();
     
-        // If the new status is 'completed' and the old status was not 'completed'
         if ($repair->status === 'completed') {
-            // Ensure that the repair has a user associated with it
             if ($repair->user) {
-                // Create a notification for the user
                 $message = "Your repair with ID: " . $repair->id . " is now marked as completed.";
                 $notification = new Notification([
                     'user_id' => $repair->user->id,
-                    "sender_id" => Auth::user()->email, // Assuming sender_id should be user's id
+                    "sender_id" => Auth::user()->email, 
                     'message' => $message,
                 ]);
             $notification->save();
             }
         }
     
-        // Return a response indicating success
         return response()->json(['message' => 'Status updated successfully']);
     }
     
 
 
-    public function showNotifications()
-    {
-        // Get the authenticated user
-        $user = Auth::user();
-        
-        // Check if the user is authenticated
-        if ($user) {
-            // Fetch notifications for the authenticated user, ordered by created_at in descending order
-            $notifications = $user->notifications()
-                ->orderBy('created_at', 'desc')
-                ->get()
-                ->map(function ($notification) {
-                    return [
-                        'id' => $notification->id,
-                        'sender' => $notification->sender_id,
-                        'message' => $notification->message,
-                        'created_at' => $notification->created_at->format('Y-m-d H:i:s'),
-                        'user' => [
-                            'name' => $notification->user->name,
-                            'email' => $notification->user->email,
-                        ],
-                    ];
-                });
     
-            // Return a JSON response with the notifications data
-            return response()->json([
-                'notifications' => $notifications,
-            ]);
-        } else {
-            // Handle case where user is not authenticated
-            return response()->json(['error' => 'Unauthenticated user'], 401);
-        }
-    }
-    
-
-
-
-//     public function showNotifications()
-// {
-//     // Get the authenticated user
-//     $user = Auth::user();
-
-//     // Check if the user is authenticated
-//     if ($user) {
-//         // Fetch notifications for the authenticated user
-//         $notificationsData = [];
-//         foreach ($user->notifications as $notification) {
-//             // Extract the required information from each notification
-//             $notificationData = [
-//                 'id' => $notification->id,
-//                 'sender' => $notification->sender_id,
-//                 'message' => $notification->message,
-//                 'created_at' => $notification->created_at->format('Y-m-d H:i:s'),
-//             ];
-
-//             // Add the notification data to the array
-//             $notificationsData[] = $notificationData;
-//         }
-
-//         // Fetch user sender information
-//         $userSenders = [];
-//         foreach ($notificationsData as $notificationData) {
-//             $senderId = $notificationData['data']['sender_id'];
-//             $userSender = User::find($senderId);
-//             if ($userSender) {
-//                 // Extract the required information from the sender user
-//                 $senderData = [
-//                     'name' => $userSender->name,
-//                     'email' => $userSender->email,
-//                 ];
-//                 // Add the sender data to the array
-//                 $userSenders[$notificationData['id']] = $senderData;
-//             }
-//         }
-
-//         // Return a JSON response with the notifications data and user sender information
-//         return response()->json([
-//             'notifications' => $notificationsData,
-//             'user_senders' => $userSenders,
-//         ]);
-//     } else {
-//         // Handle case where user is not authenticated
-//         return response()->json(['error' => 'Unauthenticated user'], 401);
-//     }
-// }
-
 }

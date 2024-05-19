@@ -33,19 +33,19 @@ th{
         justify-content:center;
         height:100px;
     }
-    .edit-client{
+    .edit-mechanic{
             background-color:#1a4d2e;
             color:white;
         }
-        .edit-client:hover{
+        .edit-mechanic:hover{
             background-color:#1a4d2e;
             color:white;
         }
-        .delete-client{
+        .delete-mechanic{
             background-color:red;
             color:white;
         }
-        .delete-client:hover{
+        .delete-mechanic:hover{
             background-color:red;
             color:white;
         }
@@ -82,7 +82,7 @@ th{
                     <div class="toast-progress" style="width: 0%;"></div>
                     <button type="button" class="toast-close-button" role="button">×</button>
                     <div class="toast-message"></div>
-                </div
+</div>
 
 
             <div class="row">
@@ -115,29 +115,29 @@ th{
 
 
                                 <tbody>
-                                    @foreach ($mechanics as $client)
-                                            <tr data-client-id="{{$client->id}}" id="row">
+                                    @foreach ($mechanics as $mechanic)
+                                            <tr data-mechanic-id="{{$mechanic->id}}" id="row">
                                               
-                                                <td>{{ $client->name }}</td> 
-                                                <td>{{$client->email}}</td>
-                                                <td>{{$client->phoneNumber}}</td>
-                                                <td>{{$client->created_at}}</td>
+                                                <td>{{ $mechanic->name }}</td> 
+                                                <td>{{$mechanic->email}}</td>
+                                                <td>{{$mechanic->phoneNumber}}</td>
+                                                <td>{{$mechanic->created_at}}</td>
 
-                                        @if(Auth::user()->role === 'admin' || Auth::user()->id === $client->id)
+                                        @if(Auth::user()->role === 'admin' || Auth::user()->id === $mechanic->id)
 
                                                 <td>
-                                                    <button type="button" class="btn edit-client" 
-                                                    data-client-id="{{$client->id}}"
-                                                    data-client-name="{{$client->name}}"
-                                                    data-client-email="{{$client->email}}"
-                                                    data-client-address="{{$client->address}}"
-                                                    data-client-phone="{{$client->phoneNumber}}"
+                                                    <button type="button" class="btn edit-mechanic" 
+                                                    data-mechanic-id="{{$mechanic->id}}"
+                                                    data-mechanic-name="{{$mechanic->name}}"
+                                                    data-mechanic-email="{{$mechanic->email}}"
+                                                    data-mechanic-address="{{$mechanic->address}}"
+                                                    data-mechanic-phone="{{$mechanic->phoneNumber}}"
                                                 >
                                                 Edit
     
                                                 </button>
-                                                <button type="button" class="btn  delete-client" 
-                                                data-client-id="{{$client->id}}">
+                                                <button type="button" class="btn  delete-mechanic" 
+                                                data-mechanic-id="{{$mechanic->id}}">
                                                 Delete
                                             </button>
 
@@ -169,7 +169,6 @@ th{
 </footer>
     
 </div>
-@include('admin.layouts.components.users.confirm-modal')
-@include('admin.layouts.components.users.edit-modal')
-@include('admin.layouts.components.users.show-modal')
-@endsection
+@include('admin.layouts.components.mechanics.confirm-modal')
+@include('admin.layouts.components.mechanics.edit-modal')
+@endsection 

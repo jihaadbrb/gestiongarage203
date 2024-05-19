@@ -108,7 +108,7 @@ th{
                     <div class="toast-progress" style="width: 0%;"></div>
                     <button type="button" class="toast-close-button" role="button">×</button>
                     <div class="toast-message"></div>
-                </div
+</div>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -128,7 +128,6 @@ th{
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%; margin-top:0;">                                   
                                 <thead>
                                     <tr role="row">
-                                        <th>{{ __('Description') }}</th>
                                         <th>{{ __('Part Name') }}</th>
                                         <th>{{ __('Part Refrence') }}</th>
                                         <th>{{ __('Supplier') }}</th>
@@ -144,11 +143,7 @@ th{
                                 <tbody>
                                     @foreach ($spares as $spare)
                                     <tr data-spare-id="{{ $spare->deleteId }}" id="row">
-                                        <td>
-                                            @foreach ($spare->repairs as $repair)
-                                                {{ $repair->description }} <!-- Assuming description is a field in the Repair model -->
-                                            @endforeach
-                                        </td>
+                                       
                                         <td>{{ $spare->partName}}</td>
                                         <td>{{ $spare->partReference}}</td>
                                         <td>{{ $spare->supplier }}</td>
