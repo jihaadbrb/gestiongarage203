@@ -13,14 +13,11 @@ class SparePart extends Model
         'partReference',
         'supplier',
         'price',
-        // 'repair_id'
+     
     ];
     public function repairs()
     {
         return $this->belongsToMany(Repair::class);
     }
-    // public function repair()
-    // {
-    //     return $this->belongsTo(Repair::class);
-    // }
+
 }

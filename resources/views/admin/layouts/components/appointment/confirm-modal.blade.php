@@ -1,21 +1,21 @@
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal-content-centered">
+        <div class="modal-content bg-white">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="confirmDeleteModalLabel">{{__('Confirm Delete')}}</h5>
             </div>
             <div class="modal-body">
                 <form id="deleteForm" method="post">
                     @csrf
                     <input type="hidden" id="deleteAppointmentId" name="deleteId" value="" />
                 </form>
-                Are you sure you want to delete This Appointment ?
+               {{__('Are you sure you want to delete This Appointment ?')}} 
             </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger confirmDeleteBtnApp" id="confirmDeleteBtnApp">Delete</button>
+            <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-danger confirmDeleteBtnApp" style="background-color:red;"id="confirmDeleteBtnApp">{{ __('Delete') }}/button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+ 
             </div>
         </div>
     </div>

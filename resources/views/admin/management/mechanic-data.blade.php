@@ -90,10 +90,10 @@ th{
                     <div class="card">
                         <div class="card-body">
 
-                            @if(Auth::user()->role === 'admin')
+                       
                             <div class="textup">
                             <h4>{{ __('Mechanics List') }}</h4>
-                            @endif
+                        
 </div>
                             <p class="card-title-desc">
                             </p>
@@ -133,17 +133,21 @@ th{
                                                     data-mechanic-address="{{$mechanic->address}}"
                                                     data-mechanic-phone="{{$mechanic->phoneNumber}}"
                                                 >
-                                                Edit
+                                                {{__('Edit')}}
     
                                                 </button>
                                                 <button type="button" class="btn  delete-mechanic" 
                                                 data-mechanic-id="{{$mechanic->id}}">
-                                                Delete
+                                                {{__('Delete')}}
                                             </button>
 
                                     
                                                 </td>
                                             </tr>
+
+                                      
+                                            
+
                                        
                                         @endif
                                     @endforeach

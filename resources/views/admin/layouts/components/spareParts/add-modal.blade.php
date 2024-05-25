@@ -1,6 +1,6 @@
 <div class="modal fade" id="addSparePartModal" tabindex="-1" aria-labelledby="addSparePartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content bg-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="addSparePartModalLabel">{{ __('Add Spare Part') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
@@ -28,13 +28,14 @@
                     <!-- Add other fields related to spare parts here -->
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                <button type="button" class="btn btn-primary submitSparePart">{{ __('Add Spare Part') }}</button>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary submitSparePart">{{ __('Add Spare') }}</button>
+                <button type="button" class="btn btn-secondary" style="background-color:red;" data-bs-dismiss="modal">{{ __('Close') }}</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

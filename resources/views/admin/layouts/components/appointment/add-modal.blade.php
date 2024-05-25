@@ -1,6 +1,6 @@
 <div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content bg-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="addAppointmentModalLabel">{{ __('Add New Appointment') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
@@ -28,15 +28,15 @@
                     </div> 
                     @else
                     <div class="mb-3">
-                        <label for="appointment_date" class="form-label">{{ __('Customer') }}</label>
-                        <input type="text" class="form-control" id="user_id" name="user_id" readonly>
-                    </div> 
+                        <input type="text" class="form-control" id="user_id" name="user_id" hidden readonly>
+                    </div>
                     @endif
                     
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary submitAppointment">{{ __('Add Appointment') }}</button>
+                    <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-primary submitAppointment">{{ __('Add Appointment') }}</button>
+                        <button type="button" class="btn btn-secondary" style="background-color:red;"data-bs-dismiss="modal">{{ __('Close') }}</button>
+ 
                     </div>
                 </form>
             </div>

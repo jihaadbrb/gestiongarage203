@@ -148,15 +148,17 @@ th{
                                         <td>{{ $spare->partReference}}</td>
                                         <td>{{ $spare->supplier }}</td>
                                         <td>{{ $spare->price }}</td>
+                                        @if (Auth::user()->role==="admin")
                                         <td>
-                                            @if (Auth::user()->role==="admin")
+                                            
                                                 <button type="button" class="btn delete-spare" data-spare-id="{{ $spare->id }}">
-                                                Delete
+                                                {{__('Delete')}}
                                             </button>
-                                            @endif
+                                           
                                             
                                             
                                         </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 

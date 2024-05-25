@@ -156,13 +156,13 @@ th{
                                 @if(Auth::user()->role === "mechanic")
                                     <h4 >{{ __('My Assigned Repairs') }}</h4>
                                 @elseif(Auth::user()->role === "client")
-                                    <h4 >{{ __('Scheduled Repairs') }}</h4>
+                                    <h4 >{{ __('My Repairs') }}</h4>
                                 @else
                                     <h4 >{{ __('Repairs Management') }}</h4>
                                 @endif
                                 <p class="card-title-desc">
                                     <form method="GET" action="{{route('admin.sendAll')}}" >
-                                        @if(Auth::user()->role === 'admin' && $completedRepairsCount > 3)
+                                        @if(Auth::user()->role === 'admin' && $completedRepairsCount >=1)
                                             <button type="submit" class="btn btn-primary textupbutton">
                                                 
                                                 {{ __('Send Mail To Clients With Repairs Completed') }}  
@@ -186,8 +186,7 @@ th{
                                         <th>{{ __('End Date') }}</th>
                                         <th>{{ __('Owner') }}</th>
                                         <th>{{ __('Vehicle registration') }}</th>
-                                        @if(Auth::user()->role === 'admin' ||Auth::user()->role === 'mechanic')
-
+                                        @if(Auth::user()->role === 'admin' || Auth::user()->role === 'mechanic')
                                         <th>{{ __('action') }}</th>
                                         @endif
                                     </tr>
@@ -214,32 +213,24 @@ th{
                                             <td>{{ $repair->endDate }}</td>
                                             <td>{{ $repair->user->name }}</td>
                                             <td>{{ $repair->vehicle->registration }}</td>
+                                            @if(Auth::user()->role ==="admin" || Auth::user()->role ==="mechanic")
                                             <td>
                                                 @if ($repair->status === 'completed' && Auth::user()->role === "admin")
                                                     <button type="button" class="btn delete-repair" data-repair-id="{{ $repair->id }}">
-                                                        Delete
+                                                    {{__('Delete')}}
                                                     </button>
                                                     <button type="button" class="btn add-invoice" data-repairinvoice-id="{{ $repair->id }}">
-                                                        Invoice
+                                                    {{__('Invoice')}}
                                                     </button>
-                                                    <!-- <form action="/send-mail" method="GET" style="display: inline;">
-                                                        @csrf
-                                                        <input type="hidden" name="repair_id" value="{{ $repair->id }}">
-                                                        <button type="submit" class="btn">{{ __('Send Mail') }} </button>
-                                                    </form> -->
-                                                @elseif($repair->status === 'completed' && Auth::user()->role === "admin" || Auth::user()->role === "mechanic")
-                                                <!-- <form action="/send-mail" method="GET" style="display: inline;">
-                                                    @csrf
-                                                    <input type="hidden" name="repair_id" value="{{ $repair->id }}">
-                                                    <button type="submit" class="btn">{{ __('Send Mail') }} </button>
-                                                </form> -->
-                                                @endif
-                                                @if ($repair->status !== 'completed' && (Auth::user()->role === "admin" || Auth::user()->role === "mechanic"))
+                                                
+                                                @elseif ($repair->status !== 'completed' && (Auth::user()->role === "admin" || Auth::user()->role === "mechanic"))
                                                     <button type="button" class="btn add-spare-part" data-repair-id="{{ $repair->id }}">
-                                                        Add Spare
+                                                    {{__('Add Spare')}}
                                                     </button>
                                                 @endif
+                
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                     @include('admin.layouts.components.repairs.confirm-modal')

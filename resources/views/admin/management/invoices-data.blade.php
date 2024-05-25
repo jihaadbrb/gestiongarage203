@@ -45,17 +45,6 @@ th{
     color:#f7e300;
 }
 
-.toast-close-button {
-    background: transparent;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    font-size: 16px;
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-}
 .print-invoice{
             background-color:#1a4d2e;
             color:white;
@@ -73,9 +62,7 @@ th{
             color:white;
         }
 
-.toast-message {
-    margin-top: 5px;
-}
+
     </style>
     <div class="page-content">
         <div class="container-fluid">
@@ -114,7 +101,9 @@ th{
                                         <th>{{ __('Mechanic ') }}</th>
                                         <th>{{ __('Registration') }}</th>
                                         <th>{{ __('TotalAmount') }}</th>
+                                        @if (Auth::user()->role ==="admin" || Auth::user()->role ==="mechanic" )
                                         <th>{{ __('Action') }}</th>
+                                        @endif
                                     </tr>
                                 </thead>
 
@@ -127,21 +116,23 @@ th{
                                         <td>{{ $invoice->repair->vehicle->registration }}</td>
                                
                                         <td>{{ $invoice->totalAmount }}</td>
+                                        @if (Auth::user()->role === "admin" ||Auth::user()->role === "mechanic"  )
                                         <td>
+                                            <div style="display:flex;width:100%;gap:7px;">
                                             <button type="button" class="btn  delete-invoice"
                                                 data-invoice-id="{{ $invoice->id }}">
-                                                Delete
+                                                {{__('Delete')}}
                                             </button>
+                                            <form action="{{ route('pdf', ['id' => $invoice->id]) }}" method="get">
+                                                @csrf
+                                                <button type="submit" class="btn  print-invoice" >{{__('Print')}}</button>
 
-                                            <button type="button" class="btn  print-invoice"
-                                                data-invoice-id="{{ $invoice->id }}">
-                                                Print
-                                                
-                                            </button>
-                                            <input type="hidden" id="inputInvoiceId">
-
+                                            </form>
+                                            </div>
                                            
+
                                         </td>
+                                        @endif
                                     </tr>
                                     @endforeach
 

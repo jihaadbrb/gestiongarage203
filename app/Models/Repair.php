@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
         ];
         public function mechanic()
         {
-            return $this->belongsTo(User::class, 'mechanic_id'); // Define relationship with mechanics (User model)
+            return $this->belongsTo(User::class, 'mechanic_id'); 
     }
     public function user()
     {
@@ -43,10 +43,6 @@ use Illuminate\Database\Eloquent\Model;
     {
         return $this->belongsToMany(SparePart::class);
     }
-//     public function spareParts()
-// {
-//     return $this->hasMany(SparePart::class);
-// }
 
     
 }

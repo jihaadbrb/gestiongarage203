@@ -1,9 +1,8 @@
 <div class="modal fade" id="addRepairModal" tabindex="-1" aria-labelledby="addRepairModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable    ">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content bg-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="addRepairModalLabel">{{ __('Add New Repair') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
             </div>
             <div class="modal-body">
                 <form id="addRepairForm" method="post" action="{{ route('admin.storeRepair') }}">
@@ -37,14 +36,22 @@
                         <input type="text" class="form-control" id="vehicle_id" name="vehicle_id" readonly>
                     </div>
                     <div class="mb-3">
+                        @if(Auth::user()->role === 'admin')
                         <label for="mechanic_id" class="form-label">{{ __('Mechanic (Optional)') }}</label>
                         <select class="form-select" id="mechanic_id" name="mechanic_id">
                             <option value="">{{ __('-- Select Mechanic --') }}</option>
                         </select>
+                        @else
+                        
+                            <input type="text" class="form-control" id="mechanic_id" name="mechanic_id" value="{{ Auth::user()->id }}" hidden readonly>
+                        @endif
+
+
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn submitRepair btn-primary">{{ __('Add Repair') }}</button>
+                    <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn submitRepair btn-primary">{{ __('Add Repair') }}</button>
+                        <button type="button" class="btn btn-secondary" style="background-color:red;"data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        
                     </div>
                 </form>
             </div>

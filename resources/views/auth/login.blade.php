@@ -1,7 +1,7 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -42,6 +42,24 @@
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+            <x-primary-button  id="register" class="ms-3">
+                {{ __('Register') }}
+    </x-primary-button>
+
+
+        
         </div>
     </form>
+
 </x-guest-layout>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#register').click(function() {
+            window.location.href = "{{ route('register') }}";
+        });
+    });
+</script>

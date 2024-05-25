@@ -107,6 +107,47 @@ th{
     margin-top: 5px;
 }
 
+
+
+.profileall{
+    display: flex;
+    width:600px;
+    height:300px;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    background-color:white;
+    
+}
+.profileimg{
+    width: 40%;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+.profileimg img{
+    height:fit-content;
+    width:200px;
+}
+.profilepos{
+    width: 100%;
+    height:100%;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.profileinfo{
+    display: flex;
+    flex-direction:column;
+    align-items:start;
+    
+    gap:2px;
+
+    width: 60%;
+
+}
+
     </style>
     <div class="page-content">
         <div class="container-fluid">
@@ -134,35 +175,28 @@ th{
 
                                 @if(Auth::user()->role === 'admin')
 
-                                <h4 >{{ __('Clients List') }}</h4>
+                                <h4 >{{ __('Users List') }}</h4>
                             @else
-                                <h4 class="card-title">{{ __('Profile') }}</h4>
+                                <h3>{{ __('Profile') }}</h3>
 
                             @endif
                                 @if(Auth::user()->role === 'admin')
                                 <div class="actionbutton">
-                                <button class="btn-primary add-client">{{ __('Add New Client') }}</button>
+                                <button class="btn-primary add-client">{{ __('Add New User') }}</button>
                                 <button class="btn-primary import-clients">
-                                    {{ __('Import Clients') }}
+                                    {{ __('Import Users') }}
                                 </button>
                                 </div>
                                 @endif
                                   
-                                    {{-- <form action="{{ route('import.users') }}" method="POST" enctype="multipart/form-data" id="importForm">
-                                        @csrf
-                                        <div class="form-group">
-                                        <label for="file">Select Excel File</label>
-                                        <input type="file" name="file" id="file" class="form-control" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary" id="importButton">Import Users</button>
-                                    </form> --}}
+             
                                   
                                 <p class="card-title-desc">
 
                                 </p>
                             </div>
                         @if (Auth::user()->role === "admin")
-                        {{--  --}}
+               
                 
                          
                             <table id="datatable-buttons"
@@ -195,11 +229,11 @@ th{
                                         <td>
                                             <!-- Display edit, delete, and show buttons -->
                                             <button type="button" class="btn edit-client " data-client-id="{{ $client->id }}" data-client-name="{{ $client->name }}" data-client-email="{{ $client->email }}" data-client-address="{{ $client->address }}" data-client-phone="{{ $client->phoneNumber }}">
-                                                Edit
+                                                {{__('Edit')}}
                                             </button>
                                                 @if (Auth::user()->role ==="admin")
                                                     <button type="button" class="btn delete-client danger" data-client-id="{{ $client->id }}">
-                                                        Delete
+                                                    {{__('Delete')}}
                                                     </button>
                                                  @endif    
                                                
@@ -212,51 +246,23 @@ th{
                                 </tbody>
                         </table>
                             @else
-                            <div class="col-lg-6">
-                                @foreach ($clients as $client)
-                                <div class="card">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col-md-4">
-
-                                            <div class="">
-                                                <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data" id="avatar-upload-form">
-                                                    @csrf
-                                                    <input type="file" name="avatar" id="avatar-input" style="display: none;">
-                                                </form>
-                                                <label for="avatar-input">
-                                                    @if (Auth::user()->avatar)
-                                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="card-img img-fluid" id="avatar-image">
-                                                    @else
-                                                        <!-- Default avatar image or placeholder -->
-                                                        <img src="https://i.pinimg.com/originals/06/3b/bf/063bbf0665eaf9c1730bccdc5c8af1b2.jpg" 
-                                                        alt="Default Avatar" class="card-img img-fluid" id="avatar-image">
-                                                    @endif
-                                                </label>
-                                            </div>
-
-                                         
-                                          
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $client->name }}</h5>
-                                                <p class="card-text">{{ __('Email') }}: {{ $client->email }}</p>
-                                                <p class="card-text">{{ __('Address') }}: {{ $client->address }}</p>
-                                                <p class="card-text">{{ __('Phone Number') }}: {{ $client->phoneNumber }}</p>
-                                                <p class="card-text"><small class="text-muted"{{ __('>Start Date') }}: {{ $client->created_at }}</small></p>
-                                                <button type="button" class="btn edit-client" data-client-id="{{ $client->id }}" data-client-name="{{ $client->name }}" data-client-email="{{ $client->email }}" data-client-address="{{ $client->address }}" data-client-phone="{{ $client->phoneNumber }}">
-                                                    <i class="ri-edit-2-line"></i>
-                                                </button>
-                                                <button type="button" class="btn show-client" data-client-id="{{ $client->id }}">
-                                                    <i class="ri-file-info-line"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="profilepos">
+                            <div class="profileall">
+                                <div class="profileimg">
+                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="">
                                 </div>
-                                
-                                @endforeach
-                                
+                                <div class="profileinfo">
+                                    @foreach($clients as $client)
+                                        <h4> Monsieur : {{$client->name}}</h4>
+                                        <p>Email : {{$client->email}}</p>
+                                        <p>Address : {{$client->address}}</p>
+                                        <p>phoneNumber : {{$client->phoneNumber}}</p>
+                                        <button type="button" class="btn edit-client " data-client-id="{{ $client->id }}" data-client-name="{{ $client->name }}" data-client-email="{{ $client->email }}" data-client-address="{{ $client->address }}" data-client-phone="{{ $client->phoneNumber }}">
+                                                Edit
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
                             </div>
                             @endif
                           

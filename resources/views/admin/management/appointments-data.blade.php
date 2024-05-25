@@ -160,7 +160,7 @@ th{
                                             <td>
                                                 <button type="button" class="btn delete-appointment"
                                                     data-appointment-id="{{ $appointment->id }}">
-                                                    Delete
+                                                    {{__('Delete')}}
                                                 </button>
                                             </td>
                                         </tr>
@@ -240,4 +240,5 @@ th{
 });
 
 </script>
+
  @endsection

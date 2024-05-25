@@ -1,21 +1,19 @@
 <div class="modal fade" id="vconfirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="vconfirmDeleteModalLabel">@lang('Confirm Delete')</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center" style="color:black;">
                 <form id="vdeleteForm" method="post">
                     @csrf
                     <input type="hidden" id="vdeleteId" name="vdeleteId" value="" />
                 </form>
                 @lang('Are you sure you want to delete This Vehicle ? ') 
             </div>
-
-            <div class="modal-footer">
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" style="background-color:red;" id="vconfirmDeleteBtn">@lang('Delete')</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
-                <button type="button" class="btn btn-danger" id="vconfirmDeleteBtn">@lang('Delete')</button>
             </div>
         </div>
     </div>
@@ -40,8 +38,7 @@
         axios.post('{{ route("admin.destroyVehicle") }}', formData)
             .then(function (response) {
                 if (response.data == "ok") {
-                    $('#vconfirmDeleteModal').modal('hide');
-                    $("#row").remove();
+                    location.reload();
                 
                     
                 }

@@ -9,20 +9,18 @@ use Illuminate\Http\Request;
 
 class PDFController extends Controller
 {
-    public function generatePDF(Request $request)
+    public function generatePDF($id)
     {
-        dd($request);
-        $invoice = Invoice::with('repair', 'repair.user', 'repair.vehicle','repair.spareParts')->find($request->id);
-  
+        $invoice = Invoice::with('repair', 'repair.user', 'repair.vehicle','repair.spareParts')->find($id);
+        // dd($invoice);
         if (!$invoice) {
             return response()->json(['error' => 'Invoice not found.'], 404);
         }
     
     
-        $pdf = Pdf::loadView('pdfInvoice', ['invoice' => $invoice]);
+        $pdf = Pdf::loadView('pdfInvoice1', ['invoice' => $invoice]);
     
-        return $pdf->download('Invoice.pdf');
+        return $pdf->download('garagistInvoice.pdf');
     }
-    
-}
-
+  
+};

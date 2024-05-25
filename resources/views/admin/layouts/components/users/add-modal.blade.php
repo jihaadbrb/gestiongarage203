@@ -1,10 +1,8 @@
 <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-       
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content bg-white">
             <div class="modal-header">
-                <h5 class="modal-title" id="addClientModalLabel">{{ __('Add New Client') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+                <h5 class="modal-title" id="addClientModalLabel">{{ __('Add New User') }}</h5>
             </div>
             <div class="modal-body">
                 <form id="addClientForm" method="post" action="{{ route('user.store') }}">
@@ -41,15 +39,16 @@
                             <option value="mechanic" style="color:black;">{{ __('Mechanic') }}</option>
                         </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Add Client') }}</button>
-                    </div>
                 </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary" id="submitAddClientForm">{{ __('Add Client') }}</button>
+                <button type="button" class="btn btn-secondary" style="background-color:red;" data-bs-dismiss="modal">{{ __('Close') }}</button>
             </div>
         </div>
     </div>
 </div>
+
 <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -64,8 +63,8 @@
             // Axios request    
             axios.post('{{ route("user.store") }}', formData)
                 .then(function(response) {
-                 
-                    $('#addClientModal').modal('hide');
+                    
+                    location.reload();
                 })
                 .catch(function(error) {
                    

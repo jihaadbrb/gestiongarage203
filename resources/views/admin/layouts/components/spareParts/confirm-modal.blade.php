@@ -1,25 +1,24 @@
 <div class="modal fade" id="sconfirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content bg-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="sconfirmDeleteModalLabel">{{ __('Confirm Delete') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center" style="color:black;">
                 <form id="sdeleteForm" method="post">
                     @csrf
                     <input type="hidden" id="sdeleteId" name="sdeleteId" value="" />
                 </form>
                 {{ __('Are you sure you want to delete This Spare Part ?') }} 
             </div>
-
-            <div class="modal-footer">
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" style="background-color:red;"id="sconfirmDeleteBtn">{{ __('Delete') }}</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                <button type="button" class="btn btn-danger" id="sconfirmDeleteBtn">{{ __('Delete') }}</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 

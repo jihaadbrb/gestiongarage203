@@ -1,14 +1,13 @@
 @if(isset($vehicle))
 
 <div class="modal fade" id="editVehicleModal" tabindex="-1" role="dialog" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="editVehicleModalLabel">@lang('Edit Vehicle')</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
             </div>
             <div class="modal-body">
-                <form id="editVehicleForm" method="put" action="{{ route('admin.updateVehicle',$vehicle->id ) }}" enctype="multipart/form-data">
+                <form id="editVehicleForm" method="post" action="{{ route('admin.updateVehicle',$vehicle->id ) }}" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="mb-3">
@@ -16,19 +15,19 @@
                     </div>
                     <div class="mb-3">
                         <label for="vehicleMake">@lang('Make')</label>
-                        <input type="text" class="form-control" id="vehicleMake" name="make" required>
+                        <input type="text" class="form-control" id="vehicleMake" name="make" required style="background-color: #f3f4f6; color: black;">
                     </div>
                     <div class="mb-3">
                         <label for="vehicleModel">@lang('Model')</label>
-                        <input type="text" class="form-control" id="vehicleModel" name="model" required>
+                        <input type="text" class="form-control" id="vehicleModel" name="model" required style="background-color: #f3f4f6; color: black;">
                     </div>
                     <div class="mb-3">
                         <label for="vehicleFuelType">@lang('Fuel Type')</label>
-                        <input type="text" class="form-control" id="vehicleFuelType" name="fuelType" required>
+                        <input type="text" class="form-control" id="vehicleFuelType" name="fuelType" required style="background-color: #f3f4f6; color: black;">
                     </div>
                     <div class="mb-3">
                         <label for="vehicleRegistration">@lang('Registration')</label>
-                        <input type="text" class="form-control" id="vehicleRegistration" name="registration">
+                        <input type="text" class="form-control" id="vehicleRegistration" name="registration" style="background-color: #f3f4f6; color: black;">
                     </div>
                     <div class="mb-3">
                         <label for="photos" class="form-label">@lang('Photos')</label>
@@ -38,20 +37,24 @@
                     @if (Auth::user()->role === "client")
                         <div class="mb-3">
                             <label for="vehicleUserId">@lang('User ID')</label>
-                            <input type="text" class="form-control" id="vehicleUserId" readonly name="user_id" readonly>
+                            <input type="text" class="form-control" id="vehicleUserId" readonly name="user_id" readonly style="background-color: #f3f4f6; color: black;">
                         </div>
                     @else
                         <div class="mb-3">
                             <label for="vehicleUserId">@lang('User ID')</label>
-                            <input type="text" class="form-control" id="vehicleUserId" readonly name="user_id">
+                            <input type="text" class="form-control" id="vehicleUserId" readonly name="user_id" style="background-color: #f3f4f6; color: black;">
                         </div>
                     @endif
-                    <button type="submit" class="btn btn-primary">@lang('Save Changes')</button>
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" class="btn btn-primary">{{ __('Save ') }}</button>
+                        <button type="button" class="btn btn-danger" style="background-color:red;"data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 
   <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -79,14 +82,15 @@
             $('#vehiclePhotos').val(vehiclePhotos);
             $('#vehicleUserId').val(vehicleUserId);
             $('#vehicleId').val(vehicleId);
-
+            // Show the modal
             $('#editVehicleModal').modal('show');
         });
 
         $('#editVehicleForm').submit(function(event) {
             event.preventDefault();
+            console.log("Submit button clicked");
 
-            var vehicleId = $('#vehicleId').val();
+            var vehicleId = $('#vehicleId').val(); 
 
             var formData = new FormData($('#editVehicleForm')[0]);
 
@@ -95,20 +99,14 @@
                 formData.append('photos', vehiclePhotos[i]);
             }
 
-
-            axios.post('/vehicles/' + vehicleId, formData)
-                .then(function(response) {
-                   location.reload();
-                })
-                .catch(function(error) {
-                  console.log(error);
-                });
+            console.log(formData);
+            axios.post('/vehicles/' + vehicleId, formData);
+            location.reload();
         });
 
 
     });
 </script>
-
 @endif
 
 

@@ -22,9 +22,11 @@ class RepairController extends Controller
             $repairs = Repair::with('user', 'vehicle')->get();
         }elseif($user->role === 'mechanic')
         {
+           
             $repairs = Repair::where('mechanic_id', $user->id)
             ->with('user', 'vehicle')
             ->get();
+ 
        }else {
             $repairs = Repair::where('user_id', $user->id)->with('user', 'vehicle')->get();
         }
@@ -68,7 +70,7 @@ class RepairController extends Controller
 
 
 
-    public function hMechanicsList()
+    public function getMechanicsList()
     {
         $mechanics = User::where('role', 'mechanic')->get();
 

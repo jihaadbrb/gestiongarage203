@@ -1,9 +1,66 @@
+
+
 @extends('admin.layouts.home')
 @section('content')
+
+<style>
+
+    .clientcontainer{
+        width:100%;
+        height:fit-content;
+        display: flex;
+    
+        align-items:center;
+        justify-content:center;
+
+    }
+    .clientcontainer div{
+        height:50%;
+        width:100%;
+        display: flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:50px;
+        padding:20px;
+
+    }
+
+    .card img{
+        height:120px;
+        width:120px;
+    }
+
+    .card{
+        width:400px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+        border-radius:5px;
+        
+    }
+
+    .card-body{
+        background-color:#436850;
+        display: flex;
+        flex-direction:column;
+        gap:2px;
+        width: fit-content;
+        padding:10px;
+        border-radius:5px;
+
+    }
+
+     p{
+        color:white;
+        font-size:19px;
+    }
+
+
+
+</style>
 <div class="main-content">
 
     <div class="page-content">
-        @if (Auth::user()->role==="admin")
+    @if (Auth::user()->role==="admin")
             
        
         <div class="container-fluid">
@@ -12,14 +69,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Dashboard</h4>
-
-
+                       
+                        <h4> {{__('Dashboard')}}</h4>
+                
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
-
+        
             <div class="row">
                 <div class="col-5">
                 <div class="col-xl-12 col-md-7">
@@ -208,270 +264,169 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Dashboard</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
-                                <li class="breadcrumb-item active">{{Auth::user()->role}}</li>
-                            </ol>
-                        </div>
+                        <h4 class="mb-sm-0">{{__('Dashboard')}}</h4>
+                        
                     </div>
                 </div>
             </div>
-           
-            
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Amount To Pay</p>
-                                    <h4 class="mb-2 font-size-16">
-                                    
-                                       
-                                            @foreach ($invoiceDetails as $detail)
-                                                @if (isset($detail['amountToPay']))
-                                                    <h4 class="font-size-14 mb-2">{{ $detail['amountToPay'] }}</h4>
-                                                @endif
-                                            @endforeach    
-                                        </h4>
-                                        
-                                    </h4>
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                        <i class="mdi mdi-currency-usd font-size-24"></i>  
-                                    </span>
-                                </div>
-                            </div>                                            
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Status</p>
-                                    <h4 class="mb-2 font-size-16">
-                                        @foreach ($invoiceDetails as $detail)
-                                            @if (isset($detail['status']))
-                                                <h4 class="font-size-14 mb-2">{{ $detail['status'] }}</h4>
-                                            @endif
-                                        @endforeach     
-                                    </h4>
-                                </div>
-                                <div class="avatar-sm">
-                                    @foreach ($invoiceDetails as $detail)
-                                        @if (isset($detail['status']))
-                                            @switch($detail['status'])
-                                                @case('completed')
-                                                    <span class="avatar-title  text-success rounded-3" style="background-color:#4F6F52">
-                                                        <i class="ri-check-line font-size-24"></i>  
-                                                    </span>
-                                                    @break
-                                                @case('pending')
-                                                    <span class="avatar-title bg-light text-warning rounded-3">
-                                                        <i class="ri-time-line font-size-24"></i>  
-                                                    </span>
-                                                    @break
-                                                @case('in_progress')
-                                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                                        <i class="ri-loader-line font-size-24"></i>  
-                                                    </span>
-                                                    @break
-                                                @default
-                                                    <span class="avatar-title bg-light text-danger rounded-3">
-                                                        <i class="ri-close-line font-size-24"></i>  
-                                                    </span>
-                                            @endswitch
-                                        @endif
-                                    @endforeach
-                                </div>
-                            </div>
-                                                                      
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Vehicle  </p>
-                                    @foreach ($invoiceDetails as $detail)
-                                        @if (isset($detail['vehicleMake']) && isset($detail['vehicleRegistration']))
-                                            <h4 class="font-size-14 mb-2">{{ $detail['vehicleMake'] }} / {{ $detail['vehicleRegistration'] }}</h4>
-                                        @endif
-                                    @endforeach
+            <div class="clientcontainer">
+<div>
+            <div class="card" style="width:40rem;">
+  <img src="https://t3.ftcdn.net/jpg/01/71/13/24/360_F_171132449_uK0OO5XHrjjaqx5JUbJOIoCC3GZP84Mt.jpg" height="100px;" width="100px;"class="card-img-top" alt="...">
+  <h2 >{{__('Vehicles')}}</h2>
+  <div class="card-body" style="height:300px;overflow:hidden;color:white;">
+    
+  <ul>
+      @foreach ($invoiceDetails as $detail)
+        @if (isset($detail['vehicleMake']) && isset($detail['vehicleRegistration']))
+          <li><p><span style="color:yellow;">Make:</span>  {{ $detail['vehicleMake'] }} / <span style="color:yellow;">Registration:</span>  {{ $detail['vehicleRegistration'] }}</p></li>
+        @endif
+      @endforeach
+    </ul>
+  </div>    
+</div>
 
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                        <i class="ri-car-line font-size-24"></i>  
-                                    </span>
-                                </div>
-                            </div>                                              
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Mechanic</p>
-                                    @foreach ($invoiceDetails as $detail)
-                                        @if (isset($detail['mechanicName']))
-                                            <h4 class="font-size-14 mb-2">{{ $detail['mechanicName'] }}</h4>
-                                        @endif
-                                    @endforeach
-                                
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title  text-success rounded-3" style="background-color:#4F6F52">
-                                        <i class="ri-user-3-line font-size-24"></i>  
+<div class="card" style="width:40rem;">
+  <img src="https://cdn-icons-png.flaticon.com/512/1995/1995470.png" class="card-img-top" alt="...">
+  <h2>{{__('Mechanics')}}</h2>
+  <div class="card-body" style="height:300px;overflow:hidden;color:white;">
+    
+  <ul>
+      @foreach ($invoiceDetails as $detail)
+        @if (isset($detail['mechanicName']))
+          <li><p><span style="color:yellow;">{{ $detail['mechanicName'] }}</p></span></li>
+        @endif
+      @endforeach
+    </ul>
+    
+  </div>
+</div>
+</div>
 
-                                    </span>
-                                </div>
-                            </div>                                              
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-            </div><!-- end row -->
+<div>
+<div class="card" style="width:40rem;">
+  <img src="https://thumbs.dreamstime.com/b/invoice-icon-vector-isolated-white-background-invoice-transparent-sign-invoice-icon-vector-isolated-white-background-invoice-134067056.jpg" class="card-img-top" alt="...">
+  <h2 >{{__('Invoices')}}</h2>
+  <div class="card-body" style="height:300px;overflow:hidden;color:white;">
+  <ul>
+  <?php
+    $invoicecount = 0;
+    foreach ($invoiceDetails as $detail){
+        if (isset($detail['amountToPay'])){
+            if($detail['amountToPay']>0){
+                $invoicecount++;
+                echo "<li><p><span style=color:yellow;>Invoice </span> {$invoicecount}: {$detail['amountToPay']} $</p></li>";
+            }
+          
+        }
+    }
+    ?>
+    </ul>
+  </div>
+</div>
+
+<div class="card" style="width:40rem;">
+  <img src="https://cdn.vectorstock.com/i/500p/14/65/growth-progress-arrow-vector-49461465.jpg" class="card-img-top" alt="...">
+  <h2 >{{__('Status')}}</h2>
+  <div class="card-body" style="height:300px;overflow:hidden;color:white;">
+    <ul>
+  <?php
+    $invoicecount = 0;
+    foreach ($invoiceDetails as $detail){
+        if (isset($detail['status'])){
+       
+                $invoicecount++;
+                echo "<li><p><span style=color:yellow;>Vehicle</span>  {$invoicecount}: {$detail['status']} </p></li>";
+            }
+          
         
-            <!-- Invoice Cards -->
+    }
+    ?>
+    </ul>
+    
+  </div>
+</div>
+
+</div>
+                    
+            </div>
+        
             
-            <!-- End Invoice Cards -->
         </div>
         @else
         <div class="container-fluid">
             <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Dashboard</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">{{Auth::user()->name}}</a></li>
-                                <li class="breadcrumb-item active">{{Auth::user()->role}}</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Total Gained</p>
-                                    <h4 class="mb-2 font-size-16">
-                                       $ {{ $totalGained }}
-                                    </h4>
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                        <i class="mdi mdi-currency-usd font-size-24"></i>  
-                                    </span>
-                                </div>
-                            </div>                                            
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Repairs Status</p>
-                                    <h4 class="mb-2 font-size-16">
-                                        @php
-                                        $allCompleted = true;
-                                        $allPending = true;
-                                        $allInProgress = true;
-                                    @endphp
-                                    @foreach($repairsStatus as $repairStatus)
-                                        <p>{{ $repairStatus['repair_id'] }}: {{ $repairStatus['status'] }}</p>
-                                        @if($repairStatus['status'] !== 'completed')
-                                            @php
-                                                $allCompleted = false;
-                                            @endphp
-                                        @endif
-                                        @if($repairStatus['status'] !== 'pending')
-                                            @php
-                                                $allPending = false;
-                                            @endphp
-                                        @endif
-                                        @if($repairStatus['status'] !== 'in_progress')
-                                            @php
-                                                $allInProgress = false;
-                                            @endphp
-                                        @endif
-                                    @endforeach
-                                    </h4>
-                                </div>
-                                <div class="avatar-sm">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-12">
+                                                                                                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                                                                                                    <h4 class="mb-sm-0">{{__('Dashboard')}}</h4>
+                                                                                                                    <div class="page-title-right">
+                                                                                                                        <ol class="breadcrumb m-0">
+                                                                                                                    
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                  <div class="clientcontainer">
+        <div>
+            <div class="card" style="width:40rem;">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi05J4tIegi0k0qRhEojuMc2qq26_TkvKksHWw-qE-wg&s" height="100px;" width="100px;"class="card-img-top" alt="...">
+                <h2 >{{__('Total Earned')}}</h2> 
+                <div class="card-body" style="height:300px;overflow:hidden;color:white;">
 
-                                   
-                                    @if($allCompleted)
-                            <span class="avatar-title  text-success rounded-3" style="background-color:#4F6F52">
-                                <i class="ri-check-line font-size-24"></i>  
-                            </span>
-                            @elseif($allPending)
-                            <span class="avatar-title bg-light text-warning rounded-3">
-                                <i class="ri-time-line font-size-24"></i>  
-                            </span>
-                            @elseif($allInProgress)
-                            <span class="avatar-title bg-light text-primary rounded-3">
-                                <i class="ri-loader-line font-size-24"></i>  
-                            </span>
-                            @endif
-                                </div>
-                            </div>                                                                  
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-                
-              
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Users worked with me</p>
-                                    @foreach($usersWorkedWith as $user)
-                                        <h4 class="font-size-14 mb-2">{{ $user['name'] }} - {{ $user['email'] }}</h4>
-                                    @endforeach
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title  text-success rounded-3" style="background-color:#4F6F52">
-                                        <i class="ri-user-3-line font-size-24"></i>  
-                                    </span>
-                                </div>
-                            </div>                                              
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-            </div><!-- end row -->
-        </div>
+                            <p><span style="color:yellow;">Ttoal Earned :</span> $ {{ $totalGained }} </p>
+
+                </div>
+</div>
+            <div class="card" style="width:40rem;">
+  <img src="https://cdn-icons-png.flaticon.com/512/1995/1995470.png" class="card-img-top" alt="...">
+  <h2>{{__('My Repairs')}}</h2>
+  <div class="card-body" style="height:300px;overflow:hidden;color:white;">
+    
+  <ul>
+
+      @foreach ($repairsStatus  as $repair)
+
+          <li><p><span style="color:yellow;">Repair  {{ $repair['repair_id'] }} </span>: {{ $repair['status'] }}</p> </li>
+    
+      
+      @endforeach
+    </ul>
+    
+  </div>
+ </div>
+ </div>
+
+ <div>
+ <div class="card" style="width:40rem;">
+  <img src="https://thumbs.dreamstime.com/b/invoice-icon-vector-isolated-white-background-invoice-transparent-sign-invoice-icon-vector-isolated-white-background-invoice-134067056.jpg" class="card-img-top" alt="...">
+  <h2 >{{__('My Clients')}}</h2>
+  <div class="card-body" style="height:300px;overflow:hidden;color:white;">
+  <ul>
+  @foreach($usersWorkedWith as $user)
+                                        <li><p><span style="color:yellow;">{{ $user['name'] }} </span>: {{ $user['email'] }} </p> </li>
+ @endforeach
+    </ul>
+  </div>
+ </div>
+
+
+            
         @endif
         
     </div>
+</div>
     <!-- End Page-content -->
    
 
     
-</div>
-<footer class="bg-body-tertiary text-center mt-30" style="bottom:0;position:fixed;left:150px;right:0;" >
+ </div>
+ <footer class="bg-body-tertiary text-center mt-30" style="bottom:0;position:fixed;left:150px;right:0;" >
 
-<div class="text-center p-3" style="background-color:#e4dcc7; display:flex;align-items:center;justify-content:center;">
+ <div class="text-center p-3" style="background-color:#e4dcc7; display:flex;align-items:center;justify-content:center;">
       
    <a class="text-body" href="https://mdbootstrap.com/"> © 2024 Garagiste.com  | Jihad Bourbab</a>
-</div>
+ </div>
 
 </footer>
 @endsection

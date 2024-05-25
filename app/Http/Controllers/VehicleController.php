@@ -107,7 +107,8 @@ class VehicleController extends Controller
         $vehicle = Vehicle::findOrFail($vehicleId);
     
         if (!$vehicle) {
-            return "Vehicle Not Found";
+            // If the vehicle doesn't exist, return an error message
+            return "The vehicle does not exist.";
         }
     
         $request->validate([
@@ -115,10 +116,10 @@ class VehicleController extends Controller
             'model' => ['required', 'string', 'max:255'],
             'fuelType' => ['required', 'string', 'max:255'],
             'registration' => ['required', 'string', 'max:255'],
-            'user_id' => ['required', 'integer', 'exists:users,id'], 
-            'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], 
+            'user_id' => ['required', 'integer', 'exists:users,id'], // Check if user exists
         ]);
     
+        // Create an array to hold updated vehicle data
         $vehicleData = [
             'make' => $request->make,
             'model' => $request->model,
@@ -126,25 +127,10 @@ class VehicleController extends Controller
             'registration' => $request->registration,
             'user_id' => $request->user_id ?? Auth::user()->id,
         ];
-    
-        if ($request->hasFile('photos')) {
-            $imagePaths = [];
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('vehicle_photos');
-                $imagePaths[] = $path;
-            }
-            $vehicleData['photos'] = json_encode($imagePaths);
-        } else {
-            $vehicleData['photos'] = $vehicle->photos;
-        }
-    
         $vehicle->update($vehicleData);
     
-        return redirect->back();
+        return redirect()->back();
     }
-    
-    
-
 
     public function DeleteVehicle(Request $request)
     {
@@ -153,7 +139,10 @@ class VehicleController extends Controller
             $vehicle->delete();
             return "ok";
         } else {
-            return response()->json(['message' => 'Vehicle not found'], 404);
+            return response()->json(['message' => 'vehicle not found'], 404);
         }
+
+        
+
     }
 }

@@ -54,7 +54,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
     // REPAIRS
     Route::get('/repairs', [RepairController::class, 'getRepairs'])->name('admin.repairs');
     Route::post('/repairs/store', [RepairController::class, 'CreateRepair'])->name('admin.storeRepair');
-    Route::get('/getMechanics', [RepairController::class, 'MechanicsList'])->name('admin.fetchMechanics');
+    Route::get('/getMechanics', [RepairController::class, 'getMechanicsList'])->name('admin.fetchMechanics');
     Route::post('/repairs/destroy', [RepairController::class, 'DeleteRepair'])->name('admin.destroyRepair');
     Route::post('/repairs/update-status', [RepairController::class, 'RepairStatus'])->name('admin.updateRepairStatus');
 
@@ -64,8 +64,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::post('/invoices/add', [InvoiceController::class, 'CreateInvoice'])->name('admin.generateInvoice');
     Route::get('/invoices', [InvoiceController::class, 'getInvoices'])->name('admin.Invoices');
     Route::post('/invoice/destroy', [InvoiceController::class, 'DeleteInvoice'])->name('admin.destroyInvoice');
-    Route::post('/generate-pdf', [PDFController::class, 'generatePDF'])->name('invoice.generatePdf');
-
+    Route::get('/generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('pdf');
 
 
     

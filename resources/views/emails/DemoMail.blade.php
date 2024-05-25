@@ -49,7 +49,7 @@
         <p>كرماً منا، نقدم لكم خصمًا بنسبة 10٪ على حجز الخدمة التالية. استخدموا الرمز REPAIR10 عند الخروج.</p>
         <p>شكراً لاختياركم لخدمتنا.</p>
         <p>أطيب التحيات،</p>
-        <p>رضا الكليعي</p>
+        <p>غاراج جهاد</p>
     @elseif ($locale === 'es')
         <h1>Notificación de Reparación Completada</h1>
         <p>Estimado cliente,</p>
@@ -98,7 +98,7 @@
             <p>Hello ,</p>
             <p> {{ $mailData['message'] }}</p>
             <p>Best regards,</p>
-            <p>Reda Elklie</p>
+            <p>Jihad garage</p>
         @endif
     @endif
 </body>

@@ -1,6 +1,7 @@
 @extends('admin.layouts.home')
 @section('content')
 <div class="main-content">
+    
     <style>
         .add-new {
             display: flex;
@@ -154,18 +155,17 @@ th{
                                                             data-vehicle-registration="{{ $vehicle->registration }}"
                                                             data-vehicle-photos="{{ $vehicle->photos }}"
                                                             data-vehicle-userid="{{ $vehicle->user_id }}">
-                                                            Edit
+                                                            {{__('Edit')}}
                                                         </button>
                                                         <button type="button" class="btn delete-vehicle"
                                                             data-vehicle-id="{{ $vehicle->id }}">
-                                                            Delete
+                                                            {{__('Delete')}}
                                                         </button>
                                                         <button type="button" class="btn add-repair"
                                                             data-vehicle-id="{{ $vehicle->id }}"
                                                             data-vehicle-iduser="{{ $vehicle->user_id }}">
-                                                            Repair
+                                                            {{__('Repair')}}
                                                         </button>
-                                                    <!-- Display edit and delete buttons for vehicle owner -->
                                                     @elseif(Auth::id() === $vehicle->user_id)
                                                         <button type="button" class="btn edit-vehicle"
                                                             data-vehicles-id="{{ $vehicle->id }}"
@@ -175,16 +175,16 @@ th{
                                                             data-vehicle-registration="{{ $vehicle->registration }}"
                                                             data-vehicle-photos="{{ $vehicle->photos }}"
                                                             data-vehicle-userid="{{ $vehicle->user_id }}">
-                                                            Edit
+                                                            {{__('Edit')}}
                                                         </button>
                                                         <button type="button" class="btn delete-vehicle"
                                                             data-vehicle-id="{{ $vehicle->id }}">
-                                                            Delete
+                                                            {{__('Delete')}}
                                                         </button>
                                                         <button type="button" class="btn add-repair"
                                                             data-vehicle-id="{{ $vehicle->id }}"
                                                             data-vehicle-iduser="{{ $vehicle->user_id }}">
-                                                            <i class="ri-tools-fill"></i>
+                                                            {{__('Repair')}}
                                                         </button>
                                                     @endif
                                                 </td>

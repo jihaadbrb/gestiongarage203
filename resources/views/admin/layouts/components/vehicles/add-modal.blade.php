@@ -1,9 +1,8 @@
 <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="addClientModalLabel">@lang('Add New Vehicle')</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="addVehicleForm" method="post" action="{{ route('admin.storeVehicle') }}" enctype="multipart/form-data">
@@ -32,8 +31,8 @@
                     @if (Auth::user()->role === "client"||Auth::user()->role === "mechanic")
                         
                     <div class="mb-3">
-                        <label for="user_id" class="form-label">@lang('Owner ID')</label>
-                        <input type="text" class="form-control" id="user_id" name="user_id" value="" disabled>
+                      
+                        <input type="text" class="form-control" id="user_id" name="user_id" value="" hidden >
                     </div>
                     @else
                     <div class="mb-3">
@@ -43,8 +42,8 @@
                     @endif
                 
                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Close')</button>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" style="background-color:red;"data-bs-dismiss="modal">@lang('Close')</button>
                         <button type="submit" class="btn btn-primary">@lang('Add Vehicle')</button>
                     </div>
                 </form>
@@ -52,6 +51,7 @@
         </div>
     </div>
 </div>
+
 
 <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

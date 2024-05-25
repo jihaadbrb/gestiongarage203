@@ -18,12 +18,9 @@ class MailController extends Controller
     public function showMails()
     {
         $user = Auth::user();
-        // Check if the user is an admin
         if ($user->role === 'admin') {
-            // Admin can see all emails
             $emails = SentEmail::with('user')->get();
         } else {
-            // User can only see emails associated with their account
             $emails = SentEmail::where('user_id', $user->id)->with('user')->get();
         }
     
@@ -98,17 +95,14 @@ class MailController extends Controller
 
     public function sendEmail(Request $request)
     {
-        // Get the current application locale
         $locale = App::getLocale();
 
-        // Mail data from the request
         $mailData = [
             'title' => $request->input('title'),
             'subject' => $request->input('subject'),
             'message' => $request->input('message'),
         ];
 
-        // Send the email using the appropriate language template
         Mail::to($mailData['title'])->send(new DemoMail($mailData, $locale));
 
         session()->flash('success', __('Mail sent successfully'));

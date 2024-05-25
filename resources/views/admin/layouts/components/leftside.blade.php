@@ -42,15 +42,15 @@
                         <span>{{ __('Users Management') }}</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                    <li><a href="{{ route('user.users') }}"><i class="ri-user-line"></i> {{ __('Clients') }}</a></li>
-                            <li><a href="{{ route('admin.admins') }}"><i class="ri-admin-line"></i> {{ __('Admins') }}</a></li>
+                    <li><a href="{{ route('user.users') }}" style="color:white;"><i class="ri-user-line"></i> {{ __('Users') }}</a></li>
+                            <li><a href="{{ route('admin.admins') }}" style="color:white;" ><i class="ri-admin-line"></i> {{ __('Admins') }}</a></li>
         
                     </ul>
                 </li>
 
                             
                         @else
-                            <li><a href="{{ route('admin.users') }}"><i class="ri-user-line"></i> {{ __('Profile') }}</a></li>
+                            <li><a href="{{ route('user.users') }}"><i class="ri-user-line"></i> {{ __('Profile') }}</a></li>
                         @endif
 
                             <li><a href="{{ route('admin.mechanics') }}"> <i class="ri-shield-user-fill"></i> </i> {{ __('Mechanics') }}</a></li>
@@ -68,6 +68,6 @@
                 
             </ul>
         </div>
-        <!-- Sidebar -->
+
     </div>
 </div>

@@ -169,6 +169,25 @@
     "Range Not Satisfiable": "نطاق غير مقبول",
     "Record": "سجل",
     "Regards": "مع التحية",
+    "Users Management": "إدارة المستخدمين",
+    "Add New User": "أضف مستخدم جديد","My Repairs": "إصلاحاتي",
+    "Total Earned": "الإجمالي المكتسب",
+    "Admins List": "قائمة المشرفين",
+    "Mechanics List": "قائمة الميكانيكيين",
+    "My Clients":"عملائي",
+  
+    "Do You Really Want To Delete This Mechanic?": "هل تريد حقًا حذف هذا الميكانيكي؟",
+    "Vehicles List": "قائمة المركبات",
+    "Owner ID": "معرف المالك",
+    "Are you sure you want to delete This Vehicle?": "هل أنت متأكد أنك تريد حذف هذه المركبة؟",
+    "Send Mail To Clients With Repairs Completed": "إرسال بريد إلى العملاء بإصلاحات مكتملة",
+
+    "Invoice": "فاتورة",
+    "Add Spare": "إضافة قطعة غيار",
+    "Owner": "المالك",
+
+    "Appointments List": "قائمة المواعيد",
+
     "Register": "تسجيل",
     "Remember me": "تذكرني",
     "Request Header Fields Too Large": "حقول عنوان الطلب كبيرة جدا",
