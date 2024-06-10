@@ -13,6 +13,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\PieChartController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::put('/clients/{clientId}', [UserController::class, 'UpdateUser'])->name('user.update');
     Route::post('/clients/destroy', [UserController::class, 'DeleteUser'])->name('user.destroy');
     Route::post('/import-users', [UserController::class, 'importUsers'])->name('import.users');
+    Route::get('/export-clients', [UserController::class, 'exportClients'])->name('export.clients');
+    Route::get('/export-mechanics', [UserController::class, 'exportMechanics'])->name('export.mechanics');
     
 
     // VEHICLES
@@ -89,6 +92,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::get('/', [ChartController::class, 'showCharts'])->name('admin.dashboard');
     Route::get('/admins', [ChartController::class, 'showAdmins'])->name('admin.admins')->middleware('admin');
 
+    
  
 
    

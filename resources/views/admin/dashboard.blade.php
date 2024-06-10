@@ -77,13 +77,13 @@
             </div>
         
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                 <div class="col-xl-12 col-md-7">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="infos" style="height:200px;width:400px;display:flex;align-items:center;justify-content:center;">
                             <div class="d-flex">
                                 <div class="flex-grow-1 text-center">
-                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">Total Amounts</h4>
+                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">{{__('Total Amounts')}}</h4>
                                     <h4 class="mb-2">$ {{$totalAmount }}</h4>
                                  
                                 </div>
@@ -94,10 +94,10 @@
                 </div><!-- end col -->
                 <div class="col-xl-12 col-md-7">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
+                        <div class="infos" style="height:200px;width:400px;display:flex;align-items:center;justify-content:center;">
+                            <div class="d-flex" style="width:100%;">
                                 <div class="flex-grow-1 text-center">
-                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">New Orders</h4>
+                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">{{__('New Orders')}}</h4>
                                     <h4 class="mb-2">
                                         {{$totalOrders}}
                                     </h4>
@@ -110,10 +110,10 @@
                 </div><!-- end col -->
                 <div class="col-xl-12 col-md-7">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="infos" style="height:200px;width:400px;display:flex;align-items:center;justify-content:center;">
                             <div class="d-flex">
                                 <div class="flex-grow-1 text-center">
-                                    <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">Users</h4>
+                                    <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">{{__('Users')}}</h4>
                                     <h4 class="mb-2">
                                         {{ $usersNum }}
                                     </h4>
@@ -126,10 +126,10 @@
                 <!-- end col -->
                 <div class="col-xl-12 col-md-7">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="infos" style="height:200px;width:400px;display:flex;align-items:center;justify-content:center;">
                             <div class="d-flex">
                                 <div class="flex-grow-1 text-center">
-                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">Mechanics</h4>
+                                <h4 class="text-truncate font-size-25 mb-2" style="color:#D8AE7E;">{{__('Mechanics')}}</h4>
                                     <h4 class="mb-2">{{$mechanicsNum}}</h4>
                                     
                                 </div>
@@ -141,17 +141,15 @@
                 </div><!-- end col -->
             <!-- end row -->
 
-            <div class="col-7" >
+            <div class="col-8" >
                 <div class="row">
  
                 <!-- end col -->
-                <div class="col-xl-12">
-                   <div class="card">
-                        <div class="card-body pb-0">
-                            <div class="float-end d-none d-md-inline-block">
-                               
-                            </div>
-                            <h4 class="card-title mb-4" style="color:#D8AE7E;">Revenue</h4>
+                <div class="col-xl-12 " style="box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;">
+                   <div class="w-100 " style="background-color:white;">
+                        <div class="w-100 p-5">
+                   
+                            <h4 class="card-title mb-4" style="color:#D8AE7E;">{{__('Revenue')}}</h4>
 
                             <div class="text-center pt-3">
                                 <div class="row">
@@ -161,7 +159,7 @@
                                             <div class="text-success font-size-12">
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Completed Repairs</p>
+                                        <p class="text-muted text-truncate mb-0">{{__('Completed Repairs')}}</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4 mb-3 mb-sm-0">
                                         <div class="d-inline-flex">
@@ -170,7 +168,7 @@
                                                 <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Last Week</p>
+                                        <p class="text-muted text-truncate mb-0">{{__('Last Week')}}</p>
                                     </div><!-- end col -->
                                     <div class="col-sm-4">
                                         <div class="d-inline-flex">
@@ -179,13 +177,13 @@
                                                 <i class="mdi mdi-menu-up font-size-14"> </i>{{$repairsDataForComparison['percentageChange']}} %
                                             </div>
                                         </div>
-                                        <p class="text-muted text-truncate mb-0">Last Month</p>
+                                        <p class="text-muted text-truncate mb-0">{{__('Last Month')}} </p>
                                     </div><!-- end col -->
                                 </div><!-- end row -->
                             </div>
                         </div>
-                        <div class="card-body py-0 px-2">
-                            <div id="column_line_chart" style="width: 80%; margin: auto;"></div>
+                        <div class=" mx-5" >
+                            <div id="column_line_chart" style="width: 40%; margin: auto;"></div>
                             <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
                             <script>
                                 var chartData = @json($data);
@@ -239,6 +237,7 @@
                                 );
                                 chart.render();
                             </script>
+
                             
                             
                             
@@ -408,6 +407,10 @@
  @endforeach
     </ul>
   </div>
+ </div>
+
+ <div class="card" style="width:40rem;">
+ 
  </div>
 
 

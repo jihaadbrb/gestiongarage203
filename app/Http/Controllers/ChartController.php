@@ -437,8 +437,13 @@ class ChartController extends Controller
                 'repairsStatus' => $repairsStatus,
             ]);
         }
+
+        
         
         
         
     }
+
+
+
 }

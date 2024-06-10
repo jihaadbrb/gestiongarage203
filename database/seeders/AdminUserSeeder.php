@@ -15,20 +15,20 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'reda',
-            'email' => 'admin@me.com',
+            'name' => 'jihad',
+            'email' => 'jihad@bourbab.com',
             'address'=>'tetouan',
             'phoneNumber'=>"123",
             'password' => bcrypt('admin'),
             'role' => 'admin'
         ]);
-        Vehicle::create([
-            'make'=>'G Class',
-        'model'=>2024,
-        'fuelType'=>'disiel',
-        'registration'=>'A1',
-        'photos'=>'null',
-        'user_id'=>'1'   
-        ]);
+        // Vehicle::create([
+        //     'make'=>'G Class',
+        // 'model'=>2024,
+        // 'fuelType'=>'disiel',
+        // 'registration'=>'A1',
+        // 'photos'=>'null',
+        // 'user_id'=>'1'   
+        // ]);
     }
 }

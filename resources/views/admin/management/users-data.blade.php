@@ -20,7 +20,7 @@
         #importForm {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Adjust spacing between elements */
+  gap: 10px;      
 }
         .actionbutton{
             display: flex;
@@ -42,6 +42,14 @@
             color:white;
         }
         .edit-client:hover{
+            background-color:#1a4d2e;
+            color:white;
+        }
+        .export-client{
+            background-color:#1a4d2e;
+            color:white;
+        }
+        .export-client:hover{
             background-color:#1a4d2e;
             color:white;
         }
@@ -71,6 +79,14 @@ th{
 
 #importButton {
   background-color: #007bff; /* Adjust button color */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Indicate clickable element */
+}
+.export-client {
+  background-color: #1a4d2e; /* Adjust button color */
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -186,6 +202,10 @@ th{
                                 <button class="btn-primary import-clients">
                                     {{ __('Import Users') }}
                                 </button>
+                                <form action="{{route('export.clients')}}" method="get">
+                                    <button type="submit" class="export-client"> {{ __('Export Users') }}</button>
+                                </form>
+
                                 </div>
                                 @endif
                                   

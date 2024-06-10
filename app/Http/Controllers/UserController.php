@@ -6,8 +6,12 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ClientExport;
+use App\Exports\MechanicExport;
 
 class UserController extends Controller
 {
@@ -117,6 +121,21 @@ class UserController extends Controller
     
         return redirect(route('admin.admins'));
     }
+
+    public function exportClients()
+    {
+        $users = User::where('role', 'client')->get();
+        return Excel::download(new ClientExport($users), 'clients.xlsx');
+    }
+
+    public function exportMechanics()
+    {
+        $users = User::where('role', 'mechanic')->get();
+        return Excel::download(new MechanicExport($users), 'mechanics.xlsx');
+    }
+
+    
+
 
     
     

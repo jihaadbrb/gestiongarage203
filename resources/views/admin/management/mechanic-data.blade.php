@@ -26,12 +26,21 @@ thead{
 th{
     color:#f7e300;
 }
+.export-client {
+  background-color: #1a4d2e; /* Adjust button color */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Indicate clickable element */
+}
 .textup{
         width:100%;
         display: flex;
         align-items:center;
         justify-content:center;
         height:100px;
+        flex-direction:column;
     }
     .edit-mechanic{
             background-color:#1a4d2e;
@@ -93,6 +102,10 @@ th{
                        
                             <div class="textup">
                             <h4>{{ __('Mechanics List') }}</h4>
+                            <form action="{{route('export.mechanics')}}" method="get">
+                                    <button type="submit" class="export-client"> {{ __('Export Mechanics') }}</button>
+                                </form>
+
                         
 </div>
                             <p class="card-title-desc">
